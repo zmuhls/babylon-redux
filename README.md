@@ -6,8 +6,8 @@ Made possible with code LLMs and methods of prompt engineering, Babylon Redux re
 ### Experimental Webtexts
 - **Mood Ring**: A dynamic poem generator that selects and restyles lines of verse based on cursor position, looping over random nonlinear versions of a decade-old personal poem
 - **Tower Fragments**: Select passages from *The Library of Babel*, classified as either philosophical, literary, or descriptive filtered through a weighted probability distribution
-- **Star Signal**: Morse code blinking signals from *The Library of Babel* in a Fibonacci spiral set against the distant starlight of the Hubble Telescope
-- **Index Loop**: 26-word index of Borgesian terms and concepts interspersed with synthetic AI-generated neologisms that scramble alphabetically with cursor movement
+- **Star Signal**: Morse code signals from *The Library of Babel* organized in a Fibonacci spiral of embedded stars 
+- **Index Loop**: 26-word index of Borgesian terms interspersed with AI-generated neologisms in an alphabetic loop
 
 ### Quick Start
 1. Open `index.html` in any modern browser
