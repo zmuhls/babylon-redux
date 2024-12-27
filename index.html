@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Index</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                Menu
+            </button>
+            <ul class="nav-links" role="menu" id="navMenu">
+                <li><a href="home.html" class="nav-link" role="menuitem">Home</a></li>
+                <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+                <li><a href="passage.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+                <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+                <li><a href="index.html" class="nav-link" role="menuitem">Infinite Index</a></li>
+            </ul>
+        </nav>
+    </header>
+        <h1>Infinite Index</h1>
+        <div class="container">
+        <div class="fade-in"><div id="dictionaryContainer"></div></div>d
+    <div id="debug-info">Initializing...</div>
+    </div>
+    <script>
+        const entries = [
+            { word: "A - Abællion", definition: "n. A hypothetical space within the library where all contradictions are resolved." },
+            { word: "B - Bibliotaph", definition: "n. One who buries books by hiding them in the endless shelves." },
+            { word: "C - Chronosphere", definition: "n. A theoretical device for measuring time's infinite bifurcations." },
+            { word: "D - Dialexicon", definition: "n. An index of all possible dialogues ever conceived." },
+            { word: "E - Eternicon", definition: "n. The concept of infinity as manifested in the physical space of the library." },
+            { word: "F - Fabulist", definition: "n. A creator of fables, often blurring the lines between reality and fiction." },
+            { word: "G - Gnososphere", definition: "n. An imagined realm where all knowledge exists simultaneously." },
+            { word: "H - Hexagrammaton", definition: "n. A six-sided figure representing the infinite permutations of sacred texts." },
+            { word: "I - Infinitor", definition: "n. One who catalogues the endless variations of a single text." },
+            { word: "J - Jotunheim", definition: "n. In Norse mythology, the land of giants." },
+            { word: "K - Kaleidograph", definition: "n. A device that produces changing patterns or sequences." },
+            { word: "L - Labyrinthine", definition: "adj. Like a labyrinth; irregular and twisting." },
+            { word: "M - Memnosyne", definition: "n. An artificial construct for perfect recall of all possible memories." },
+            { word: "N - Nefelibata", definition: "n. One who lives in the clouds of their own imagination." },
+            { word: "O - Omnilexicon", definition: "n. A theoretical complete catalogue of all possible words." },
+            { word: "P - Palindrox", definition: "n. A paradox that reads the same forwards and backwards in time." },
+            { word: "Q - Quixotron", definition: "n. An apparatus for measuring the degree of literary delusion." },
+            { word: "R - Rhapsodomancy", definition: "n. Divination by means of verses or lines from poetry." },
+            { word: "S - Scriptorium", definition: "n. A room for writing, especially one in a monastery." },
+            { word: "T - Tempograph", definition: "n. An instrument for recording the passage of infinite time." },
+            { word: "U - Ubiquitous", definition: "adj. Present, appearing, or found everywhere." },
+            { word: "V - Vortext", definition: "n. A spiral arrangement of words that creates multiple meanings." },
+            { word: "W - Wanderlexicon", definition: "n. A dictionary that constantly rearranges its own entries." },
+            { word: "X - Xenotime", definition: "n. Time as experienced by beings from other dimensions." },
+            { word: "Y - Ylem", definition: "n. The primordial substance from which all texts are derived." },
+            { word: "Z - Zettelkasten", definition: "n. A box or system used for organizing notes and ideas." }
+        ];
+
+        let currentIndex = 0;
+
+        function displayEntries() {
+            const sortedEntries = [...entries].sort((a, b) => a.word.localeCompare(b.word));
+            const rotatedEntries = [
+                ...sortedEntries.slice(currentIndex),
+                ...sortedEntries.slice(0, currentIndex)
+            ];
+            const container = document.getElementById("dictionaryContainer");
+            container.innerHTML = "";
+            rotatedEntries.forEach(entry => {
+                const div = document.createElement("div");
+                div.className = "dictionary-entry";
+                div.innerHTML = `<div class="word">${entry.word}</div><div class="definition">${entry.definition}</div>`;
+                container.appendChild(div);
+            });
+            updateDebugInfo(`Alphabetic shift: ${currentIndex}`);
+        }
+
+        function updateDebugInfo(message) {
+            document.getElementById("debug-info").innerText = message;
+        }
+
+        function shiftIndex() {
+            currentIndex = (currentIndex + 1) % entries.length;
+            displayEntries();
+        }
+
+        document.addEventListener("mousemove", () => {
+            clearTimeout(window.shiftTimeout);
+            window.shiftTimeout = setTimeout(shiftIndex, 1000);
+        });
+
+        document.addEventListener("touchmove", () => {
+            clearTimeout(window.shiftTimeout);
+            window.shiftTimeout = setTimeout(shiftIndex, 1000);
+        });
+
+        window.onload = () => {
+            displayEntries();
+            setInterval(shiftIndex, 5000);
+        };
+        const toggleButton = document.querySelector('.dropdown-toggle');
+        const navMenu = document.querySelector('.nav-links');
+
+        // Toggle menu visibility
+        toggleButton.addEventListener('click', () => {
+            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+            toggleButton.setAttribute('aria-expanded', !isExpanded);
+            navMenu.classList.toggle('show');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!toggleButton.contains(event.target) && !navMenu.contains(event.target)) {
+                toggleButton.setAttribute('aria-expanded', 'false');
+                navMenu.classList.remove('show');
+            }
+        });
+
+        // Handle keyboard navigation
+        navMenu.addEventListener('keydown', (event) => {
+            const links = [...navMenu.querySelectorAll('.nav-link')];
+            const currentIndex = links.indexOf(document.activeElement);
+
+            switch (event.key) {
+                case 'ArrowDown':
+                case 'ArrowRight':
+                    event.preventDefault();
+                    const nextIndex = (currentIndex + 1) % links.length;
+                    links[nextIndex].focus();
+                    break;
+                case 'ArrowUp':
+                case 'ArrowLeft':
+                    event.preventDefault();
+                    const prevIndex = currentIndex <= 0 ? links.length - 1 : currentIndex - 1;
+                    links[prevIndex].focus();
+                    break;
+                case 'Escape':
+                    toggleButton.setAttribute('aria-expanded', 'false');
+                    navMenu.classList.remove('show');
+                    toggleButton.focus();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
