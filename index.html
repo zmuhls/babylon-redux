@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Index</title>
+    <title>Babylon Redux | Digital Experiments with Borges' Infinite Library</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
             <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                 Menu
             </button>
-            <ul class="nav-links" role="menu" id="navMenu">
+            <ul class="nav-links" role="menu">
                 <li><a href="home.html" class="nav-link" role="menuitem">Home</a></li>
                 <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
                 <li><a href="passage.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
@@ -21,125 +21,178 @@
             </ul>
         </nav>
     </header>
-        <h1>Infinite Index</h1>
-        <div class="container">
-        <div class="fade-in"><div id="dictionaryContainer"></div></div>d
-    <div id="debug-info">Initializing...</div>
-    </div>
+
+    <main class="container">
+        <section class="hero fade-in">
+            <h1 class="title">Babylon Redux</h1>
+            <p class="subtitle">Experiments in Digital Oulipo</p>
+        </section>
+
+        <p id="dynamicText" class="dynamic-text"></p>
+
+        <section class="manifesto fade-in">
+            <p>Grounded in methods of prompt engineering, <strong>Babylon Redux</strong> reimagines Jorge Luis Borges’ <em>The Library of Babel</em> as a series of interactive webtext experiments. Each project employs a combination of literary and computational constraints to remix and reconfigure Borges' passages into new digital forms. </br></br>Drawing from the playful rigor of OULIPO and Johanna Drucker’s work on stochastic poetics, Babylon Redux demonstrates how computational methods and literary frameworks can intersect to make creative writing more interactive, engaging, and adaptable to digital environments.</p>        </section>
+
+        <div class="grid">
+            <article class="card fade-in">
+                <h3 class="card-title"><a href="ring.html">Babylon Mood Ring</a></h3>
+                <p>Mood ring that selects and restyles lines of verse based on cursor position looping over random nonlinear versions of a decade-old personal poem.</p>
+            </article>
+
+            <article class="card fade-in">
+                <h3 class="card-title"><a href="passage.html">Tower Fragments</a></h3>
+                <p>Select passages from <em>The Library of Babel</em>, classified as either philosophical, literary, or descriptive filtered through a weighted probability distribution.</p>
+            </article>
+
+            <article class="card fade-in">
+                <h3 class="card-title"><a href="index.html">Infinite Index</a></h3>
+                <p>26-word index of Borgesian terms and concepts interspersed with synthetic AI-generated neologisms that scramble alphabetically with cursor movement.</p>
+            </article>
+
+            <article class="card fade-in">
+                <h3 class="card-title"><a href="signal.html">Star Cipher</a></h3>
+                <p>Morse code blinking signals from <em>The Library of Babel</em> in a Fibonacci spiral set against the distant starlight of the Hubble Telescope.</p>
+            </article>
+        </div>
+    </main>
+
     <script>
-        const entries = [
-            { word: "A - Abællion", definition: "n. A hypothetical space within the library where all contradictions are resolved." },
-            { word: "B - Bibliotaph", definition: "n. One who buries books by hiding them in the endless shelves." },
-            { word: "C - Chronosphere", definition: "n. A theoretical device for measuring time's infinite bifurcations." },
-            { word: "D - Dialexicon", definition: "n. An index of all possible dialogues ever conceived." },
-            { word: "E - Eternicon", definition: "n. The concept of infinity as manifested in the physical space of the library." },
-            { word: "F - Fabulist", definition: "n. A creator of fables, often blurring the lines between reality and fiction." },
-            { word: "G - Gnososphere", definition: "n. An imagined realm where all knowledge exists simultaneously." },
-            { word: "H - Hexagrammaton", definition: "n. A six-sided figure representing the infinite permutations of sacred texts." },
-            { word: "I - Infinitor", definition: "n. One who catalogues the endless variations of a single text." },
-            { word: "J - Jotunheim", definition: "n. In Norse mythology, the land of giants." },
-            { word: "K - Kaleidograph", definition: "n. A device that produces changing patterns or sequences." },
-            { word: "L - Labyrinthine", definition: "adj. Like a labyrinth; irregular and twisting." },
-            { word: "M - Memnosyne", definition: "n. An artificial construct for perfect recall of all possible memories." },
-            { word: "N - Nefelibata", definition: "n. One who lives in the clouds of their own imagination." },
-            { word: "O - Omnilexicon", definition: "n. A theoretical complete catalogue of all possible words." },
-            { word: "P - Palindrox", definition: "n. A paradox that reads the same forwards and backwards in time." },
-            { word: "Q - Quixotron", definition: "n. An apparatus for measuring the degree of literary delusion." },
-            { word: "R - Rhapsodomancy", definition: "n. Divination by means of verses or lines from poetry." },
-            { word: "S - Scriptorium", definition: "n. A room for writing, especially one in a monastery." },
-            { word: "T - Tempograph", definition: "n. An instrument for recording the passage of infinite time." },
-            { word: "U - Ubiquitous", definition: "adj. Present, appearing, or found everywhere." },
-            { word: "V - Vortext", definition: "n. A spiral arrangement of words that creates multiple meanings." },
-            { word: "W - Wanderlexicon", definition: "n. A dictionary that constantly rearranges its own entries." },
-            { word: "X - Xenotime", definition: "n. Time as experienced by beings from other dimensions." },
-            { word: "Y - Ylem", definition: "n. The primordial substance from which all texts are derived." },
-            { word: "Z - Zettelkasten", definition: "n. A box or system used for organizing notes and ideas." }
-        ];
+        // Dropdown menu functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        let isDropdownOpen = false;
 
-        let currentIndex = 0;
-
-        function displayEntries() {
-            const sortedEntries = [...entries].sort((a, b) => a.word.localeCompare(b.word));
-            const rotatedEntries = [
-                ...sortedEntries.slice(currentIndex),
-                ...sortedEntries.slice(0, currentIndex)
-            ];
-            const container = document.getElementById("dictionaryContainer");
-            container.innerHTML = "";
-            rotatedEntries.forEach(entry => {
-                const div = document.createElement("div");
-                div.className = "dictionary-entry";
-                div.innerHTML = `<div class="word">${entry.word}</div><div class="definition">${entry.definition}</div>`;
-                container.appendChild(div);
-            });
-            updateDebugInfo(`Alphabetic shift: ${currentIndex}`);
+        // Function to close dropdown
+        function closeDropdown() {
+            navLinks.classList.remove('active');
+            dropdownToggle.classList.remove('active');
+            dropdownToggle.setAttribute('aria-expanded', 'false');
+            isDropdownOpen = false;
         }
 
-        function updateDebugInfo(message) {
-            document.getElementById("debug-info").innerText = message;
+        // Function to open dropdown
+        function openDropdown() {
+            navLinks.classList.add('active');
+            dropdownToggle.classList.add('active');
+            dropdownToggle.setAttribute('aria-expanded', 'true');
+            isDropdownOpen = true;
         }
 
-        function shiftIndex() {
-            currentIndex = (currentIndex + 1) % entries.length;
-            displayEntries();
-        }
-
-        document.addEventListener("mousemove", () => {
-            clearTimeout(window.shiftTimeout);
-            window.shiftTimeout = setTimeout(shiftIndex, 1000);
-        });
-
-        document.addEventListener("touchmove", () => {
-            clearTimeout(window.shiftTimeout);
-            window.shiftTimeout = setTimeout(shiftIndex, 1000);
-        });
-
-        window.onload = () => {
-            displayEntries();
-            setInterval(shiftIndex, 5000);
-        };
-        const toggleButton = document.querySelector('.dropdown-toggle');
-        const navMenu = document.querySelector('.nav-links');
-
-        // Toggle menu visibility
-        toggleButton.addEventListener('click', () => {
-            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-            toggleButton.setAttribute('aria-expanded', !isExpanded);
-            navMenu.classList.toggle('show');
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!toggleButton.contains(event.target) && !navMenu.contains(event.target)) {
-                toggleButton.setAttribute('aria-expanded', 'false');
-                navMenu.classList.remove('show');
+        // Toggle dropdown on button click
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isDropdownOpen) {
+                closeDropdown();
+            } else {
+                openDropdown();
             }
         });
 
-        // Handle keyboard navigation
-        navMenu.addEventListener('keydown', (event) => {
-            const links = [...navMenu.querySelectorAll('.nav-link')];
-            const currentIndex = links.indexOf(document.activeElement);
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (isDropdownOpen && !e.target.closest('.nav')) {
+                closeDropdown();
+            }
+        });
 
-            switch (event.key) {
+        // Close dropdown when pressing Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isDropdownOpen) {
+                closeDropdown();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && isDropdownOpen) {
+                closeDropdown();
+            }
+        });
+
+        // Add keyboard navigation within dropdown
+        navLinks.addEventListener('keydown', (e) => {
+            const items = [...navLinks.querySelectorAll('.nav-link')];
+            const currentIndex = items.indexOf(document.activeElement);
+            
+            switch (e.key) {
                 case 'ArrowDown':
-                case 'ArrowRight':
-                    event.preventDefault();
-                    const nextIndex = (currentIndex + 1) % links.length;
-                    links[nextIndex].focus();
+                    e.preventDefault();
+                    items[(currentIndex + 1) % items.length].focus();
                     break;
                 case 'ArrowUp':
-                case 'ArrowLeft':
-                    event.preventDefault();
-                    const prevIndex = currentIndex <= 0 ? links.length - 1 : currentIndex - 1;
-                    links[prevIndex].focus();
+                    e.preventDefault();
+                    items[currentIndex > 0 ? currentIndex - 1 : items.length - 1].focus();
                     break;
-                case 'Escape':
-                    toggleButton.setAttribute('aria-expanded', 'false');
-                    navMenu.classList.remove('show');
-                    toggleButton.focus();
+                case 'Home':
+                    e.preventDefault();
+                    items[0].focus();
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    items[items.length - 1].focus();
                     break;
             }
+        });
+
+        // Dynamic text animation
+        const texts = [
+            "Exploring potential literature...",
+            "Computing literary constraints...",
+            "Generating stochastic verse...",
+            "Remixing library of babel...",
+            "Workshopping potential texts...",
+            "Indexing files ab aeterno...",
+            "Enumerating mirrors in improbable volumes...",
+            "Culling algorithmic schemes...",
+            "Remediating form and function...",
+            "Loading metaphors, please wait...",
+            "Calling texts from encrypted archives..."
+        ];
+
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const dynamicText = document.getElementById('dynamicText');
+
+        function typeText() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                dynamicText.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                dynamicText.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentText.length) {
+                isDeleting = true;
+                setTimeout(typeText, 2000);
+                return;
+            }
+
+            if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+
+            const typingSpeed = isDeleting ? 50 : 100;
+            setTimeout(typeText, typingSpeed);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            typeText();
+            
+            // Add fade-in animation to elements when they enter viewport
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         });
     </script>
 </body>
