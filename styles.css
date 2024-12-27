@@ -518,19 +518,18 @@ button:active {
     width: min(80vw, 500px);
     font-size: clamp(1rem, 4vw, 2rem);
     text-align: center;
-    pointer-events: visibleStroke;
     transition: left 0.1s, top 0.1s, color 0.5s;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes fadeIn {
     from { 
-        opacity: 0.4;
-        transform: scale(.2);
+        opacity: 0.75;
+        transform: scale(0.10);
     }
     to { 
-        opacity: .95;
-        transform: scale(1);
+        opacity: .90;
+        transform: scale(0.90);
     }
 }
 
