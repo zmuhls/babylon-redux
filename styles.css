@@ -11,7 +11,7 @@
 
     /* Typography */
     --font-primary: 'IBM Plex Mono', 'Courier New', monospace;
-    --font-size-base: 16px;
+    --font-size-base: 14px;
     --line-height-base: 1.6;
 
     /* Layout */
@@ -331,15 +331,15 @@ a {
     line-height: 1.6;
 }
 
-/* File-Specific Styles */
-/* -------------------- */
-/* Tower Fragments */
 .container {
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: calc(var(--spacing-unit) * 2);
 }
 
+/* File-Specific Styles */
+/* -------------------- */
+/* Tower Fragments */
 .text-display {
     background-color: rgba(65, 64, 63, 0.126);
     padding: calc(var(--spacing-unit) * 2);
