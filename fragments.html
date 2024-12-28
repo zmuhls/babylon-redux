@@ -15,7 +15,7 @@
             <ul class="nav-links" role="menu" id="navMenu">
                 <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
                 <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-                <li><a href="passage.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+                <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
                 <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
                 <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
             </ul>
@@ -24,120 +24,49 @@
     <h1>Tower Fragments</h1>
     <div class="container">
         <div id="textDisplay" class="text-display"></div>
-        <div class="controls">
-            <button onclick="generateText('philosophical')">Philosophical Fragment</button>
-            <button onclick="generateText('descriptive')">Descriptive Fragment</button>
-            <button onclick="generateText('narrative')">Narrative Fragment</button>
-            <button onclick="toggleAutoPlay()" id="autoPlayButton">Start Auto-Play</button>
+        <d  iv class="controls">
+            <div class="generation-controls">
+                <center><h3>Excerpt fragment</h3></center>
+                <button onclick="generateText('philosophical')">Philosophical Fragment</button>
+                <button onclick="generateText('descriptive')">Descriptive Fragment</button>
+                <button onclick="generateText('narrative')">Narrative Fragment</button>
+            </div>
         </div>
-        <div class="settings">
-            <label>
-                <input type="range" id="speedControl" min="1000" max="10000" step="1000" value="5000">
-                Auto-play Speed (ms)
-            </label>
-            <label>
-                <input type="checkbox" id="weightedMode">
-                Use Weighted Distribution
-            </label>
-        </div>
+
         <div class="metadata">
             Jorge Luis Borges (1941) | Translation by J. E. I.
         </div>
     </div>
 
     <script>
-        // Text fragments categorized by type with weights
-        const textFragments = {
+        let textFragments = {
             philosophical: [
-                { text: "The Library exists ab aeterno. This truth, whose immediate corollary is the future eternity of the world, cannot be placed in doubt by any reasonable mind.", weight: 0.8 },
-                { text: "To speak is to fall into tautology. This wordy and useless epistle already exists in one of the thirty volumes of the five shelves of one of the innumerable hexagons.", weight: 0.7 },
-                { text: "The Library is unlimited and cyclical. If an eternal traveler were to cross it in any direction, after centuries he would see that the same volumes were repeated in the same disorder.", weight: 0.9 },
-                { text: "Let heaven exist, though my place be in hell. Let me be outraged and annihilated, but for one instant, in one being, let Your enormous Library be justified.", weight: 0.85 },
-                { text: "The impious maintain that nonsense is normal in the Library and that the reasonable is an almost miraculous exception.", weight: 0.75 }
+                "The Library exists ab aeterno. This truth, whose immediate corollary is the future eternity of the world, cannot be placed in doubt by any reasonable mind.",
+                "To speak is to fall into tautology. This wordy and useless epistle already exists in one of the thirty volumes of the five shelves of one of the innumerable hexagons.",
+                "The Library is unlimited and cyclical. If an eternal traveler were to cross it in any direction, after centuries he would see that the same volumes were repeated in the same disorder."
             ],
             descriptive: [
-                { text: "The universe (which others call the Library) is composed of an indefinite and perhaps infinite number of hexagonal galleries, with vast air shafts between, surrounded by very low railings.", weight: 0.9 },
-                { text: "Light is provided by some spherical fruit which bear the name of lamps. There are two, transversally placed, in each hexagon. The light they emit is insufficient, incessant.", weight: 0.8 },
-                { text: "There are five shelves for each of the hexagon's walls; each shelf contains thirty-five books of uniform format; each book is of four hundred and ten pages.", weight: 0.7 },
-                { text: "In the hallway there is a mirror which faithfully duplicates all appearances.", weight: 0.6 },
-                { text: "The Library is a sphere whose exact center is any one of its hexagons and whose circumference is inaccessible.", weight: 0.85 }
+                "The universe (which others call the Library) is composed of an indefinite and perhaps infinite number of hexagonal galleries, with vast air shafts between, surrounded by very low railings.",
+                "Light is provided by some spherical fruit which bear the name of lamps. There are two, transversally placed, in each hexagon. The light they emit is insufficient, incessant.",
+                "There are five shelves for each of the hexagon's walls; each shelf contains thirty-five books of uniform format; each book is of four hundred and ten pages."
             ],
             narrative: [
-                { text: "Like all men of the Library, I have traveled in my youth; I have wandered in search of a book, perhaps the catalogue of catalogues.", weight: 0.9 },
-                { text: "These pilgrims disputed in the narrow corridors, proferred dark curses, strangled each other on the divine stairways, flung the deceptive books into the air shafts.", weight: 0.8 },
-                { text: "For four centuries now men have exhausted the hexagons... There are official searchers, inquisitors.", weight: 0.7 },
-                { text: "The sect disappeared, but in my childhood I have seen old men who, for long periods of time, would hide in the latrines with some metal disks in a forbidden dice cup.", weight: 0.75 },
-                { text: "I know of districts in which the young men prostrate themselves before books and kiss their pages in a barbarous manner, but they do not know how to decipher a single letter.", weight: 0.85 }
+                "Like all men of the Library, I have traveled in my youth; I have wandered in search of a book, perhaps the catalogue of catalogues.",
+                "These pilgrims disputed in the narrow corridors, proferred dark curses, strangled each other on the divine stairways, flung the deceptive books into the air shafts.",
+                "For four centuries now men have exhausted the hexagons... There are official searchers, inquisitors."
             ]
         };
 
-        let autoPlayInterval = null;
         const textDisplay = document.getElementById('textDisplay');
-        const autoPlayButton = document.getElementById('autoPlayButton');
-        const speedControl = document.getElementById('speedControl');
-        const weightedMode = document.getElementById('weightedMode');
 
-        // Weighted random selection function
-        function weightedRandom(items) {
-            if (!weightedMode.checked) {
-                return items[Math.floor(Math.random() * items.length)];
-            }
-            
-            const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
-            let random = Math.random() * totalWeight;
-            
-            for (const item of items) {
-                if (random < item.weight) return item;
-                random -= item.weight;
-            }
-            return items[0];
+        function generateText(type) {
+            const fragments = textFragments[type];
+            const randomFragment = fragments[Math.floor(Math.random() * fragments.length)];
+            textDisplay.textContent = randomFragment;
         }
 
-        function generateText(type = null) {
-            textDisplay.classList.add('fade');
-            
-            setTimeout(() => {
-                const types = type ? [type] : Object.keys(textFragments);
-                const selectedType = types[Math.floor(Math.random() * types.length)];
-                const fragment = weightedRandom(textFragments[selectedType]);
-                
-                textDisplay.textContent = fragment.text;
-                textDisplay.classList.remove('fade');
-            }, 500);
-        }
-
-        function toggleAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-                autoPlayInterval = null;
-                autoPlayButton.textContent = 'Start Auto-Play';
-            } else {
-                autoPlayInterval = setInterval(generateText, parseInt(speedControl.value));
-                autoPlayButton.textContent = 'Stop Auto-Play';
-                generateText();
-            }
-        }
-
-        speedControl.addEventListener('change', () => {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-                autoPlayInterval = setInterval(generateText, parseInt(speedControl.value));
-            }
-        });
-
-        // Initialize with a random fragment
-        generateText();
-
-        // Mobile menu toggle functionality
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        dropdownToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-            dropdownToggle.setAttribute('aria-expanded', 
-                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-            );
-        });
+        // Initialize with a random philosophical fragment
+        document.addEventListener('DOMContentLoaded', () => generateText('philosophical'));
     </script>
 </body>
 </html>

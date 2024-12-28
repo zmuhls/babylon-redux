@@ -337,14 +337,19 @@ a {
     padding: calc(var(--spacing-unit) * 2);
 }
 
-/* File-Specific Styles */
-/* -------------------- */
 /* Tower Fragments */
 .text-display {
-    background-color: rgba(65, 64, 63, 0.126);
+    animation: fadeInText 0.5s ease-in-out;
+}
+
+.text-display {
+    background: linear-gradient(
+        rgba(65, 64, 63, 0.126),
+        rgba(0, 0, 0, 0.389)
+    );
     padding: calc(var(--spacing-unit) * 2);
     margin: var(--spacing-unit) 0;
-    border: .5px solid rgba(255, 255, 255, 0.1);
+    border: .5px solid rgba(255, 255, 255, 0.183);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     min-height: 200px;
     position: relative;
@@ -353,6 +358,7 @@ a {
     line-height: 1.8;
     text-align: justify;
     font-style: italic;
+    animation: fadeInText 0.5s ease-in-out;
 }
 
 .controls {
@@ -376,12 +382,17 @@ button {
 }
 
 button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
 }
 
 button:active {
     transform: translateY(1px);
+}
+
+button:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
 }
 
 .settings {
@@ -393,6 +404,7 @@ button:active {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .settings label {
@@ -412,6 +424,20 @@ button:active {
     text-align: center;
     margin-top: calc(var(--spacing-unit) * 2);
     font-style: italic;
+}
+
+.metadata:hover {
+    color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    .settings {
+        align-items: center;
+    }
 }
 
 /* Star Signal */
