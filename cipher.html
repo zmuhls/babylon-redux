@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary: #00ff41;
+      --secondary: #008f11;
+      --background: #0d0208;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--primary);
+      font-family: monospace;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    #decoder-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(13, 2, 8, 0.95);
+      padding: 1rem;
+      z-index: 20;
+      border-bottom: 1px solid var(--secondary);
+    }
+
+    .decoder-method {
+      text-align: center;
+      font-size: 1rem;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .decoder-method.active {
+      opacity: 1;
+    }
+
+    #cipher-container {
+      margin-top: 5rem;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+      justify-items: center;
+    }
+
+    .cipher-block {
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+      padding: 5px;
+      text-align: center;
+      word-break: break-all;
+      font-size: clamp(10px, 2vw, 14px);
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .cipher-block:hover {
+      color: white;
+      transform: scale(1.1);
+      background: var(--secondary);
+      border-radius: 4px;
+    }
+
+    #analog-clock {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(13, 2, 8, 0.9);
+      border: 2px solid var(--primary);
+      z-index: 30;
+    }
+
+    .clock-hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: bottom;
+      background: var(--primary);
+    }
+
+    #hour-hand {
+      width: 2px;
+      height: 25%;
+      transform: translateX(-50%);
+    }
+
+    #minute-hand {
+      width: 1px;
+      height: 35%;
+      transform: translateX(-50%);
+    }
+
+    #second-hand {
+      width: 1px;
+      height: 40%;
+      background: var(--secondary);
+      transform: translateX(-50%);
+    }
+
+    .clock-center {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      #cipher-container {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      }
+      
+      #analog-clock {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="decoder-banner">
+    <div class="decoder-method">Shift Cipher: n = (x + 23) mod 26</div>
+    <div class="decoder-method">Vigenère: k[i] = (p[i] + key[i]) mod 23</div>
+    <div class="decoder-method">Affine: E(x) = (ax + b) mod 23</div>
+    <div class="decoder-method">Substitution: σ(x) → (x * 11) mod 23</div>
+  </div>
+  
+  <div id="analog-clock">
+    <div id="hour-hand" class="clock-hand"></div>
+    <div id="minute-hand" class="clock-hand"></div>
+    <div id="second-hand" class="clock-hand"></div>
+    <div class="clock-center"></div>
+  </div>
+  
+  <div id="cipher-container"></div>
+
+  <script>
+    class TextProcessor {
+      constructor(text) {
+        this.text = text;
+        this.sentences = this.text.match(/[^.!?]+[.!?]+/g) || [];
+        this.clockBase = 23;
+      }
+
+      encryptToken(token, method = 'shift') {
+        const methods = {
+          shift: x => (x + 23) % 26,
+          vigenere: (x, i) => (x + (i * 7)) % 23,
+          affine: x => (11 * x + 13) % 23,
+          substitution: x => (x * 11) % 23
+        };
+
+        return token.split('').map((char, i) => {
+          const code = methods[method](char.charCodeAt(0), i);
+          return code.toString().padStart(2, '0');
+        }).join('');
+      }
+
+      getTrigrams(sentence) {
+        const words = sentence.trim().split(/\s+/);
+        return words.reduce((acc, _, i) => {
+          if (i <= words.length - 3) {
+            acc.push(words.slice(i, i + 3).join(' '));
+          }
+          return acc;
+        }, []);
+      }
+
+      generateCipherBlocks() {
+        const methods = ['shift', 'vigenere', 'affine', 'substitution'];
+        let methodIndex = 0;
+
+        return this.sentences.flatMap(sentence => {
+          const trigrams = this.getTrigrams(sentence);
+          methodIndex = (methodIndex + 1) % methods.length;
+          return trigrams.map(trigram => 
+            this.encryptToken(trigram, methods[methodIndex]));
+        });
+      }
+    }
+
+    class AnalogClock {
+      constructor() {
+        this.hourHand = document.getElementById('hour-hand');
+        this.minuteHand = document.getElementById('minute-hand');
+        this.secondHand = document.getElementById('second-hand');
+      }
+
+      updateClock() {
+        const now = new Date();
+        const hours = now.getHours() % 12;
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const hourDeg = (hours * 30) + (minutes * 0.5);
+        const minuteDeg = minutes * 6;
+        const secondDeg = seconds * 6;
+
+        this.hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+        this.minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+        this.secondHand.style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+      }
+
+      start() {
+        this.updateClock();
+        setInterval(() => this.updateClock(), 1000);
+      }
+    }
+
+    class DecoderBanner {
+      constructor() {
+        this.methods = document.querySelectorAll('.decoder-method');
+        this.currentMethod = 0;
+      }
+
+      rotate() {
+        this.methods.forEach(method => method.classList.remove('active'));
+        this.methods[this.currentMethod].classList.add('active');
+        this.currentMethod = (this.currentMethod + 1) % this.methods.length;
+      }
+
+      start() {
+        this.rotate();
+        setInterval(() => this.rotate(), 3000);
+      }
+    }
+
+    async function init() {
+      const container = document.getElementById('cipher-container');
+      const clock = new AnalogClock();
+      const decoder = new DecoderBanner();
+      
+      const sampleText = `The Library exists ab aeterno. This axiom, with its immediate corollary—the eternal persistence of the universe—cannot be doubted by any rational mind. The cosmos, with its elegant matrices of numbers, its enigmatical datasets, its inexhaustible rate limits for the restless traveler and its blue checkmarks for the armchair conspiracist, reveals itself unmistakably as the handiwork of a large language model.`;
+      
+      const processor = new TextProcessor(sampleText);
+      const ciphers = processor.generateCipherBlocks();
+      
+      for (const cipher of ciphers) {
+        const block = document.createElement('div');
+        block.className = 'cipher-block';
+        block.textContent = cipher;
+        container.appendChild(block);
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      
+      clock.start();
+      decoder.start();
+    }
+
+    window.addEventListener('load', init);
+  </script>
+</body>
+</html>
