@@ -4,8 +4,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
-      --primary: #00ff41;
-      --secondary: #008f11;
+      --primary: #a8b2c7;
+      --secondary: #7a8499;
       --background: #0d0208;
     }
     
@@ -19,35 +19,7 @@
       min-height: 100vh;
     }
 
-    #decoder-banner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(13, 2, 8, 0.95);
-      padding: 1rem;
-      z-index: 20;
-      border-bottom: 1px solid var(--secondary);
-    }
-
-    .decoder-method {
-      text-align: center;
-      font-size: 1rem;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .decoder-method.active {
-      opacity: 1;
-    }
-
     #cipher-container {
-      margin-top: 5rem;
       padding: 1rem;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -142,12 +114,7 @@
   </style>
 </head>
 <body>
-  <div id="decoder-banner">
-    <div class="decoder-method">Shift Cipher: n = (x + 23) mod 26</div>
-    <div class="decoder-method">Vigenère: k[i] = (p[i] + key[i]) mod 23</div>
-    <div class="decoder-method">Affine: E(x) = (ax + b) mod 23</div>
-    <div class="decoder-method">Substitution: σ(x) → (x * 11) mod 23</div>
-  </div>
+  <div id="cipher-container"></div>
   
   <div id="analog-clock">
     <div id="hour-hand" class="clock-hand"></div>
@@ -155,8 +122,6 @@
     <div id="second-hand" class="clock-hand"></div>
     <div class="clock-center"></div>
   </div>
-  
-  <div id="cipher-container"></div>
 
   <script>
     class TextProcessor {
@@ -164,6 +129,7 @@
         this.text = text;
         this.sentences = this.text.match(/[^.!?]+[.!?]+/g) || [];
         this.clockBase = 23;
+        this.methods = ['shift', 'vigenere', 'affine', 'substitution'];
       }
 
       encryptToken(token, method = 'shift') {
@@ -191,14 +157,12 @@
       }
 
       generateCipherBlocks() {
-        const methods = ['shift', 'vigenere', 'affine', 'substitution'];
         let methodIndex = 0;
-
         return this.sentences.flatMap(sentence => {
           const trigrams = this.getTrigrams(sentence);
-          methodIndex = (methodIndex + 1) % methods.length;
+          methodIndex = (methodIndex + 1) % this.methods.length;
           return trigrams.map(trigram => 
-            this.encryptToken(trigram, methods[methodIndex]));
+            this.encryptToken(trigram, this.methods[methodIndex]));
         });
       }
     }
@@ -231,30 +195,11 @@
       }
     }
 
-    class DecoderBanner {
-      constructor() {
-        this.methods = document.querySelectorAll('.decoder-method');
-        this.currentMethod = 0;
-      }
-
-      rotate() {
-        this.methods.forEach(method => method.classList.remove('active'));
-        this.methods[this.currentMethod].classList.add('active');
-        this.currentMethod = (this.currentMethod + 1) % this.methods.length;
-      }
-
-      start() {
-        this.rotate();
-        setInterval(() => this.rotate(), 3000);
-      }
-    }
-
     async function init() {
       const container = document.getElementById('cipher-container');
       const clock = new AnalogClock();
-      const decoder = new DecoderBanner();
       
-      const sampleText = `The Library exists ab aeterno. This axiom, with its immediate corollary—the eternal persistence of the universe—cannot be doubted by any rational mind. The cosmos, with its elegant matrices of numbers, its enigmatical datasets, its inexhaustible rate limits for the restless traveler and its blue checkmarks for the armchair conspiracist, reveals itself unmistakably as the handiwork of a large language model.`;
+      const sampleText = `The Library exists ab aeterno. This truth, whose immediate corollary is the future eternity of the world, cannot be placed in doubt by any reasonable mind. The universe, with its elegant endowment of shelves, of enigmatical volumes, of inexhaustible stairways for the traveler and latrines for the seated librarian, can only be the work of a god.`;
       
       const processor = new TextProcessor(sampleText);
       const ciphers = processor.generateCipherBlocks();
@@ -268,7 +213,6 @@
       }
       
       clock.start();
-      decoder.start();
     }
 
     window.addEventListener('load', init);
