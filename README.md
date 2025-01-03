@@ -25,6 +25,6 @@ Made possible with code LLMs and methods of prompt engineering, Babylon Redux re
 - Johanna Drucker's theories of stochastic poetics and emergent meaning
 
 ### License
-zmuhls/babylon-redux is licensed under the GNU General Public License v3.0
----
+GNU General Public License v3.0
+
 *MLA 2025 panel: "Prompt Engineering as Rhetoric, Literary Criticism, & Creative Writing."*
