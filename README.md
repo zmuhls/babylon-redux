@@ -1,7 +1,7 @@
 # Babylon Redux
 ## Digital OULIPO and Prompt Engineering as Creative Writing
 
-Made possible with code LLMs and methods of prompt engineering, Babylon Redux reimagines Jorge Luis Borges' *The Library of Babel* as a series of interactive webtext experiments. Each project employs a combination of literary and computational constraints to remix and reconfigure Borges' passages into new digital forms, drawing from OULIPO's playful rigor and Johanna Drucker's work on stochastic poetics to demonstrate how computational methods and literary frameworks can intersect to make creative writing more interactive, engaging, and adaptable to digital environments.
+Made possible with mixed methods of prompt engineering, [Babylon Redux](zmuhls.io.github/index.html) reimagines Jorge Luis Borges' *The Library of Babel* as a series of interactive webtext experiments. Each project employs a combination of literary and computational constraints to remix and reconfigure Borges' passages into new digital forms, drawing from OULIPO's playful rigor and Johanna Drucker's work on stochastic poetics to demonstrate how computational methods and literary frameworks can intersect to make creative writing more interactive, engaging, and adaptable to digital environments.
 
 ### Experimental Webtexts
 - **Mood Ring**: A dynamic poem generator that selects and restyles lines of verse based on cursor position, looping over random nonlinear versions of a decade-old personal poem.
@@ -25,6 +25,6 @@ Made possible with code LLMs and methods of prompt engineering, Babylon Redux re
 - Johanna Drucker's theories of stochastic poetics and emergent meaning
 
 ### License
-MIT License - see [LICENSE.md](LICENSE.md)
+GNU General Public License v3.0
 
-*Part of forthcoming MLA 2025 panel: "Prompt Engineering as Rhetoric, Literary Criticism, & Creative Writing."*
+*MLA 2025 panel: "Prompt Engineering as Rhetoric, Literary Criticism, & Creative Writing."*
