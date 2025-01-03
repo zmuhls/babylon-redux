@@ -18,6 +18,8 @@
                 <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
                 <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
                 <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
@@ -27,7 +29,8 @@
             Morse Code Reference
             <a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" class="morse-link">Learn More ↗</a>
         </div>
-        <div class="fade-in"><div class="morse-grid">
+        <div class="fade-in">
+            <div class="morse-grid">
             <div class="morse-item"><span>A</span><span class="morse-code">.-</span></div>
             <div class="morse-item"><span>B</span><span class="morse-code">-...</span></div>
             <div class="morse-item"><span>C</span><span class="morse-code">-.-.</span></div>
@@ -54,6 +57,7 @@
             <div class="morse-item"><span>X</span><span class="morse-code">-..-</span></div>
             <div class="morse-item"><span>Y</span><span class="morse-code">-.--</span></div>
             <div class="morse-item"><span>Z</span><span class="morse-code">--..</span></div>
+            </div>
         </div>
         <div class="current-morse">
             <div id="current-morse"></div>
@@ -222,15 +226,17 @@
         // Initialize with adjusted scale for closer stars
         const starPositions = generateFibonacciSpiral(23, 4);
         const stars = createMorseStars(starPositions, messages);
+
         // Mobile menu toggle functionality
-        
         const dropdownToggle = document.querySelector('.dropdown-toggle');
         const navLinks = document.querySelector('.nav-links');
-        
+    
         dropdownToggle.addEventListener('click', () => {
-            const expanded = dropdownToggle.getAttribute('aria-expanded') === 'true' || false;
-            dropdownToggle.setAttribute('aria-expanded', !expanded);
             navLinks.classList.toggle('show');
+            dropdownToggle.setAttribute(
+                'aria-expanded',
+                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
         });
 </script>
 </body>

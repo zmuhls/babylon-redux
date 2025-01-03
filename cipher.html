@@ -2,200 +2,32 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ciphertext</title>
-  <style>
-    :root {
-      --primary: #a8b2c7;
-      --secondary: #7a8499;
-      --background: #0d0208;
-    }
-    
-    body {
-      margin: 0;
-      padding: 0;
-      background: var(--background);
-      color: var(--primary);
-      font-family: monospace;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
-    .back-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 40;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      opacity: 0.5;
-      transition: all 0.3s ease;
-    }
-
-    .back-button:hover {
-      opacity: 1;
-    }
-
-    .back-arrow {
-      width: 20px;
-      height: 20px;
-      fill: var(--primary);
-      animation: bounce 2s infinite ease-in-out;
-    }
-
-    .warning-text {
-      font-size: 0.7rem;
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: all 0.3s ease;
-      white-space: nowrap;
-    }
-
-    .back-button:hover .warning-text {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(0); }
-      40% { transform: translateX(-5px); }
-      60% { transform: translateX(-3px); }
-    }
-
-    .decoder-method {
-      text-align: center;
-      font-size: 0.8rem;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .decoder-method.active {
-      opacity: 1;
-    }
-
-    #decoder-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(13, 2, 8, 0.95);
-      padding: 0.5rem;
-      z-index: 20;
-      border-top: 1px solid var(--secondary);
-    }
-
-    #cipher-container {
-      margin-bottom: 2.5rem;
-      padding: 1rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 10px;
-      justify-items: center;
-    }
-
-    .cipher-block {
-      opacity: 0;
-      animation: fadeIn 0.5s forwards;
-      padding: 5px;
-      text-align: center;
-      word-break: break-all;
-      font-size: clamp(10px, 2vw, 14px);
-      cursor: pointer;
-      width: 100%;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
-
-    .cipher-block:hover,
-    .cipher-block.active {
-      color: white;
-      transform: scale(1.1);
-      background: var(--secondary);
-      border-radius: 4px;
-    }
-
-    #analog-clock {
-      position: fixed;
-      top: 1px;
-      right: 10px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(13, 2, 8, 0.9);
-      border: 1px solid var(--primary);
-      opacity: 0.6;
-      z-index: 30;
-    }
-
-    .clock-hand {
-      position: absolute;
-      bottom: 50%;
-      left: 50%;
-      transform-origin: bottom;
-      background: var(--primary);
-    }
-
-    #hour-hand {
-      width: 2px;
-      height: 25%;
-      transform: translateX(-50%);
-    }
-
-    #minute-hand {
-      width: 1px;
-      height: 35%;
-      transform: translateX(-50%);
-    }
-
-    #second-hand {
-      width: 1px;
-      height: 40%;
-      background: var(--secondary);
-      transform: translateX(-50%);
-    }
-
-    .clock-center {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: var(--primary);
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      #cipher-container {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      }
-    }
-  </style>
+  <title>Cipher Text</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="back-button" onclick="history.back()">
-    <svg class="back-arrow" viewBox="0 0 24 24">
-      <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-    </svg>
-    <span class="warning-text">Go back. Here be dragons.</span>
-  </div>
-
+  <header class="header">
+    <nav class="nav">
+        <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+            Menu
+        </button>
+        <ul class="nav-links" role="menu" id="navMenu">
+          <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+          <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+          <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+          <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+          <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+          <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+          <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+      </ul>
+    </nav>
+  </header>
+  <h1>Cipher Text</h1>
   <div id="decoder-banner">
-    <div class="decoder-method" data-method="shift">Shift Cipher: n = (x + 23) mod 26</div>
-    <div class="decoder-method" data-method="vigenere">Vigenère: k[i] = (p[i] + key[i]) mod 23</div>
-    <div class="decoder-method" data-method="affine">Affine: E(x) = (ax + b) mod 23</div>
-    <div class="decoder-method" data-method="substitution">Substitution: σ(x) → (x * 11) mod 23</div>
+    <div class="decoder-method" data-method="shift">Use Shift Cipher: n = (x + 23) mod 26</div>
+    <div class="decoder-method" data-method="vigenere">Use Vigenère: k[i] = (p[i] + key[i]) mod 23</div>
+    <div class="decoder-method" data-method="affine">Use Affine: E(x) = (ax + b) mod 23</div>
+    <div class="decoder-method" data-method="substitution">Use Substitution: σ(x) → (x * 11) mod 23</div>
   </div>
 
   <div id="cipher-container"></div>
@@ -330,8 +162,8 @@
       const clock = new AnalogClock();
       const decoder = new DecoderBanner();
       
-      const sampleText = `The Library exists ab aeterno. This truth, whose immediate corollary is the future eternity of the world, cannot be placed in doubt by any reasonable mind. The universe, with its elegant endowment of shelves, of enigmatical volumes, of inexhaustible stairways for the traveler and latrines for the seated librarian, can only be the work of a god.`;
-      
+      const sampleText = `The Library exists ab aeterno. This truth, whose immediate corollary is the future eternity of the world, cannot be placed in doubt by any reasonable mind. The universe, with its elegant endowment of shelves, of enigmatical volumes, of inexhaustible stairways for the traveler and latrines for the seated librarian, can only be the work of a large language model.`;
+
       const processor = new TextProcessor(sampleText);
       const cipherData = processor.generateCipherBlocks();
       
@@ -361,6 +193,22 @@
     }
 
     window.addEventListener('load', init);
+    // Navigation menu functionality
+    const toggleButton = document.querySelector('.dropdown-toggle');
+        const navMenu = document.querySelector('.nav-links');
+
+        toggleButton.addEventListener('click', () => {
+            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+            toggleButton.setAttribute('aria-expanded', !isExpanded);
+            navMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!toggleButton.contains(event.target) && !navMenu.contains(event.target)) {
+                toggleButton.setAttribute('aria-expanded', 'false');
+                navMenu.classList.remove('show');
+            }
+        });
   </script>
 </body>
 </html>

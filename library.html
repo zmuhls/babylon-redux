@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+    </header>
+    <nav class="nav">
+        <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+            Menu
+        </button>
+        <ul class="nav-links" role="menu" id="navMenu">
+            <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+            <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+            <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+            <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+            <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+            <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+            <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+        </ul>
+    </nav>
+    <main class="container">     
+        <h1>Resource Library</br>IN PROGRESS</h1>  
+        <p>Here you will find various support resources to help you with your webtext projects, with a focus on the computational constraints and methods of prompt engineering to facilitate the process.</p>
+        <div class="card-container">
+            <div class="card">
+            <h2><a href="log.html">Prompt Journal</a></h2>
+            <p>Review prompt logs and shared conversations for webtexts in the collection</p>
+            </div>
+            <div class="card">
+            <h3><a href="timeline.html">A Brief History of OuLiPo</a></h3>
+            <p>Historical timeline of the OuLiPo group, its members, and their use of literary constraints to excavate potential literature from the past.</p>
+            </div>
+        </div>
+    </main>
+    <script>   
+        // Mobile menu toggle functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        dropdownToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            dropdownToggle.setAttribute('aria-expanded', 
+                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
+        });
+    </script>
+</body>
+</html>

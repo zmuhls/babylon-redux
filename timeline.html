@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OuLiPo Timeline</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .timeline {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .event {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-left: 3px solid var(--color-accent);
+        }
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .event-date {
+            color: var(--color-accent);
+        }
+        .constraint-example {
+            margin-top: 1rem;
+            padding-left: 1rem;
+            font-style: italic;
+        }
+        .tooltip {
+            border-bottom: 1px dotted var(--color-accent);
+            cursor: help;
+            position: relative;
+        }
+        .tooltip-text {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            width: 200px;
+            padding: 0.5rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-accent);
+        }
+        .tooltip:hover .tooltip-text,
+        .tooltip:focus .tooltip-text {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .event-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Menu</button>
+            <ul class="nav-links" role="menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="ring.html" class="nav-link">Mood Ring</a></li>
+                <li><a href="fragments.html" class="nav-link">Tower Fragments</a></li>
+                <li><a href="signal.html" class="nav-link">Star Signal</a></li>
+                <li><a href="loop.html" class="nav-link">Index Loop</a></li>
+                <li><a href="cipher.html" class="nav-link">Cipher Text</a></li>
+            </ul>
+        </nav>
+        <h2>OuLiPo (Ouvroir de Littérature Potentielle)</h2>
+        <p><em>Ouvroir de Littérature Potentielle</em></br><em>Workshop of Potential Literature</em></p>
+    </header>
+
+    <main class="timeline">
+        <article class="event">
+            <div class="event-header">
+                <h2>Foundation</h2>
+                <time class="event-date">1960</time>
+            </div>
+            <p>François Le Lionnais and Raymond Queneau establish OuLiPo at Séminaire de Littérature Expérimentale, marking the beginning of constrained writing as a formal practice.</p>
+            <div class="constraint-example">
+                <span class="tooltip">S+7 Constraint
+                    <span class="tooltip-text">Replace every noun with the seventh following noun in the dictionary</span>
+                </span>
+            </div>
+        </article>
+
+        <article class="event">
+            <div class="event-header">
+                <h2>Cent Mille Milliards de Poèmes</h2>
+                <time class="event-date">1961</time>
+            </div>
+            <p>Raymond Queneau publishes ten sonnets with interchangeable lines, capable of producing 100 trillion unique poems.</p>
+            <div class="constraint-example">
+                14 interchangeable lines per sonnet
+            </div>
+        </article>
+
+        <article class="event">
+            <div class="event-header">
+                <h2>La Disparition</h2>
+                <time class="event-date">1969</time>
+            </div>
+            <p>Georges Perec writes an entire novel without using the letter 'e'.</p>
+            <div class="constraint-example">
+                <span class="tooltip">Lipogram
+                    <span class="tooltip-text">Text that deliberately avoids using a particular letter</span>
+                </span>
+            </div>
+        </article>
+
+        <article class="event">
+            <div class="event-header">
+                <h2>Contemporary OuLiPo</h2>
+                <time class="event-date" id="currentYear">2024</time>
+            </div>
+            <p>OuLiPo continues developing new constraints and exploring digital possibilities.</p>
+        </article>
+    </main>
+
+    <script>
+        
+
+        // Update year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

@@ -18,27 +18,93 @@
                 <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
                 <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
                 <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
+
     <h1>Mood Ring</h1>
-    <div class="fade-in"><center>Frozen Custard in the City of Babylon</br>by Zach Muhlbauer</center></div>
-    <footer><div class="fade-in">Move your mouse or click the page to scramble lines of the poem</div></footer>
-        <div id="poetryDisplay"></div>
+    <footer>
+        <div class="fade-in">Hover or click to scramble lines of verse</div>
+    </footer>
+    
+    <div id="poetryDisplay"></div>
+
     <script>
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('show');
-            const button = document.querySelector('.dropdown-toggle');
-            button.setAttribute('aria-expanded', menu.classList.contains('show'));
+        // Color array for mood ring effect
+        const colors = [
+            '#ff1493', // pink
+            '#4169e1', // royal blue
+            '#32cd32', // lime green
+            '#9370db', // medium purple
+            '#ff4500', // orange red
+            '#00ced1', // dark turquoise
+            '#ffd700', // gold
+            '#ff69b4', // hot pink
+            '#4682b4', // steel blue
+            '#98fb98'  // pale green
+        ];
+
+        class NumberTrail {
+            constructor() {
+                this.container = document.createElement('div');
+                this.container.className = 'trail-container';
+                document.body.appendChild(this.container);
+                
+                this.mainNumber = document.createElement('div');
+                this.mainNumber.className = 'number-display main-number';
+                this.container.appendChild(this.mainNumber);
+                
+                this.trailElements = [];
+                this.maxTrail = 8;
+                this.lastX = 0;
+                this.lastY = 0;
+                this.number = 0;
+            }
+            
+            handleMove(x, y) {
+                this.number = (this.number + 1) % 1000;
+                this.mainNumber.textContent = this.number.toString().padStart(3, '0');
+                this.mainNumber.style.left = `${x}px`;
+                this.mainNumber.style.top = `${y}px`;
+                
+                const distance = Math.hypot(x - this.lastX, y - this.lastY);
+                if (distance > 20) {
+                    this.createTrailElement(x, y);
+                    this.lastX = x;
+                    this.lastY = y;
+                }
+            }
+            
+            createTrailElement(x, y) {
+                const trail = document.createElement('div');
+                trail.className = 'number-display trail';
+                trail.textContent = this.number.toString().padStart(3, '0');
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                this.container.appendChild(trail);
+                
+                this.trailElements.push(trail);
+                
+                if (this.trailElements.length > this.maxTrail) {
+                    const oldTrail = this.trailElements.shift();
+                    oldTrail.remove();
+                }
+                
+                trail.addEventListener('animationend', () => {
+                    trail.remove();
+                    this.trailElements = this.trailElements.filter(el => el !== trail);
+                });
+            }
         }
-    </script>
-    <script>
-        // Reference to the poetry display element
+
+        // Initialize components
         const poetryDisplay = document.getElementById('poetryDisplay');
+        const trail = new NumberTrail();
         let currentPoem = '';
 
-        // Array of poem lines to display dynamically
+        // [poems array would go here]
         const poems = [
     "frozen custard in the city of babylon by zach muhlbauer",
     "heaven-spotted, sand-blown",
@@ -149,37 +215,36 @@
     "from that boardwalk down in the city of babylon where you left it all behind"
 ];
 
-// Array of mood ring colors (using bright, vibrant colors)
-const colors = [
-    '#ff1493', // pink
-    '#4169e1', // royal blue
-    '#32cd32', // lime green
-    '#9370db', // medium purple
-    '#ff4500', // orange red
-    '#00ced1', // dark turquoise
-    '#ffd700', // gold
-    '#ff69b4', // hot pink
-    '#4682b4', // steel blue
-    '#98fb98'  // pale green
-];
+        // Combined update function
+        function updateDisplay(e) {
+            const x = e.clientX || e.touches?.[0]?.clientX || 0;
+            const y = e.clientY || e.touches?.[0]?.clientY || 0;
 
-function updateDisplay(e) {
-    // Update position to follow cursor
-    poetryDisplay.style.left = `${e.clientX}px`;
-    poetryDisplay.style.top = `${e.clientY}px`;
-    
-    // Change color and poem with each movement
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    const newPoem = poems[Math.floor(Math.random() * poems.length)];
-    
-    if (newPoem !== currentPoem) {
-        currentPoem = newPoem;
-        poetryDisplay.style.color = randomColor;
-        poetryDisplay.innerHTML = `<div class="fade-in">${newPoem}</div>`;
-    }
-}
-// Mobile menu toggle functionality
-const dropdownToggle = document.querySelector('.dropdown-toggle');
+            poetryDisplay.style.left = `${x}px`;
+            poetryDisplay.style.top = `${y}px`;
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const newPoem = poems[Math.floor(Math.random() * poems.length)];
+            
+            if (newPoem !== currentPoem) {
+                currentPoem = newPoem;
+                poetryDisplay.style.color = randomColor;
+                poetryDisplay.innerHTML = `<div class="fade-in">${newPoem}</div>`;
+            }
+
+            trail.handleMove(x, y);
+        }
+
+        // Event listeners
+        document.addEventListener('mousemove', updateDisplay);
+        document.addEventListener('click', updateDisplay);
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            updateDisplay(e.touches[0]);
+        });
+
+        // Mobile menu functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
         const navLinks = document.querySelector('.nav-links');
         
         dropdownToggle.addEventListener('click', () => {
@@ -188,11 +253,13 @@ const dropdownToggle = document.querySelector('.dropdown-toggle');
                 dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
             );
         });
-        
-// Event listeners for mouse/finger movement and clicks
-document.addEventListener('mousemove', updateDisplay);
-document.addEventListener('click', updateDisplay);
-document.addEventListener('touchmove', updateDisplay);
+        document.querySelector('.fade-in').addEventListener('click', () => {
+    const lines = document.querySelectorAll('.poem-line');
+    lines.forEach(line => {
+        line.style.order = Math.floor(Math.random() * 100);
+    });
+});
     </script>
 </body>
 </html>
+

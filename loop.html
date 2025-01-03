@@ -18,14 +18,19 @@
                 <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
                 <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
                 <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
     <div id="debug-info">Initializing...</div>
-    <div class="fade-in"><h1>Index Loop</h1>
+    <div class="fade-in">
+        <h1>Index Loop</h1>
         <div class="container">
             <div id="dictionaryContainer"></div>
         </div>
+    </div>
+
     <script>
         const entries = [
             { word: "A - Abællion", definition: "n. A hypothetical space within the library where all contradictions are resolved." },
@@ -57,6 +62,8 @@
         ];
 
         let currentIndex = 0;
+        let isPaused = false;
+        let heartbeatInterval;
 
         function displayEntries() {
             const sortedEntries = [...entries].sort((a, b) => a.word.localeCompare(b.word));
@@ -72,43 +79,66 @@
                 div.innerHTML = `<div class="word">${entry.word}</div><div class="definition">${entry.definition}</div>`;
                 container.appendChild(div);
             });
-            updateDebugInfo(`Alphabetic shift: ${currentIndex}`);
+            updateDebugInfo(`Alphabetic shift: ${currentIndex}${isPaused ? ' (Paused)' : ''}`);
         }
 
         function updateDebugInfo(message) {
             document.getElementById("debug-info").innerText = message;
         }
 
+        function simulateHeartbeat() {
+            if (isPaused) return;
+            
+            // First beat "lub"
+            shiftIndex();
+            
+            // Second beat "dub" after 100ms
+            setTimeout(() => {
+                if (!isPaused) shiftIndex();
+            }, 100);
+        }
+        
+        function startHeartbeat() {
+            // Average resting heart rate: ~72 bpm = ~830ms between beats
+            const beatInterval = 830;
+            heartbeatInterval = setInterval(simulateHeartbeat, beatInterval);
+            updateDebugInfo('Heartbeat active');
+        }
+        
+        function stopHeartbeat() {
+            clearInterval(heartbeatInterval);
+            updateDebugInfo('Heartbeat paused');
+        }
+        
         function shiftIndex() {
-            currentIndex = (currentIndex + 1) % entries.length;
-            displayEntries();
+            if (!isPaused) {
+                currentIndex = (currentIndex + 1) % entries.length;
+                displayEntries();
+            }
         }
 
-        document.addEventListener("mousemove", () => {
-            clearTimeout(window.shiftTimeout);
-            window.shiftTimeout = setTimeout(shiftIndex, 1000);
+        // Add click handlers to toggle pause on definition clicks
+        document.addEventListener('click', (event) => {
+            if (event.target.closest('.dictionary-entry')) {
+                isPaused = !isPaused;
+                if (isPaused) {
+                    stopHeartbeat();
+                } else {
+                    startHeartbeat();
+                }
+            }
         });
 
-        document.addEventListener("touchmove", () => {
-            clearTimeout(window.shiftTimeout);
-            window.shiftTimeout = setTimeout(shiftIndex, 1000);
-        });
-
-        window.onload = () => {
-            displayEntries();
-            setInterval(shiftIndex, 5000);
-        };
+        // Navigation menu functionality
         const toggleButton = document.querySelector('.dropdown-toggle');
         const navMenu = document.querySelector('.nav-links');
 
-        // Toggle menu visibility
         toggleButton.addEventListener('click', () => {
             const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
             toggleButton.setAttribute('aria-expanded', !isExpanded);
             navMenu.classList.toggle('show');
         });
 
-        // Close menu when clicking outside
         document.addEventListener('click', (event) => {
             if (!toggleButton.contains(event.target) && !navMenu.contains(event.target)) {
                 toggleButton.setAttribute('aria-expanded', 'false');
@@ -116,7 +146,6 @@
             }
         });
 
-        // Handle keyboard navigation
         navMenu.addEventListener('keydown', (event) => {
             const links = [...navMenu.querySelectorAll('.nav-link')];
             const currentIndex = links.indexOf(document.activeElement);
@@ -141,6 +170,12 @@
                     break;
             }
         });
+
+        // Initialize on page load
+        window.onload = () => {
+            displayEntries();
+            startHeartbeat();
+        };
     </script>
 </body>
 </html>
