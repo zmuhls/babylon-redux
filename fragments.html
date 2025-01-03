@@ -34,12 +34,14 @@
                 <button onclick="generateText('narrative')">Narrative</button>
                 <button onclick="generateText('philosophical')">Philosophical</button>
             </div>
+        </br>
             <div class="transformation-controls">
                 <p class="section-title"><b>Transform</b></p>
                 <button onclick="transformCurrentText('lipogram')">Lipogram</button>
                 <button onclick="transformCurrentText('randomize')">Randomize</button>
                 <button onclick="restoreOriginal()" id="restoreButton" disabled>Reset</button>
             </div>
+        </br>
             <div class="translate-controls">
                 <p class="section-title"><b>Translate</b></p>
                 <button onclick="toggleLanguage('spanish')">Spanish</button>
@@ -99,7 +101,11 @@
             let transformedText;
 
             if (transformationType === 'lipogram') {
-                transformedText = textDisplay.textContent.replace(/[aeiou]/gi, '█');
+                if (textDisplay.textContent.includes('█')) {
+                    transformedText = currentOriginalText;
+                } else {
+                    transformedText = textDisplay.textContent.replace(/[aeiou]/gi, '█');
+                }
             } else if (transformationType === 'randomize') {
                 transformedText = textDisplay.textContent.split('').sort(() => Math.random() - 0.5).join('');
             }
@@ -116,13 +122,18 @@
 
         const dropdownToggle = document.querySelector('.dropdown-toggle');
         const navLinks = document.querySelector('.nav-links');
-        
+
         dropdownToggle.addEventListener('click', () => {
             navLinks.classList.toggle('show');
             dropdownToggle.setAttribute('aria-expanded', 
                 dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
             );
         });
-    </script>
-</body>
+
+            // Automatically load a fragment when the page loads
+            window.onload = function() {
+                generateText();
+            };
+        </script>
+    </body>
 </html>
