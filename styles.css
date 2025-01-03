@@ -17,7 +17,7 @@
     /* Layout */
     --spacing-unit: 1rem; /* Base spacing unit */
     --container-max-width: 1200px; /* Maximum width for containers */
-    --header-height: 3rem; /* Height of the header */
+    --header-height: 5rem; /* Height of the header */
 
     /* Transitions */
     --transition-base: all 0.2s ease; /* Base transition for smooth animations */
@@ -100,7 +100,7 @@ h3 {
 }
 
 p {
-    font-size: 1.15rem; /* Slightly larger font size */
+    font-size: 1rem; /* Slightly larger font size */
     line-height: 1.5; /* Increased line height */
     margin-bottom: var(--spacing-unit); /* Bottom margin */
     color: var(--color-text); /* Text color */
@@ -330,20 +330,26 @@ button:disabled {
     margin-bottom: var(--spacing-unit); /* Bottom margin */
     font-variant: all-small-caps; /* Small caps variant */
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow */
+    text-align: center; /* Center align */
+    text-decoration: overline; /* Overline decoration */
+    margin-top: var(--spacing-unit); /* Top margin */
 }
 
 .subtitle {
-    font-size: 1.5rem; /* Medium font size */
+    font-size: 1.25rem; /* Medium font size */
     color: var(--color-muted); /* Muted color */
-    margin-bottom: calc(var(--spacing-unit) * 2); /* Bottom margin */
+    margin-bottom: calc(var(--spacing-unit)); /* Bottom margin */
+    text-align: center; /* Center align */
 }
 
 .dynamic-text {
     font-style: italic; /* Italic text */
-    min-height: 2rem; /* Minimum height */
+    max-height: 2rem; /* Minimum height */
     color: var(--color-accent); /* Accent color */
     text-align: center; /* Center align */
     margin: calc(var(--spacing-unit) * 2) 0; /* Margin */
+    padding-top: 2.5rem; /* Padding */
+
 }
 
 .manifesto {
