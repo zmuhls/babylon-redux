@@ -4,10 +4,11 @@
 Made possible with code LLMs and methods of prompt engineering, Babylon Redux reimagines Jorge Luis Borges' *The Library of Babel* as a series of interactive webtext experiments. Each project employs a combination of literary and computational constraints to remix and reconfigure Borges' passages into new digital forms, drawing from OULIPO's playful rigor and Johanna Drucker's work on stochastic poetics to demonstrate how computational methods and literary frameworks can intersect to make creative writing more interactive, engaging, and adaptable to digital environments.
 
 ### Experimental Webtexts
-- **Mood Ring**: A dynamic poem generator that selects and restyles lines of verse based on cursor position, looping over random nonlinear versions of a decade-old personal poem
-- **Tower Fragments**: Select passages from *The Library of Babel*, classified as either philosophical, literary, or descriptive filtered through a weighted probability distribution
+- **Mood Ring**: A dynamic poem generator that selects and restyles lines of verse based on cursor position, looping over random nonlinear versions of a decade-old personal poem.
 - **Star Signal**: Morse code signals from *The Library of Babel* organized in a Fibonacci spiral of embedded stars 
-- **Index Loop**: 26-word index of Borgesian terms interspersed with AI-generated neologisms in an alphabetic loop
+- **Tower Fragments**: Select passages from *The Library of Babel*, classified as either philosophical, literary, or descriptive filtered through a weighted probability distribution
+- **Index Loop**: 26-word index of Borgesian terms interspersed with AI-generated neologisms that shift alphabetically at the rate of a beating human heart.
+- **Cipher Text**: Trigram encryption of <em>The Library of Babel</em> using classical ciphers displayed as interactive blocks with a coded message from the future.
 
 ### Quick Start
 1. Open `index.html` in any modern browser
