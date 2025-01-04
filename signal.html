@@ -9,9 +9,7 @@
 <body>
     <header class="header">
         <nav class="nav">
-            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                Menu
-            </button>
+            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Menu</button>
             <ul class="nav-links" role="menu" id="navMenu">
                 <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
                 <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
@@ -22,236 +20,220 @@
                 <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
-    </header>
         <h1>Star Signal</h1>
-        <div class="morse-reference">
+    </header>
+    <button id="toggle-reference" class="toggle-button" style="position: fixed; bottom: 5.5rem; right: 10px; opacity: .95; z-index: 1000; background: #4a90e2; color: white; border: none; padding: 0.25rem 1rem; border-radius: 1px; font-size: .7rem; cursor: pointer;">Toggle Morse Reference</button>
+    <div class="morse-reference" id="morse-reference">
         <div class="morse-title">
             Morse Code Reference
             <a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" class="morse-link">Learn More ↗</a>
         </div>
         <div class="fade-in">
             <div class="morse-grid">
-            <div class="morse-item"><span>A</span><span class="morse-code">.-</span></div>
-            <div class="morse-item"><span>B</span><span class="morse-code">-...</span></div>
-            <div class="morse-item"><span>C</span><span class="morse-code">-.-.</span></div>
-            <div class="morse-item"><span>D</span><span class="morse-code">-..</span></div>
-            <div class="morse-item"><span>E</span><span class="morse-code">.</span></div>
-            <div class="morse-item"><span>F</span><span class="morse-code">..-.</span></div>
-            <div class="morse-item"><span>G</span><span class="morse-code">--.</span></div>
-            <div class="morse-item"><span>H</span><span class="morse-code">....</span></div>
-            <div class="morse-item"><span>I</span><span class="morse-code">..</span></div>
-            <div class="morse-item"><span>J</span><span class="morse-code">.---</span></div>
-            <div class="morse-item"><span>K</span><span class="morse-code">-.-</span></div>
-            <div class="morse-item"><span>L</span><span class="morse-code">.-..</span></div>
-            <div class="morse-item"><span>M</span><span class="morse-code">--</span></div>
-            <div class="morse-item"><span>N</span><span class="morse-code">-.</span></div>
-            <div class="morse-item"><span>O</span><span class="morse-code">---</span></div>
-            <div class="morse-item"><span>P</span><span class="morse-code">.--.</span></div>
-            <div class="morse-item"><span>Q</span><span class="morse-code">--.-</span></div>
-            <div class="morse-item"><span>R</span><span class="morse-code">.-.</span></div>
-            <div class="morse-item"><span>S</span><span class="morse-code">...</span></div>
-            <div class="morse-item"><span>T</span><span class="morse-code">-</span></div>
-            <div class="morse-item"><span>U</span><span class="morse-code">..-</span></div>
-            <div class="morse-item"><span>V</span><span class="morse-code">...-</span></div>
-            <div class="morse-item"><span>W</span><span class="morse-code">.--</span></div>
-            <div class="morse-item"><span>X</span><span class="morse-code">-..-</span></div>
-            <div class="morse-item"><span>Y</span><span class="morse-code">-.--</span></div>
-            <div class="morse-item"><span>Z</span><span class="morse-code">--..</span></div>
+                    <div class="morse-item"><span>A</span><span class="morse-code">.-</span></div>
+                    <div class="morse-item"><span>B</span><span class="morse-code">-...</span></div>
+                    <div class="morse-item"><span>C</span><span class="morse-code">-.-.</span></div>
+                    <div class="morse-item"><span>D</span><span class="morse-code">-..</span></div>
+                    <div class="morse-item"><span>E</span><span class="morse-code">.</span></div>
+                    <div class="morse-item"><span>F</span><span class="morse-code">..-.</span></div>
+                    <div class="morse-item"><span>G</span><span class="morse-code">--.</span></div>
+                    <div class="morse-item"><span>H</span><span class="morse-code">....</span></div>
+                    <div class="morse-item"><span>I</span><span class="morse-code">..</span></div>
+                    <div class="morse-item"><span>J</span><span class="morse-code">.---</span></div>
+                    <div class="morse-item"><span>K</span><span class="morse-code">-.-</span></div>
+                    <div class="morse-item"><span>L</span><span class="morse-code">.-..</span></div>
+                    <div class="morse-item"><span>M</span><span class="morse-code">--</span></div>
+                    <div class="morse-item"><span>N</span><span class="morse-code">-.</span></div>
+                    <div class="morse-item"><span>O</span><span class="morse-code">---</span></div>
+                    <div class="morse-item"><span>P</span><span class="morse-code">.--.</span></div>
+                    <div class="morse-item"><span>Q</span><span class="morse-code">--.-</span></div>
+                    <div class="morse-item"><span>R</span><span class="morse-code">.-.</span></div>
+                    <div class="morse-item"><span>S</span><span class="morse-code">...</span></div>
+                    <div class="morse-item"><span>T</span><span class="morse-code">-</span></div>
+                    <div class="morse-item"><span>U</span><span class="morse-code">..-</span></div>
+                    <div class="morse-item"><span>V</span><span class="morse-code">...-</span></div>
+                    <div class="morse-item"><span>W</span><span class="morse-code">.--</span></div>
+                    <div class="morse-item"><span>X</span><span class="morse-code">-..-</span></div>
+                    <div class="morse-item"><span>Y</span><span class="morse-code">-.--</span></div>
+                    <div class="morse-item"><span>Z</span><span class="morse-code">--..</span></div>
             </div>
         </div>
-        <div class="current-morse">
-            <div id="current-morse"></div>
-        </div>
+    </div>
+    <div id="stars-container"></div>
+    <div id="decoder-banner" class="decoder-banner">
+        <p id="current-morse">Click a star to view the signal and message.</p>
+    </div>
     <script>
         const MORSE_TIMING = {
-            DOT: 200,
-            DASH: 600,
-            GAP: 200,
-            LETTER_GAP: 600,
-            WORD_GAP: 1400
-        };
+    DOT: 200,
+    DASH: 600,
+    GAP: 200,
+    LETTER_GAP: 600,
+    WORD_GAP: 1400
+};
 
-        const MORSE_CODE = {
-            'A': '.-',     'B': '-...',   'C': '-.-.', 
-            'D': '-..',    'E': '.',      'F': '..-.',
-            'G': '--.',    'H': '....',   'I': '..',
-            'J': '.---',   'K': '-.-',    'L': '.-..',
-            'M': '--',     'N': '-.',     'O': '---',
-            'P': '.--.',   'Q': '--.-',   'R': '.-.',
-            'S': '...',    'T': '-',      'U': '..-',
-            'V': '...-',   'W': '.--',    'X': '-..-',
-            'Y': '-.--',   'Z': '--..',   ' ': ' ',
-            '0': '-----',  '1': '.----',  '2': '..---',
-            '3': '...--',  '4': '....-',  '5': '.....',
-            '6': '-....',  '7': '--...',  '8': '---..',
-            '9': '----.'
-        };
+const MORSE_CODE = {
+    'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+    'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+    'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+    'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+    'Y': '-.--', 'Z': '--..', ' ': ' ', '0': '-----', '1': '.----', '2': '..---',
+    '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+    '9': '----.'
+};
 
-        const messages = [
-            "the library is total",
-            "the library exists ab aeterno",
-            "in the vast library there are no two identical books",
-            "the library is unlimited but periodic",
-            "if an eternal traveler should journey in any direction",
-            "after centuries he would see the same volumes repeated",
-            "the universe is justified the universe suddenly matches its symbols",
-            "light is provided by some spherical fruit",
-            "the library is a sphere whose exact center is any hexagon",
-            "whose circumference is inaccessible",
-            "there are five shelves for each of the hexagons walls",
-            "each shelf contains thirty five books of uniform format",
-            "each book is of four hundred and ten pages",
-            "each page of forty lines",
-            "each line of some eighty letters",
-            "the orthographical symbols are twenty five in number",
-            "the library is endless",
-            "the certainty that everything has been written",
-            "the reasonable hope that the combination of letters may be found",
-            "the improbable gift of meaning",
-            "the number of orthographic symbols is twenty five",
-            "this much is already known no reasonable conjecture can be incomplete",
-            "the methodical task of writing"
-        ];
+const messages = [
+    "The library is total",
+    "The library exists ab aeterno",
+    "In the vast library there are no two identical books",
+    "The library is unlimited but periodic",
+    "If an eternal traveler should journey in any direction",
+    "After centuries he would see the same volumes repeated",
+    "The universe is justified",
+    "Light is provided by spherical fruit",
+    "The library is a sphere whose exact center is any hexagon",
+    "Whose circumference is inaccessible",
+    "There are five shelves for each hexagon's walls",
+    "Each shelf contains thirty-five books of uniform format",
+    "Each book is of four hundred and ten pages",
+    "Each page has forty lines",
+    "Each line has some eighty letters",
+    "The orthographical symbols are twenty-five in number",
+    "The library is endless",
+    "The certainty that everything has been written",
+    "The reasonable hope that combinations of letters may be found",
+    "The improbable gift of meaning",
+    "The number of orthographic symbols is twenty-five",
+    "This much is already known",
+    "The methodical task of writing"
+];
 
-        function textToMorse(text) {
-            return text.toUpperCase().split('').map(char => 
-                MORSE_CODE[char] || char
-            ).join(' ');
+function textToMorse(text) {
+    return text.toUpperCase().split('').map(char => 
+        MORSE_CODE[char] || char
+    ).join(' ');
+}
+
+function createMorseStars(starPositions, messages) {
+    const body = document.body;
+    const stars = [];
+    const smallStarIndices = new Set();
+
+    while (smallStarIndices.size < 10) {
+        smallStarIndices.add(Math.floor(Math.random() * starPositions.length));
+    }
+
+    starPositions.forEach((pos, index) => {
+        const star = document.createElement("div");
+        star.className = "star";
+        if (smallStarIndices.has(index)) {
+            star.classList.add("small");
         }
+        star.id = `star${index + 1}`;
+        star.style.left = `${pos[0]}vw`;
+        star.style.top = `${pos[1]}vh`;
+        body.appendChild(star);
+        stars.push(star);
 
-        function createMorseStars(starPositions, messages) {
-            const body = document.body;
-            const stars = [];
-            
-            const smallStarIndices = new Set();
-            while(smallStarIndices.size < 10) {
-                smallStarIndices.add(Math.floor(Math.random() * starPositions.length));
+        star.addEventListener("click", () => {
+            const message = messages[index];
+            if (message) {
+                star.classList.toggle("active");
+                if (star.classList.contains("active")) {
+                    startMorseAnimation(star, textToMorse(message));
+                } else {
+                    stopMorseAnimation(star);
+                }
             }
-
-            async function startMorseAnimation(star, morseCode) {
-            star.morseInterval = true;
-            const message = messages[parseInt(star.id.replace('star', '')) - 1];
-            document.getElementById('current-morse').innerHTML = `Message: ${message}<br>Morse: ${morseCode}`;
-            while (star.morseInterval) {
-                for (const symbol of morseCode) {
-                        if (!star.morseInterval) break;
-                        star.style.opacity = symbol === '.' ? '1' : '0.25';
-                        await sleep(symbol === '.' ? MORSE_TIMING.DOT : MORSE_TIMING.DASH);
-                    }
-                await sleep(MORSE_TIMING.WORD_GAP);
-                    }
-                }
-            
-            starPositions.forEach((pos, index) => {
-                const star = document.createElement("div");
-                star.className = "star";
-                if (smallStarIndices.has(index)) {
-                    star.classList.add("small");
-                }
-                star.id = `star${index + 1}`;
-                star.style.left = pos[0] + "vw";
-                star.style.top = pos[1] + "vh";
-                body.appendChild(star);
-                stars.push(star);
-
-                star.addEventListener('click', () => {
-                    const message = messages[index];
-                    if (message) {
-                        star.classList.toggle("active");
-                        if (star.classList.contains("active")) {
-                            startMorseAnimation(star, textToMorse(message));
-                        } else {
-                            stopMorseAnimation(star);
-                        }
-                    }
-                });
-            });
-
-            // Auto-start the first star
-            setTimeout(() => {
-                const firstStar = document.getElementById('star1');
-                if (firstStar) {
-                    firstStar.classList.add('active');
-                    startMorseAnimation(firstStar, textToMorse(messages[0]));
-                }
-            }, 1000);
-
-            return stars;
-        }
-
-        async function startMorseAnimation(star, morseCode) {
-            star.morseInterval = true;
-            const starIndex = parseInt(star.id.replace('star', '')) - 1;
-            const message = messages[starIndex];
-            
-            document.getElementById('current-morse').innerHTML = 
-                `Message: ${message}<br>Morse: ${morseCode}`;
-            
-            while (star.morseInterval) {
-                for (const symbol of morseCode) {
-                    if (!star.morseInterval) break;
-                    
-                    switch (symbol) {
-                        case '.':
-                            star.style.opacity = '1';
-                            await sleep(MORSE_TIMING.DOT);
-                            star.style.opacity = '0';
-                            await sleep(MORSE_TIMING.GAP);
-                            break;
-                        case '-':
-                            star.style.opacity = '1';
-                            await sleep(MORSE_TIMING.DASH);
-                            star.style.opacity = '0';
-                            await sleep(MORSE_TIMING.GAP);
-                            break;
-                        case ' ':
-                            star.style.opacity = '0';
-                            await sleep(MORSE_TIMING.WORD_GAP);
-                            break;
-                    }
-                }
-                await sleep(MORSE_TIMING.WORD_GAP);
-            }
-        }
-
-        function stopMorseAnimation(star) {
-            star.morseInterval = false;
-            star.style.opacity = '0.25';
-        }
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        function generateFibonacciSpiral(numPoints, scale) {
-            const positions = [];
-            let x = 30, y = 50; // Adjusted initial x position for more centered alignment
-            let angle = 0;
-            for (let i = 0; i < numPoints; i++) {
-            const radius = (scale * 1.5) * Math.sqrt(i); // Increased scale multiplier
-            x = 30 + radius * Math.cos(angle); // Adjusted x position
-            y = 50 + radius * Math.sin(angle);
-            positions.push([x, y]);
-            angle += Math.PI * (3 - Math.sqrt(5));
-            }
-            return positions;
-        }
-
-        // Initialize with adjusted scale for closer stars
-        const starPositions = generateFibonacciSpiral(23, 4);
-        const stars = createMorseStars(starPositions, messages);
-
-        // Mobile menu toggle functionality
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const navLinks = document.querySelector('.nav-links');
-    
-        dropdownToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-            dropdownToggle.setAttribute(
-                'aria-expanded',
-                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-            );
         });
-</script>
+    });
+
+    // Auto-start the first star
+    setTimeout(() => {
+        const firstStar = document.getElementById("star1");
+        if (firstStar) {
+            firstStar.classList.add("active");
+            startMorseAnimation(firstStar, textToMorse(messages[0]));
+        }
+    }, 1000);
+
+    return stars;
+}
+
+async function startMorseAnimation(star, morseCode) {
+    star.morseInterval = true;
+    const starIndex = parseInt(star.id.replace('star', '')) - 1;
+    const message = messages[starIndex];
+    document.getElementById('current-morse').innerHTML = `Message: ${message}<br>Morse: ${morseCode}`;
+
+    while (star.morseInterval) {
+        for (const symbol of morseCode) {
+            if (!star.morseInterval) break;
+
+            switch (symbol) {
+                case '.':
+                    star.style.opacity = '1';
+                    await sleep(MORSE_TIMING.DOT);
+                    star.style.opacity = '0.25';
+                    await sleep(MORSE_TIMING.GAP);
+                    break;
+                case '-':
+                    star.style.opacity = '1';
+                    await sleep(MORSE_TIMING.DASH);
+                    star.style.opacity = '0.25';
+                    await sleep(MORSE_TIMING.GAP);
+                    break;
+                case ' ':
+                    await sleep(MORSE_TIMING.WORD_GAP);
+                    break;
+            }
+        }
+        await sleep(MORSE_TIMING.WORD_GAP);
+    }
+}
+
+function stopMorseAnimation(star) {
+    star.morseInterval = false;
+    star.style.opacity = '0.25';
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function generateFibonacciSpiral(numPoints, scale) {
+    const positions = [];
+    let angle = 0;
+    for (let i = 0; i < numPoints; i++) {
+        const radius = scale * Math.sqrt(i);
+        const x = 30 + radius * Math.cos(angle);
+        const y = 50 + radius * Math.sin(angle);
+        positions.push([x, y]);
+        angle += Math.PI * (3 - Math.sqrt(5));
+    }
+    return positions;
+}
+
+// Initialize with adjusted scale for closer stars
+const starPositions = generateFibonacciSpiral(23, 6);
+createMorseStars(starPositions, messages);
+
+// Mobile menu toggle functionality
+const dropdownToggle = document.querySelector('.dropdown-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+document.getElementById('toggle-reference').addEventListener('click', () => {
+    const reference = document.getElementById('morse-reference');
+    reference.classList.toggle('hidden');
+});
+
+dropdownToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+    dropdownToggle.setAttribute(
+        'aria-expanded',
+        dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+    );
+});
+    </script>
 </body>
 </html>
