@@ -10,9 +10,6 @@ Made possible with mixed methods of prompt engineering, [Babylon Redux](https://
 - [**Index Loop**](https://zmuhls.github.io/babylon-redux/loop.html): 26-word index of Borgesian terms interspersed with AI-generated neologisms that shift alphabetically at the rate of a beating human heart.
 - [**Cipher Text**](https://zmuhls.github.io/babylon-redux/cipher.html): Trigram encryption of <em>The Library of Babel</em> using classical ciphers displayed as interactive blocks with a coded message from the future.
 
-### Shared Conversations
-- One-Shot Prompting: 
-
 ### Quick Start
 1. Open `index.html` in any modern browser
 2. Navigate between experiments using the floating menu
