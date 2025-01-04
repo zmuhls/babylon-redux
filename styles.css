@@ -319,6 +319,27 @@ button:disabled {
     transform: translateY(0); /* No translation */
 }
 
+.hidden {
+    display: none;
+}
+
+.toggle-button {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 1px;
+    font-size: .8rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.toggle-button:hover {
+    background: var(--color-secondary);
+}
+
 .hero {
     text-align: center; /* Center align */
     margin-bottom: calc(var(--spacing-unit) * 4); /* Bottom margin */
@@ -440,6 +461,21 @@ button:disabled {
         color: var(--color-text); /* Text color */
         border-bottom-color: transparent; /* Transparent bottom border */
     }
+
+    #decoder-banner {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    #stars-container {
+        height: 80%;
+        max-width: 80%;
+    }
+
+    .star {
+        width: 5px;
+        height: 5px;
+    }
 }
 
 /* Tower Fragments */
@@ -452,7 +488,7 @@ button:disabled {
     border: .5px solid rgba(255, 255, 255, 0.183);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     min-height: 200px;
-    mid-width: 600px;
+    min-width: 600px;
     position: relative;
     transition: var(--transition-base);
     font-size: 1.2em;
@@ -525,11 +561,11 @@ button:disabled {
 }
 
 
-
+/* Morse Code Module /* 
 /* Current Morse Message */
 .morse-reference {
     position: fixed; /* Fixed position */
-    bottom: 75px; /* Align with bottom of the page */
+    bottom: 110px; /* Align with bottom of the page */
     right: 10px; /* Align with left of the page */
     background: rgba(0, 0, 0, 0.85); /* Darkened background for contrast */
     padding: 10px; /* Adjust padding for better spacing */
@@ -540,7 +576,7 @@ button:disabled {
     z-index: var(--z-overlay); /* Ensure it's on top of other elements */
     font-size: 1rem; /* Adjust font size for readability */
     max-width: 225px; /* Restrict width */
-    max-height: 500px; /* Restrict height */
+    max-height: 600px; /* Restrict height */
     overflow-y: auto; /* Enable scrolling for overflow content */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Add subtle shadow */
 }
@@ -572,6 +608,8 @@ button:disabled {
     grid-template-columns: repeat(4, 1fr); /* Adjust columns for readability */
     gap: 10px;
     font-size: 0.9rem;
+    color: var(--color-text);
+    padding: 10px;
 }
 
 .morse-item {
@@ -808,8 +846,6 @@ button:disabled {
         display: block;
     }
 }
-
-/* Ciphertext Decoder */
 
 /* Cipher Block */
 .cipher-block {
@@ -1093,4 +1129,5 @@ button:disabled {
 button:focus-visible, .nav-link:focus-visible {
             outline: 2px solid var(--color-accent);
             outline-offset: 2px;
+        } 
 }

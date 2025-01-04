@@ -127,6 +127,20 @@
             while(smallStarIndices.size < 10) {
                 smallStarIndices.add(Math.floor(Math.random() * starPositions.length));
             }
+
+            async function startMorseAnimation(star, morseCode) {
+            star.morseInterval = true;
+            const message = messages[parseInt(star.id.replace('star', '')) - 1];
+            document.getElementById('current-morse').innerHTML = `Message: ${message}<br>Morse: ${morseCode}`;
+            while (star.morseInterval) {
+                for (const symbol of morseCode) {
+                        if (!star.morseInterval) break;
+                        star.style.opacity = symbol === '.' ? '1' : '0.25';
+                        await sleep(symbol === '.' ? MORSE_TIMING.DOT : MORSE_TIMING.DASH);
+                    }
+                await sleep(MORSE_TIMING.WORD_GAP);
+                    }
+                }
             
             starPositions.forEach((pos, index) => {
                 const star = document.createElement("div");
