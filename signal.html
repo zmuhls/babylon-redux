@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Star Signal</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        
+    </style>
 </head>
 <body>
     <header class="header">
@@ -22,7 +25,7 @@
         </nav>
         <h1>Star Signal</h1>
     </header>
-    <button id="toggle-reference" class="toggle-button" style="position: fixed; bottom: 5.5rem; right: 10px; opacity: .95; z-index: 1000; background: #4a90e2; color: white; border: none; padding: 0.25rem 1rem; border-radius: 1px; font-size: .7rem; cursor: pointer;">Toggle Morse Reference</button>
+    <button class="toggle-button" id="toggle-reference">Toggle Morse Reference</button>
     <div class="morse-reference" id="morse-reference">
         <div class="morse-title">
             Morse Code Reference
@@ -222,7 +225,7 @@ createMorseStars(starPositions, messages);
 const dropdownToggle = document.querySelector('.dropdown-toggle');
 const navLinks = document.querySelector('.nav-links');
 
-document.getElementById('toggle-reference').addEventListener('click', () => {
+document.querySelector('.toggle-button').addEventListener('click', () => {
     const reference = document.getElementById('morse-reference');
     reference.classList.toggle('hidden');
 });
