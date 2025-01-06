@@ -645,7 +645,7 @@ button:disabled {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: none; /* Prevent interference with user interactions */
     z-index: 90; /* Below poetry */
 }
 
@@ -657,7 +657,6 @@ button:disabled {
     color: var(--color-text);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-    pointer-events: none;
     will-change: transform;
     mix-blend-mode: difference;
 }
@@ -691,7 +690,6 @@ button:disabled {
     transform: translate(-50%, -50%);
     width: min(80vw, 600px);
     text-align: center;
-    pointer-events: none;
     transition: 
         left 0.5s cubic-bezier(0.9, 0, 0.2, 1),
         top 0.5s cubic-bezier(0.9, 0, 0.2, 1),
@@ -705,6 +703,15 @@ button:disabled {
     will-change: transform, color;
     font-family: var(--font-primary);
     font-size: 16px;
+    user-select: text; /* Allow text selection */
+}
+
+.poem-line {
+    position: relative; /* Changed from absolute to relative */
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    animation: fadeIn 2s ease-in-out;
 }
 
 @keyframes fadeIn {
