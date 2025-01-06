@@ -181,13 +181,15 @@
     </main>
 
     <script>
-    dropdownToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('show');
-    dropdownToggle.setAttribute(
-        'aria-expanded',
-        dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-    );
-});
+      const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        dropdownToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            dropdownToggle.setAttribute('aria-expanded', 
+                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
+        });
     // Update year
     document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>

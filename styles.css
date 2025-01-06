@@ -8,6 +8,7 @@
     --color-text: #e0e0e0; /* Light grey text color */
     --color-accent: #4a90e2; /* Blue accent color */
     --color-muted: #888888; /* Muted grey color for less important text */
+    --color-scroll-background: #0a0a0a; /* Background color when scrolled to the bottom */
 
     /* Typography */
     --font-primary: 'IBM Plex Mono', 'Courier New', monospace; /* Primary font family */
