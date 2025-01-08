@@ -1128,18 +1128,32 @@ button:disabled {
     color: var(--color-secondary); /* Secondary color on hover */
 }
 
-/* Media, Queries, Utilities & Animations
-========================================================================== */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     #cipher-container {
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     }
-  } 
+
+    /* Add new mobile header/title fixes */
+    h1 {
+        position: relative;
+        width: 100%;
+        left: 0;
+        transform: none;
+        text-align: center;
+    }
+    
+    .container {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+    
+    /* Ensure header stays stable */
+    .header {
+        width: 100vw;
+        left: 0;
+    }
+}
 
 /* Performance Optimizations */
 .cipher-block {
