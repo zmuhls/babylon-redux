@@ -27,7 +27,7 @@ Babylon Redux explores the intersection of computational methods and literary cr
 ## Sources & Inspiration
 - The Library of Babel: [Jonathan Basile's digital adaptation](https://libraryofbabel.info)
 - Full Text of Borges' The Library of Babel
-- Oulipo's Constraints: N+7 substitutions, lipograms, and other forms such as the Graeco-Latin bisquares in Life: A User's Manual and the Möbius strip structure
+-  Oulipo Constraints: combinatoriality, N+7 substitutions, lipograms, the Graeco-Latin bisquares in Life: A User's Manual, and more
 - Johanna Drucker: Theories of stochastic poetics and emergent meaning
 
 ## Technical Notes
