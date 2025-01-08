@@ -61,29 +61,33 @@
             { word: "Y - Ylem", definition: "n. The primordial substance from which all texts are derived." },
             { word: "Z - Zettelkasten", definition: "n. A box or system used for organizing notes and ideas." }
         ];
-
         let currentIndex = 0;
         let isPaused = false;
         let heartbeatInterval;
 
         function displayEntries() {
+            // Sort entries alphabetically by word
             const sortedEntries = [...entries].sort((a, b) => a.word.localeCompare(b.word));
+            // Rotate entries based on current index
             const rotatedEntries = [
-                ...sortedEntries.slice(currentIndex),
-                ...sortedEntries.slice(0, currentIndex)
+            ...sortedEntries.slice(currentIndex),
+            ...sortedEntries.slice(0, currentIndex)
             ];
             const container = document.getElementById("dictionaryContainer");
             container.innerHTML = "";
+            // Create and append divs for each entry
             rotatedEntries.forEach(entry => {
-                const div = document.createElement("div");
-                div.className = "dictionary-entry";
-                div.innerHTML = `<div class="word">${entry.word}</div><div class="definition">${entry.definition}</div>`;
-                container.appendChild(div);
+            const div = document.createElement("div");
+            div.className = "dictionary-entry";
+            div.innerHTML = `<div class="word">${entry.word}</div><div class="definition">${entry.definition}</div>`;
+            container.appendChild(div);
             });
+            // Update debug info with current index and pause status
             updateDebugInfo(`Alphabetic shift: ${currentIndex}${isPaused ? ' (Paused)' : ''}`);
         }
 
         function updateDebugInfo(message) {
+            // Update the debug info element with the provided message
             document.getElementById("debug-info").innerText = message;
         }
 
@@ -130,7 +134,7 @@
             }
         });
 
-        // Cardiograph functionality
+        // Heart monitor functionality
         const cardiograph = document.createElement('div');
         cardiograph.id = 'cardiograph';
         document.body.appendChild(cardiograph);

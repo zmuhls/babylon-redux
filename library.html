@@ -21,40 +21,40 @@
                 <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
                 <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
-        </nav>
-    </header>
-    <main class="container">
-        <h1>Resource Library</h1>  
-        <h4><center>~ I N   P R O G R E S S ~</center></h4>
-        <p>Here you will find various support resources to help you with your webtext projects, with a focus on the computational constraints and methods of prompt engineering to facilitate the process.</p>
-        <div class="card">
-            <h3><a href="https://github.com/zmuhls/babylon-redux">GitHub Repository</a></h3>
-            <p>Access the GitHub repository for the Babylon Redux project, where you can view and clone the source code for the webtext experiments as well as contribute to the project.</p>
-            </div>
-        </br>
-            <div class="card">
-            <h3><a href="timeline.html">OuLiPo Timeline</a></h3>
-            <p>Historical timeline of the OuLiPo group, its members, and their use of literary constraints to excavate potential literature from the past.</p>
-            </div>
-        </br>
-        <div class="card-container">
-            <div class="card">
-            <h3><a href="log.html">Prompt Log</a></h3>
-            <p>Review prompt logs and shared conversations for webtexts in the collection</p>
-            </div>
-        </div>
-    </main>
-    <script>   
-        // Mobile menu toggle functionality
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        dropdownToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-            dropdownToggle.setAttribute('aria-expanded', 
-                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-            );
-        });
-    </script>
+    </nav>
+</header>
+<main class="container">
+    <h1>Resources</h1>  
+    <h4><center>~ I N   P R O G R E S S ~</center></h4>
+    <div class="card">
+        <h3><a href="https://codesandbox.io/p/github/zmuhls/babylon-redux/draft/strange-cannon?embed=1&file=%2Findex.html">CodeSandbox</a></h3>
+        <p>Explore the Babylon Redux project in an interactive CodeSandbox environment.</p>
+    </div>
+</br>
+    <div class="card">
+        <h3><a href="https://github.com/zmuhls/babylon-redux">GitHub Repository</a></h3>
+        <p>Access the GitHub repository for this project to view and clone the source code or to contribute to a webtext.</p>
+    </div>
+</br>
+    <div class="card">
+        <h3><a href="timeline.html">OuLiPo Timeline</a></h3>
+        <p>Historical timeline of the OuLiPo group, its members, and their use of literary constraints.</p>
+    </div>
+</br>
+    </div>
+</div>
+</main>
+<script>   
+    // Mobile menu toggle functionality
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    dropdownToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+        dropdownToggle.setAttribute('aria-expanded', 
+            dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+        );
+    });
+</script>
 </body>
 </html>
