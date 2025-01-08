@@ -5,6 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tower Fragments</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-links.show {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                flex-direction: row;
+            }
+        }
+    </style>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,8 +53,8 @@
             </ul>
         </nav>
     </header>
+    <h1>Tower Fragments</h1>
     <main class="container">
-        <h1>Tower Fragments</h1>
         <div id="textDisplay" class="text-display"></div>
         <div class="controls">
             <div class="classification-controls">
@@ -79,7 +108,8 @@
 
         function toggleLanguage(language) {
             currentLanguage = language;
-            generateText();
+            const textDisplay = document.getElementById('textDisplay');
+            textDisplay.textContent = currentLanguage === 'english' ? currentOriginalText : textFragments[Object.keys(textFragments).find(type => textFragments[type].some(fragment => fragment.text === currentOriginalText))].find(fragment => fragment.text === currentOriginalText).spanish;
         }
 
         function generateText(type = null) {

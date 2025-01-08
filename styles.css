@@ -582,8 +582,8 @@ button:disabled {
 /* Button for toggling Morse Code */
 .toggle-button { 
     position: fixed;
-    bottom: 5.5rem;
-    right: 10px;
+    bottom: 8rem;
+    right: 5px;
     opacity: .95;
     z-index: 1000;
     background: #4a90e2;
@@ -591,7 +591,7 @@ button:disabled {
     border: none;
     padding: 0.25rem 1rem;
     border-radius: 1px;
-    font-size: .8rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s ease;
 }
@@ -1144,7 +1144,7 @@ button:disabled {
     
     .container {
         overflow-x: hidden;
-        width: 100%;
+        width: 100vw;
         position: relative;
     }
     
