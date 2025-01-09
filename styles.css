@@ -990,7 +990,11 @@ button:disabled {
 
 /* Support for mobile navigation */
 /* ========================================================================== */
-
+@media (max-width: 768px) {
+    .morse-reference {
+        display: none;
+    }
+}
 @media screen and (max-width: 768px) {
     .dropdown-toggle {
         display: inline-flex;
