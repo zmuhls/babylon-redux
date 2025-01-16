@@ -59,15 +59,18 @@
         <div class="controls">
             <div class="classification-controls">
                 <p class="section-title"><b>Classify</b></p>
-                <button onclick="generateText('descriptive')">Descriptive</button>
-                <button onclick="generateText('narrative')">Narrative</button>
-                <button onclick="generateText('philosophical')">Philosophical</button>
+                <button onclick="generateText('narrative')">Narrate</button>
+
+                <button onclick="generateText('descriptive')">Describe</button>
+                
+                <button onclick="generateText('philosophical')">Theorize</button>
             </div>
         </br>
             <div class="transformation-controls">
                 <p class="section-title"><b>Transform</b></p>
                 <button onclick="transformCurrentText('lipogram')">Lipogram</button>
-                <button onclick="transformCurrentText('randomize')">Randomize</button>
+                <button onclick="transformCurrentText('shiftogram')">Shiftogram</button>
+                <button onclick="transformCurrentText('randomize')">Scramble</button>
                 <button onclick="restoreOriginal()" id="restoreButton" disabled>Reset</button>
             </div>
         </br>
@@ -138,6 +141,32 @@
                 }
             } else if (transformationType === 'randomize') {
                 transformedText = textDisplay.textContent.split('').sort(() => Math.random() - 0.5).join('');
+            }
+
+            textDisplay.textContent = transformedText;
+            document.getElementById('restoreButton').disabled = false;
+        }
+
+        function transformCurrentText(transformationType) {
+            const textDisplay = document.getElementById('textDisplay');
+            let transformedText;
+
+            if (transformationType === 'lipogram') {
+                if (textDisplay.textContent.includes('█')) {
+                    transformedText = currentOriginalText;
+                } else {
+                    transformedText = textDisplay.textContent.replace(/[aeiou]/gi, '█');
+                }
+            } else if (transformationType === 'randomize') {
+                transformedText = textDisplay.textContent.split('').sort(() => Math.random() - 0.5).join('');
+            } else if (transformationType === 'shiftogram') {
+                const words = textDisplay.textContent.split(' ');
+                for (let i = 0; i < words.length - 1; i++) {
+                    const temp = words[i][0];
+                    words[i] = words[i].replace(words[i][0], words[i + 1][0]);
+                    words[i + 1] = words[i + 1].replace(words[i + 1][0], temp);
+                }
+                transformedText = words.join(' ');
             }
 
             textDisplay.textContent = transformedText;

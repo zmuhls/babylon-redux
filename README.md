@@ -1,5 +1,5 @@
 # Babylon Redux
-## Prompt Engineering and Digital Literature
+## Prompt Engineering Potential Literature
 
 Babylon Redux explores the intersection of computational methods and literary creativity, reimagining Jorge Luis Borges' The Library of Babel through interactive webtext experiments. Employing mixed methods of prompt engineering, the project draws from the Oulipo's literary constraints and Johanna Drucker's theories on stochastic poetics. The experiments demonstrate how literary frameworks and computational tools can create dynamic, engaging forms of digital writing that respond to user interaction.
 

@@ -1145,13 +1145,15 @@ button:disabled {
 
     /* Add new mobile header/title fixes */
     h1 {
-        position: relative;
+        position: sticky;
+        top: 0;
         width: 100%;
         left: 0;
         transform: none;
         text-align: center;
+        background: var(--color-background); /* Ensure background color */
+        z-index: var(--z-header); /* Ensure it stays on top */
     }
-    
     .container {
         overflow-x: hidden;
         width: 100vw;
