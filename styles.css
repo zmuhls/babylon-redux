@@ -9,6 +9,7 @@
     --color-accent: #4a90e2; /* Blue accent color */
     --color-muted: #888888; /* Muted grey color for less important text */
     --color-scroll-background: #0a0a0a; /* Background color when scrolled to the bottom */
+    --scrollbar-color: var(--color-accent) rgba(0, 0, 0, 0.2);
 
     /* Typography */
     --font-primary: 'IBM Plex Mono', 'Courier New', monospace; /* Primary font family */
@@ -90,6 +91,7 @@ h1 {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.088); /* Subtle text shadow */
     margin-top: var(--spacing-unit); /* Top margin */
     margin-bottom: var(--spacing-unit); /* Bottom margin */
+    
 }
 
 h2 {
@@ -1052,9 +1054,9 @@ button:disabled {
 
 /* Timeline Styles */
 .timeline {
-    max-width: 800px;
+    max-width: 600px;
     margin: 2rem auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
 }
 .event {
     margin-bottom: 2rem;
@@ -1067,19 +1069,25 @@ button:disabled {
     align-items: center;
     margin-bottom: 1rem;
 }
+
 .event-date {
     color: var(--color-accent);
 }
+
 .constraint-example {
     margin-top: 1rem;
     padding-left: 1rem;
     font-style: italic;
 }
+
 .tooltip {
     border-bottom: 1px dotted var(--color-accent);
+    font-size: 1rem;
     cursor: help;
+    text-align: left;
     position: relative;
 }
+
 .tooltip-text {
     display: none;
     position: absolute;
