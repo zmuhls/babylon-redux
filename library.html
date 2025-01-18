@@ -21,44 +21,48 @@
                 <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
                 <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
-    </nav>
-</header>
-<h1>Resources</h1>  
-<main class="container">
-    <div class="grid">
-        <div class="card">
-            <h3><a href="timeline.html">OuLiPo Timeline</a></h3>
-            <p>Historical timeline of the OuLiPo group, its members, and their use of literary constraints.</p>
-        </div>
+        </nav>
+    </header>
+    <main class="container">
+        <h1>Resource Library</h1>  
+        <div class="grid">
+            <div class="card">
+                <h3 class="card-title"><a href="timeline.html">OuLiPo Timeline</a></h3>
+                <p>Historical timeline of the OuLiPo group, its members, and their use of literary constraints.</p>
+            </div>
 
-        <div class="card">
-            <h3><a href="https://www.borges.pitt.edu/">Borges Center</a></h3>
-            <p>Access the Borges Center's digital library of Jorge Luis Borges' works, essays, and resources.</p>
+            <div class="card">
+                <h3 class="card-title"><a href="https://www.borges.pitt.edu/">Borges Center</a></h3>
+                <p>Access the Borges Center's digital library of Jorge Luis Borges' works, essays, and resources.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><a href="https://codesandbox.io/p/github/zmuhls/babylon-redux/draft/strange-cannon?embed=1&file=%2Findex.html">CodeSandbox</a></h3>
+                <p>Explore the Babylon Redux project in an interactive CodeSandbox environment.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><a href="https://github.com/zmuhls/babylon-redux">GitHub Repository</a></h3>
+                <p>Access the GitHub repository for this project to view and clone the source code or to contribute to a webtext.</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><a href="https://drive.google.com/drive/folders/1kEyPc3K1jiwS2svRseiPv8QZEcfYIsVo?usp=sharing">MLA 2025 Public Drive</a></h3>
+                <p>Check out the presentation materials for the Jan. 2025 MLA panel, "Prompt Engineering as Literary Criticism, Rhetoric, and Creative Writing."</p>
+            </div>
         </div>
-    <div class="card">
-        <h3><a href="https://codesandbox.io/p/github/zmuhls/babylon-redux/draft/strange-cannon?embed=1&file=%2Findex.html">CodeSandbox</a></h3>
-        <p>Explore the Babylon Redux project in an interactive CodeSandbox environment.</p>
-    </div>
-</br>
-    <div class="card">
-        <h3><a href="https://github.com/zmuhls/babylon-redux">GitHub Repository</a></h3>
-        <p>Access the GitHub repository for this project to view and clone the source code or to contribute to a webtext.</p>
-    </div>
-</br>
-    </div>
-</div>
-</main>
-<script>   
-    // Mobile menu toggle functionality
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    dropdownToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('show');
-        dropdownToggle.setAttribute('aria-expanded', 
-            dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-        );
-    });
-</script>
+    </main>
+    <script>   
+        // Mobile menu toggle functionality
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        dropdownToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            dropdownToggle.setAttribute('aria-expanded', 
+                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
+        });
+    </script>
 </body>
 </html>

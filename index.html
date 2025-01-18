@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Babylon Redux | Prompt Engineering Potential Literature</title>
+    <title>Babylon Redux | Workshop of Potential Webtexts</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,11 +23,10 @@
             </ul>
         </nav>
     </header>
-
     <main class="container">
-        <h1 class="title">Babylon Redux</h1>
         <section class="hero fade-in">
-            <p class="subtitle">Prompt Engineering Potential Literature</p>
+            <h1 class="title">Babylon Redux</h1>
+            <p class="subtitle">Workshop of Potential Prompts</p>
             <p id="dynamicText" class="dynamic-text"></p>
         </section>
         <section class="manifesto fade-in">
@@ -205,6 +204,39 @@
 
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         });
+    
+        document.addEventListener('DOMContentLoaded', () => {
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    // Toggle mobile menu
+    dropdownToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+        dropdownToggle.setAttribute('aria-expanded', navLinks.classList.contains('show'));
+    });
+
+    // Enable dropdown menus
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        const menu = dropdown.querySelector('.dropdown-menu');
+
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            menu.classList.toggle('show');
+        });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (menu) menu.classList.remove('show');
+            });
+        }
+    });
+});
     </script>
 </body>
 </html>

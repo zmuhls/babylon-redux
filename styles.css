@@ -83,12 +83,11 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: 2.5rem; /* Large font size */
+    font-size: 2.25rem; /* Large font size */
     text-align: center; /* Center align */
     color: var(--color-secondary); /* Secondary color */
     font-variant: all-small-caps; /* Small caps variant */
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.088); /* Subtle text shadow */
-    text-decoration: overline; /* Overline decoration */
     margin-top: var(--spacing-unit); /* Top margin */
     margin-bottom: var(--spacing-unit); /* Bottom margin */
 }
@@ -198,29 +197,34 @@ button:disabled {
 .nav-link {
     color: var(--color-text); /* Text color */
     text-decoration: none; /* Remove underline */
-    font-size: 1.1rem; /* Font size */
-    padding: 0.5rem 1rem; /* Padding */
+    font-size: 1rem; /* Font size */
+    padding: 0.5rem .5rem; /* Padding */
     transition: var(--transition-base); /* Smooth transition */
-    border-bottom: 2px solid transparent; /* Transparent bottom border */
+    border-bottom: .5px solid transparent; /* Transparent bottom border */
     white-space: nowrap; /* Prevent wrapping */
     display: block; /* Block display */
 }
 
 .nav-link:hover {
     color: var(--color-secondary); /* Secondary color on hover */
-    border-bottom-color: var(--color-accent); /* Accent color bottom border */
+    font-size: calc(1rem * 1.05); /* Slightly larger font size on hover */
+    border-bottom: 1px solid var(--color-accent); /* Accent color bottom border */
+    transition: color 0.2s ease, font-size 0.3s ease, border-bottom-color 0.1s ease; /* Smooth transition */
 }
 
 /* Dropdown-specific styles */
-.nav-links .dropdown {
-    display: none; /* Hide dropdown */
-    list-style: none; /* Remove list style */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
-    position: absolute; /* Absolute positioning */
-    background-color: var(--color-surface); /* Surface color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow */
-    border-radius: 4px; /* Rounded corners */
+.dropdown-menu .dropdown {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: var(--color-surface);
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .nav-links .dropdown li {
@@ -300,7 +304,6 @@ button:disabled {
     font-variant: all-small-caps; /* Small caps variant */
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow */
     text-align: center; /* Center align */
-    text-decoration: overline; /* Overline decoration */
     margin-top: var(--spacing-unit); /* Top margin */
 }
 
