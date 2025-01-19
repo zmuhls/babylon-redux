@@ -1,6 +1,6 @@
 # Babylon Redux
 ## Prompt Engineering Potential Literature
-Babylon Redux explores the intersection of computational methods and literary constraints, reimagining Jorge Luis Borges' _Library of Babel_ through a series of interactive webtext experiments. Drawing from various code-generating tools, such as ChatGPT-4o and Claude-3.5 Sonnet, the project revisits the Oulipo's procedural aesthetics to combine literary and computational constraints in crafting algorithmic compositions and experimental genres of electronic literature. 
+This website transforms Jorge Luis Borges’ Library of Babel into a collection of interactive webtexts spanning combinatorial tools, algorithmic cut-ups, and more. Each project combines literary and computational constraints to remix and reconfigure Borges' passages into new digital forms, bridging creative expression with algorithmic play. Inspired by the playful rigor of OULIPO and Johanna Drucker’s work on stochastic poetics, the project showcases how computational methods and literary frameworks intersect to make creative writing more interactive, engaging, and adaptable to digital environments.
 
 ## Links
 - [Homepage](https://zmuhls.github.io/babylon-redux)
