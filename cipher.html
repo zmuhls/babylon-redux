@@ -11,6 +11,7 @@
         <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
             Menu
         </button>
+
         <ul class="nav-links" role="menu" id="navMenu">
           <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
           <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
@@ -20,9 +21,16 @@
           <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
           <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
       </ul>
+      
     </nav>
   </header>
-  <h1>Cipher Text</h1>
+  <div class="fade-in">
+    <div class="title">Cipher Text</div>
+    <section class="instructions">
+      <h3>Click cipher blocks to reveal decryption hints.</h3>
+      <h4><i>The Library exists ab aeterno</i></h4>
+    </section>
+  </div>
   <div id="decoder-banner">
     <div class="decoder-method" data-method="shift">Use Shift Cipher: n = (x + 23) mod 26</div>
     <div class="decoder-method" data-method="vigenere">Use Vigenère: k[i] = (p[i] + key[i]) mod 23</div>

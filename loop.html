@@ -23,15 +23,19 @@
             </ul>
         </nav>
     </header>
-    <h1>Index Loop</h1>
-    <div id="debug-info">Initializing...</div>
     <div class="fade-in">
-        <p><center>Click on a term to pause the loop</br>-</br>Borges or AI? </br>You decide</center></p>
-        <div class="container">
-            <div id="dictionaryContainer"></div>
+        <div class="title">Index Loop</div>
+        <section class="content">
+            <h3>Click an entry to pause the loop. Click again to resume.</h3>
+            <h4><center>Borges or Claude? You decide.</center></h4>
         </div>
-    </div>
-
+            <div id="debug-info">Initializing...</div>
+            <div class="container"><div id="dictionaryContainer">
+                <!-- Dictionary entries will be inserted here -->
+                </div>
+            </div>
+        </section>
+    </body> 
     <script>
         const entries = [
             { word: "A - Abællion", definition: "n. A hypothetical space within the library where all contradictions are resolved." },
