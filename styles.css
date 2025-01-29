@@ -1,4 +1,4 @@
-/* Root Variables and Reset */
+/*  Root Variables + Reset */ 
 /* ========================================================================== */
 :root {
     /* Core Palette */
@@ -9,6 +9,7 @@
     --color-text: #e0e0e0; /* Light grey text color */
     --color-accent: #4a90e2; /* Blue accent color */
     --color-muted: #888888; /* Muted grey for secondary text */
+    --color-background-extended: #1a1a1a; /* Extended background color */
 
     /* States and Alerts */
     --color-success: #4caf50; /* Green for success */
@@ -50,7 +51,7 @@
 html, body {
     min-height: var(--min-height);
     min-width: var(--min-width);
-    }
+}
 
 body {
     font-family: var(--font-primary); /* Apply primary font family */
@@ -62,7 +63,9 @@ body {
         var(--color-surface) 50%, 
         var(--color-background) 95%); /* Gradient background */
     min-height: 100vh; /* Ensure body takes at least full viewport height */
+    height: 200vh;
     padding-top: var(--header-height); /* Add padding to avoid content being hidden behind fixed header */
+    background-color: var(--color-background-extended); /* Extended background color */
 }
 
 footer {
@@ -118,10 +121,13 @@ h2 {
 }
 
 h3 {
-    font-size: 1rem; /* Smaller font size */
+    font-size: 1rem; /* Adjusted font size for better readability */
     margin-bottom: var(--spacing-unit); /* Bottom margin */
-    color: var(--color-text); /* Text color */ 
+    color: var(--color-accent); /* Accent color for emphasis */
     text-align: center; /* Center align text */
+    font-weight: bold; /* Bold text for prominence */
+    text-transform: capitalize; /* Capitalize text for a sleek look */
+    letter-spacing: 0.05em; /* Slight letter spacing for readability */
 }
 
 h4 {
@@ -154,6 +160,7 @@ p:focus-visible {
 a {
     color: var(--color-accent); /* Accent color */
     text-decoration: underline; /* Underline links */
+    text-decoration-thickness: 1px; /* Thinner underline */
     transition: var(--transition-base); /* Smooth transition */
 }
 
@@ -358,7 +365,7 @@ button:disabled {
     color: var(--color-accent); /* Accent color */
     text-align: center; /* Center align */
     margin: calc(var(--spacing-unit) * 2) 0; /* Margin */
-    padding-top: 2.5rem; /* Padding */
+    padding: 2.5rem; /* Padding */
 
 }
 
@@ -385,6 +392,7 @@ button:disabled {
 }
 
 .card:hover {
+    background: rgba(255, 255, 255, 0.1); /* Slightly different background on hover */
     transform: translateY(-4px); /* Move up on hover */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
@@ -393,6 +401,18 @@ button:disabled {
     color: var(--color-accent); /* Accent color */
     font-size: 1.3rem; /* Font size */
     margin-bottom: var(--spacing-unit); /* Bottom margin */
+}
+.card-alt {
+    background: rgba(255, 255, 255, 0.1); /* Slightly different background */
+    transform: translateY(-4px); /* Move up on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+    border: 1px dashed var(--color-accent); /* Dashed accent border */
+}
+
+.card-alt:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2)); /* Gradient background on hover */
+    transform: translateY(-4px) rotate(2deg); /* Move up and slightly rotate on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.3); /* Shadow on hover with additional glow */
 }
 
 /* Navigation for mobile devices */
