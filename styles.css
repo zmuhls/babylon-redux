@@ -72,8 +72,9 @@ footer {
     text-align: center; /* Center align text */
     padding: var(--spacing-unit); /* Apply spacing */
     color: var(--color-secondary); /* Apply secondary color */
-    font-size: 1.5rem; /* Increase font size */
-    position: fixed; /* Fix position at the bottom */
+    font-size: .75rem; /* Increase font size */
+    background: var(--color-background); /* Apply background color */
+    position: relative;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%); /* Center horizontally */
@@ -125,8 +126,6 @@ h3 {
     margin-bottom: var(--spacing-unit); /* Bottom margin */
     color: var(--color-accent); /* Accent color for emphasis */
     text-align: center; /* Center align text */
-    font-weight: bold; /* Bold text for prominence */
-    text-transform: capitalize; /* Capitalize text for a sleek look */
     letter-spacing: 0.05em; /* Slight letter spacing for readability */
 }
 
@@ -366,7 +365,6 @@ button:disabled {
     text-align: center; /* Center align */
     margin: calc(var(--spacing-unit) * 2) 0; /* Margin */
     padding: 2.5rem; /* Padding */
-
 }
 
 .manifesto {
@@ -713,7 +711,8 @@ button:disabled {
     width: 100%;
     height: 100%;
     pointer-events: none; /* Prevent interference with user interactions */
-    z-index: 90; /* Below poetry */
+    z-index: 80; /* Below poetry */
+    pointer-events: painted; /* Allow painting */
 }
 
 .number-display {
@@ -783,11 +782,11 @@ button:disabled {
 
 @keyframes fadeIn {
     from { 
-        opacity: 0.4;
-        transform: scale(.2);
+        opacity: 0.075;
+        transform: scale(.25);
     }
     to { 
-        opacity: .95;
+        opacity: 1;
         transform: scale(1);
     }
 }
