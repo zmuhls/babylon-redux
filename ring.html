@@ -966,12 +966,20 @@
                         }
                     });
                     
-                    // Remove instructions after first interaction
+                    // Remove instructions after first interaction (mouse/touch)
                     interactionArea.addEventListener('mousemove', function removeInstructions() {
                         if (instructions.parentNode) {
                             instructions.parentNode.removeChild(instructions);
                         }
                         interactionArea.removeEventListener('mousemove', removeInstructions);
+                    }, { once: true });
+                    
+                    // Remove instructions on touch events for mobile
+                    interactionArea.addEventListener('touchstart', function removeInstructionsTouch() {
+                        if (instructions.parentNode) {
+                            instructions.parentNode.removeChild(instructions);
+                        }
+                        interactionArea.removeEventListener('touchstart', removeInstructionsTouch);
                     }, { once: true });
                     
                     // Add event listeners for all toggle controls
