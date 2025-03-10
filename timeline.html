@@ -3,41 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline of Oulipo</title>
+    <title>Oulipo Timeline | Babylon Redux</title>
+    <meta name="description" content="Historical timeline of the Oulipo literary movement, its members, and their constrained writing techniques.">
     <link rel="stylesheet" href="styles.css">
     <style>
-        h3 {
+        .event-header h3 {
             font-size: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1rem;
             text-align: left;
         }
         li {
             text-align: left;
         }
+        .works-cited h3 {
+            text-align: center;
+            margin-top: 2rem;
+        }
     </style>
 </head>
 <body>
-    
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="header">
-        <nav class="nav">
-            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <nav class="nav" aria-label="Main navigation">
+            <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Toggle menu">
                 Menu
             </button>
             <ul class="nav-links" role="menu" id="navMenu">
-                <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-                <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-                <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
-                <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
-                <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
-                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
-                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+                <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                <li role="none"><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+                <li role="none"><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+                <li role="none"><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+                <li role="none"><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li role="none"><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li role="none"><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
-<section class="hero fade-in">
-    <h1 class="title">Oulipo Timeline</h1>
-    <section class="timeline-intro">
-    <main class="timeline">
+    
+    <main id="main-content" class="container">
+        <section class="hero">
+            <h1 class="title">Oulipo Timeline</h1>
+            <p class="subtitle">A chronology of constrained writing techniques and key figures</p>
+        </section>
+        
+        <div class="timeline">
         <article class="event">
             <div class="event-header">
                 <h3>Founding of OuLiPo</h3>
@@ -189,21 +198,97 @@
                 Wikipedia contributors. "Georges Perec." <i>Wikipedia, The Free Encyclopedia</i>. <a href="https://en.wikipedia.org/wiki/Georges_Perec">Link</a>.
             </li>
         </ul>
-    </section>
+    </div>
+        
+        <hr aria-hidden="true">
+        
+        <footer role="contentinfo">
+            <p><em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+        </footer>
     </main>
 
     <script>
-      const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        dropdownToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-            dropdownToggle.setAttribute('aria-expanded', 
-                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-            );
+        // Dropdown menu functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            let isDropdownOpen = false;
+
+            // Function to close dropdown
+            function closeDropdown() {
+                navLinks.classList.remove('active');
+                dropdownToggle.classList.remove('active');
+                dropdownToggle.setAttribute('aria-expanded', 'false');
+                isDropdownOpen = false;
+            }
+
+            // Function to open dropdown
+            function openDropdown() {
+                navLinks.classList.add('active');
+                dropdownToggle.classList.add('active');
+                dropdownToggle.setAttribute('aria-expanded', 'true');
+                isDropdownOpen = true;
+            }
+
+            // Toggle dropdown on button click
+            dropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isDropdownOpen) {
+                    closeDropdown();
+                } else {
+                    openDropdown();
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (isDropdownOpen && !e.target.closest('.nav')) {
+                    closeDropdown();
+                }
+            });
+
+            // Close dropdown when pressing Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isDropdownOpen) {
+                    closeDropdown();
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && isDropdownOpen) {
+                    closeDropdown();
+                }
+            });
+
+            // Add keyboard navigation within dropdown
+            navLinks.addEventListener('keydown', (e) => {
+                const items = [...navLinks.querySelectorAll('.nav-link')];
+                const currentIndex = items.indexOf(document.activeElement);
+
+                switch (e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        items[(currentIndex + 1) % items.length].focus();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        items[currentIndex > 0 ? currentIndex - 1 : items.length - 1].focus();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        items[0].focus();
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        items[items.length - 1].focus();
+                        break;
+                }
+            });
+            
+            // Update year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
         });
-    // Update year
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

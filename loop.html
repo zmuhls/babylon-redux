@@ -3,249 +3,876 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index Loop</title>
+    <title>Index Loop | Babylon Redux</title>
+    <meta name="description" content="A 26-word dictionary of Borgesian terms and AI-generated neologisms that shifts alphabetically with the rhythm of a beating human heart.">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="header">
-        <nav class="nav">
-            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <nav class="nav" aria-label="Main navigation">
+            <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Toggle menu">
                 Menu
             </button>
             <ul class="nav-links" role="menu" id="navMenu">
-                <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-                <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-                <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
-                <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
-                <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
-                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
-                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+                <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                <li role="none"><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+                <li role="none"><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+                <li role="none"><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+                <li role="none"><a href="loop.html" class="nav-link" role="menuitem" aria-current="page">Index Loop</a></li>
+                <li role="none"><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li role="none"><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
-    <div class="fade-in">
-        <div class="title">Index Loop</div>
-        <section class="content">
-            <h3>Click an entry to pause the loop. Click again to resume.</h3>
-            <h4><center>Borges or Claude? You decide.</center></h4>
-        </div>
-            <div id="debug-info">Initializing...</div>
-            <div class="container"><div id="dictionaryContainer">
-                <!-- Dictionary entries will be inserted here -->
+    <main id="main-content" class="container">
+        <section class="hero">
+            <h1 class="title">Index Loop</h1>
+            <p class="subtitle">Borgesian Lexicon & Neologisms</p>
+            <p id="heartbeatStatus" class="heartbeat-status" aria-live="polite">Initializing heartbeat...</p>
+        </section>
+
+        <!-- 2-column layout for top section -->
+        <div class="index-loop-layout">
+            <section class="introduction">
+                <h2 class="text-center" style="color: var(--color-primary);">About This Dictionary</h2>
+                <p>This algorithmic dictionary shifts alphabetically with the rhythm of a beating heart. Each entry represents a term from Borges' lexicon or an AI-generated neologism that extends his conceptual universe.</p>
+                <p>The definitions cycle at the pace of a human heartbeat, with each pulse shifting the alphabetical order.</p>
+                <p class="subtle-prompt">Can you distinguish which terms were created by Borges and which by Claude?</p>
+            </section>
+
+            <section class="controls">
+                <div class="settings">
+                    <h3 class="text-center">Interaction Settings</h3>
+                    <div class="heartbeat-controls">
+                        <div class="control-grid">
+                            <div class="heartbeat-status-container">
+                                <div id="debug-info" class="status-badge">Initializing...</div>
+                                <div id="heartbeatGraphicDisplay" class="heartbeat-display"></div>
+                            </div>
+                            <button id="toggleHeartbeat" class="heartbeat-button" aria-label="Toggle heartbeat">
+                                <span class="heartbeat-icon">♥</span> Toggle
+                            </button>
+                            <button id="decreaseSpeed" class="speed-button" aria-label="Decrease heartbeat speed">
+                                <span>-</span> Slower
+                            </button>
+                            <button id="increaseSpeed" class="speed-button" aria-label="Increase heartbeat speed">
+                                <span>+</span> Faster
+                            </button>
+                        </div>
+                    </div>
+                    <div class="user-tip">
+                        <p><strong>Click any entry to pause the loop and explore the definition. Click again to resume the heartbeat.</strong></p>
+                    </div>
                 </div>
+            </section>
+        </div>
+        
+        <section class="content">
+            <div id="dictionaryContainer" class="dictionary-container">
+                <!-- Dictionary entries will be inserted here -->
             </div>
         </section>
-    </body> 
+        
+        <footer role="contentinfo">
+            <p><em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+        </footer>
+    </main>
     <script>
-        const entries = [
-            { word: "A - Abællion", definition: "n. A hypothetical space within the library where all contradictions are resolved." },
-            { word: "B - Bibliotaph", definition: "n. One who buries books by hiding them in the endless shelves." },
-            { word: "C - Chronosphere", definition: "n. A theoretical device for measuring time's infinite bifurcations." },
-            { word: "D - Dialexicon", definition: "n. An index of all possible dialogues ever conceived." },
-            { word: "E - Eternicon", definition: "n. The concept of infinity as manifested in the physical space of the library." },
-            { word: "F - Fabulist", definition: "n. A creator of fables, often blurring the lines between reality and fiction." },
-            { word: "G - Gnososphere", definition: "n. An imagined realm where all knowledge exists simultaneously." },
-            { word: "H - Hexagrammaton", definition: "n. A six-sided figure representing the infinite permutations of sacred texts." },
-            { word: "I - Infinitor", definition: "n. One who catalogues the endless variations of a single text." },
-            { word: "J - Jotunheim", definition: "n. In Norse mythology, the land of giants." },
-            { word: "K - Kaleidograph", definition: "n. A device that produces changing patterns or sequences." },
-            { word: "L - Labyrinthine", definition: "adj. Like a labyrinth; irregular and twisting." },
-            { word: "M - Memnosyne", definition: "n. An artificial construct for perfect recall of all possible memories." },
-            { word: "N - Nefelibata", definition: "n. One who lives in the clouds of their own imagination." },
-            { word: "O - Omnilexicon", definition: "n. A theoretical complete catalogue of all possible words." },
-            { word: "P - Palindrox", definition: "n. A paradox that reads the same forwards and backwards in time." },
-            { word: "Q - Quixotron", definition: "n. An apparatus for measuring the degree of literary delusion." },
-            { word: "R - Rhapsodomancy", definition: "n. Divination by means of verses or lines from poetry." },
-            { word: "S - Scriptorium", definition: "n. A room for writing, especially one in a monastery." },
-            { word: "T - Tempograph", definition: "n. An instrument for recording the passage of infinite time." },
-            { word: "U - Ubiquitous", definition: "adj. Present, appearing, or found everywhere." },
-            { word: "V - Vortext", definition: "n. A spiral arrangement of words that creates multiple meanings." },
-            { word: "W - Wanderlexicon", definition: "n. A dictionary that constantly rearranges its own entries." },
-            { word: "X - Xenotime", definition: "n. Time as experienced by beings from other dimensions." },
-            { word: "Y - Ylem", definition: "n. The primordial substance from which all texts are derived." },
-            { word: "Z - Zettelkasten", definition: "n. A box or system used for organizing notes and ideas." }
-        ];
-        let currentIndex = 0;
-        let isPaused = false;
-        let heartbeatInterval;
-
-        function displayEntries() {
-            // Sort entries alphabetically by word
-            const sortedEntries = [...entries].sort((a, b) => a.word.localeCompare(b.word));
-            // Rotate entries based on current index
-            const rotatedEntries = [
-            ...sortedEntries.slice(currentIndex),
-            ...sortedEntries.slice(0, currentIndex)
+        // Dictionary entries module
+        const DictionaryModule = (function() {
+            // Dictionary entries data
+            const entries = [
+                { word: "A - Abællion", definition: "n. A hypothetical space within the library where all contradictions are resolved." },
+                { word: "B - Bibliotaph", definition: "n. One who buries books by hiding them in the endless shelves." },
+                { word: "C - Chronosphere", definition: "n. A theoretical device for measuring time's infinite bifurcations." },
+                { word: "D - Dialexicon", definition: "n. An index of all possible dialogues ever conceived." },
+                { word: "E - Eternicon", definition: "n. The concept of infinity as manifested in the physical space of the library." },
+                { word: "F - Fabulist", definition: "n. A creator of fables, often blurring the lines between reality and fiction." },
+                { word: "G - Gnososphere", definition: "n. An imagined realm where all knowledge exists simultaneously." },
+                { word: "H - Hexagrammaton", definition: "n. A six-sided figure representing the infinite permutations of sacred texts." },
+                { word: "I - Infinitor", definition: "n. One who catalogues the endless variations of a single text." },
+                { word: "J - Jotunheim", definition: "n. In Norse mythology, the land of giants." },
+                { word: "K - Kaleidograph", definition: "n. A device that produces changing patterns or sequences." },
+                { word: "L - Labyrinthine", definition: "adj. Like a labyrinth; irregular and twisting." },
+                { word: "M - Memnosyne", definition: "n. An artificial construct for perfect recall of all possible memories." },
+                { word: "N - Nefelibata", definition: "n. One who lives in the clouds of their own imagination." },
+                { word: "O - Omnilexicon", definition: "n. A theoretical complete catalogue of all possible words." },
+                { word: "P - Palindrox", definition: "n. A paradox that reads the same forwards and backwards in time." },
+                { word: "Q - Quixotron", definition: "n. An apparatus for measuring the degree of literary delusion." },
+                { word: "R - Rhapsodomancy", definition: "n. Divination by means of verses or lines from poetry." },
+                { word: "S - Scriptorium", definition: "n. A room for writing, especially one in a monastery." },
+                { word: "T - Tempograph", definition: "n. An instrument for recording the passage of infinite time." },
+                { word: "U - Ubiquitous", definition: "adj. Present, appearing, or found everywhere." },
+                { word: "V - Vortext", definition: "n. A spiral arrangement of words that creates multiple meanings." },
+                { word: "W - Wanderlexicon", definition: "n. A dictionary that constantly rearranges its own entries." },
+                { word: "X - Xenotime", definition: "n. Time as experienced by beings from other dimensions." },
+                { word: "Y - Ylem", definition: "n. The primordial substance from which all texts are derived." },
+                { word: "Z - Zettelkasten", definition: "n. A box or system used for organizing notes and ideas." }
             ];
-            const container = document.getElementById("dictionaryContainer");
-            container.innerHTML = "";
-            // Create and append divs for each entry
-            rotatedEntries.forEach(entry => {
-            const div = document.createElement("div");
-            div.className = "dictionary-entry";
-            div.innerHTML = `<div class="word">${entry.word}</div><div class="definition">${entry.definition}</div>`;
-            container.appendChild(div);
-            });
-            // Update debug info with current index and pause status
-            updateDebugInfo(`Alphabetic shift: ${currentIndex}${isPaused ? ' (Paused)' : ''}`);
-        }
-
-        function updateDebugInfo(message) {
-            // Update the debug info element with the provided message
-            document.getElementById("debug-info").innerText = message;
-        }
-
-        function simulateHeartbeat() {
-            if (isPaused) return;
             
-            // First beat "lub"
-            shiftIndex();
+            let currentIndex = 0;
+            let activeEntryIndex = null;
             
-            // Second beat "dub" after 100ms
-            setTimeout(() => {
-                if (!isPaused) shiftIndex();
-            }, 100);
-        }
-        
-        function startHeartbeat() {
-            // Average resting heart rate: ~75 bpm = ~850ms between beats
-            const beatInterval = 850;
-            heartbeatInterval = setInterval(simulateHeartbeat, beatInterval);
-            updateDebugInfo('Heartbeat active');
-        }
-        
-        function stopHeartbeat() {
-            clearInterval(heartbeatInterval);
-            updateDebugInfo('Heartbeat paused');
-        }
-        
-        function shiftIndex() {
-            if (!isPaused) {
-                currentIndex = (currentIndex + 1) % entries.length;
-                displayEntries();
+            // Sort entries alphabetically
+            function getSortedEntries() {
+                return [...entries].sort((a, b) => a.word.localeCompare(b.word));
             }
-        }
-
-        // Add click handlers to toggle pause on definition clicks
-        document.addEventListener('click', (event) => {
-            if (event.target.closest('.dictionary-entry')) {
+            
+            // Get entries rotated to current position
+            function getRotatedEntries() {
+                const sortedEntries = getSortedEntries();
+                return [
+                    ...sortedEntries.slice(currentIndex),
+                    ...sortedEntries.slice(0, currentIndex)
+                ];
+            }
+            
+            // Advance the index
+            function advanceIndex() {
+                currentIndex = (currentIndex + 1) % entries.length;
+                return currentIndex;
+            }
+            
+            // Get current index
+            function getCurrentIndex() {
+                return currentIndex;
+            }
+            
+            // Set active entry
+            function setActiveEntry(index) {
+                activeEntryIndex = index;
+            }
+            
+            // Get active entry
+            function getActiveEntry() {
+                return activeEntryIndex;
+            }
+            
+            // Public API
+            return {
+                getEntries: function() { return entries; },
+                getSortedEntries: getSortedEntries,
+                getRotatedEntries: getRotatedEntries,
+                advanceIndex: advanceIndex,
+                getCurrentIndex: getCurrentIndex,
+                setActiveEntry: setActiveEntry,
+                getActiveEntry: getActiveEntry
+            };
+        })();
+        
+        // Heartbeat controller module
+        const HeartbeatModule = (function() {
+            const heartbeatStatus = document.getElementById("heartbeatStatus");
+            heartbeatStatus.style.color = "var(--color-accent)"; // Set initial color to match dynamic text
+            const debugInfo = document.getElementById("debug-info");
+            let isPaused = false;
+            let heartbeatInterval;
+            let currentBPM = 75; // Default heart rate in beats per minute
+            const MIN_BPM = 40;  // Minimum heart rate
+            const MAX_BPM = 180; // Maximum heart rate
+            const BPM_STEP = 5;  // Step size for BPM changes
+            
+            // Create a visual beat function (we've removed the cardiograph display)
+            function createVisualBeat() {
+                // We're no longer displaying the green heartbeat indicator
+                // but still keeping this function for other code that might call it
+                return;
+            }
+            
+            // Create a heartbeat graphic element
+            function createHeartbeatGraphic() {
+                const heartbeat = document.createElement('div');
+                heartbeat.className = 'heartbeat-graphic';
+                heartbeat.innerHTML = `
+                    <svg width="40" height="20" viewBox="0 0 40 20">
+                        <path class="heartbeat-line" d="M 0,10 L 5,10 L 8,3 L 12,17 L 15,0 L 18,20 L 22,10 L 40,10" />
+                    </svg>
+                `;
+                return heartbeat;
+            }
+            
+            // Simulate heartbeat with two pulses (lub-dub)
+            function simulateHeartbeat() {
+                if (isPaused) return;
+                
+                // First beat
+                DictionaryModule.advanceIndex();
+                createVisualBeat();
+                UIModule.displayEntries();
+                
+                // Second beat after 100ms
+                setTimeout(() => {
+                    if (!isPaused) {
+                        DictionaryModule.advanceIndex();
+                        createVisualBeat();
+                        UIModule.displayEntries();
+                    }
+                }, 100);
+            }
+            
+            // Start the heartbeat
+            function startHeartbeat() {
+                // Calculate interval based on BPM
+                // 60000 ms / BPM = ms between beats
+                const beatInterval = Math.floor(60000 / currentBPM);
+                
+                // Clear existing interval if any
+                if (heartbeatInterval) {
+                    clearInterval(heartbeatInterval);
+                }
+                
+                // Set new interval
+                heartbeatInterval = setInterval(simulateHeartbeat, beatInterval);
+                updateStatus(`${currentBPM} BPM | Active`);
+                heartbeatStatus.textContent = `Heartbeat active (${currentBPM} bpm)`;
+                heartbeatStatus.style.color = "var(--color-accent)";
+            }
+            
+            // Stop the heartbeat
+            function stopHeartbeat() {
+                clearInterval(heartbeatInterval);
+                updateStatus(`${currentBPM} BPM | Paused`);
+                heartbeatStatus.textContent = "Heartbeat paused. Click any entry to resume.";
+                heartbeatStatus.style.color = "var(--color-accent)";
+            }
+            
+            // Toggle the heartbeat on/off
+            function toggleHeartbeat() {
                 isPaused = !isPaused;
                 if (isPaused) {
                     stopHeartbeat();
                 } else {
                     startHeartbeat();
                 }
+                
+                // Update the button appearance
+                const toggleBtn = document.getElementById('toggleHeartbeat');
+                if (toggleBtn) {
+                    toggleBtn.classList.toggle('active', !isPaused);
+                }
+                
+                // Update the heartbeat display
+                if (UIModule && UIModule.updateHeartbeatDisplay) {
+                    setTimeout(() => UIModule.updateHeartbeatDisplay(), 0);
+                }
+                
+                return isPaused;
             }
+            
+            // Increase the heartbeat speed
+            function increaseSpeed() {
+                if (currentBPM < MAX_BPM) {
+                    currentBPM += BPM_STEP;
+                    if (!isPaused) {
+                        startHeartbeat(); // Restart with new speed
+                    } else {
+                        updateStatus(`${currentBPM} BPM | Paused`);
+                    }
+                    heartbeatStatus.textContent = isPaused ? 
+                        `Heartbeat paused (${currentBPM} bpm). Click any entry to resume.` : 
+                        `Heartbeat active (${currentBPM} bpm)`;
+                    heartbeatStatus.style.color = "var(--color-accent)";
+                    
+                    // Update the heartbeat display
+                    if (UIModule && UIModule.updateHeartbeatDisplay) {
+                        UIModule.updateHeartbeatDisplay();
+                    }
+                    
+                    // Update animation speed
+                    if (UIModule && UIModule.updateHeartbeatAnimationSpeed) {
+                        UIModule.updateHeartbeatAnimationSpeed();
+                    }
+                }
+            }
+            
+            // Decrease the heartbeat speed
+            function decreaseSpeed() {
+                if (currentBPM > MIN_BPM) {
+                    currentBPM -= BPM_STEP;
+                    if (!isPaused) {
+                        startHeartbeat(); // Restart with new speed
+                    } else {
+                        updateStatus(`${currentBPM} BPM | Paused`);
+                    }
+                    heartbeatStatus.textContent = isPaused ? 
+                        `Heartbeat paused (${currentBPM} bpm). Click any entry to resume.` : 
+                        `Heartbeat active (${currentBPM} bpm)`;
+                    heartbeatStatus.style.color = "var(--color-accent)";
+                    
+                    // Update the heartbeat display
+                    if (UIModule && UIModule.updateHeartbeatDisplay) {
+                        UIModule.updateHeartbeatDisplay();
+                    }
+                    
+                    // Update animation speed
+                    if (UIModule && UIModule.updateHeartbeatAnimationSpeed) {
+                        UIModule.updateHeartbeatAnimationSpeed();
+                    }
+                }
+            }
+            
+            // Update status message
+            function updateStatus(message) {
+                debugInfo.textContent = message;
+            }
+            
+            // Toggle pause state
+            function togglePause() {
+                return toggleHeartbeat(); // Use the same function for consistency
+            }
+            
+            // Initialize event listeners for control buttons
+            function initControls() {
+                const toggleBtn = document.getElementById('toggleHeartbeat');
+                const increaseBtn = document.getElementById('increaseSpeed');
+                const decreaseBtn = document.getElementById('decreaseSpeed');
+                
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        toggleHeartbeat();
+                    });
+                }
+                
+                if (increaseBtn) {
+                    increaseBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        increaseSpeed();
+                    });
+                }
+                
+                if (decreaseBtn) {
+                    decreaseBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        decreaseSpeed();
+                    });
+                }
+            }
+            
+            // Public API
+            return {
+                start: startHeartbeat,
+                stop: stopHeartbeat,
+                updateStatus: updateStatus,
+                togglePause: togglePause,
+                toggleHeartbeat: toggleHeartbeat,
+                increaseSpeed: increaseSpeed,
+                decreaseSpeed: decreaseSpeed,
+                initControls: initControls,
+                isPaused: function() { return isPaused; },
+                getCurrentBPM: function() { return currentBPM; },
+                createHeartbeatGraphic: createHeartbeatGraphic
+            };
+        })();
+        
+        // UI module for display and interaction
+        const UIModule = (function() {
+            const dictionaryContainer = document.getElementById("dictionaryContainer");
+            
+            // Display dictionary entries in the container
+            function displayEntries() {
+                const rotatedEntries = DictionaryModule.getRotatedEntries();
+                const activeEntryIndex = DictionaryModule.getActiveEntry();
+                dictionaryContainer.innerHTML = "";
+                
+                // Create dictionary entries without heartbeat graphics in between
+                rotatedEntries.forEach((entry, index) => {
+                    // Create dictionary entry
+                    const div = document.createElement("div");
+                    div.className = "dictionary-entry";
+                    
+                    // Mark active entry
+                    if (index === activeEntryIndex) {
+                        div.classList.add("active");
+                    }
+                    
+                    div.innerHTML = `
+                        <div class="word">${entry.word}</div>
+                        <div class="definition">${entry.definition}</div>
+                    `;
+                    
+                    div.addEventListener("click", function() {
+                        handleEntryClick(this, index);
+                    });
+                    
+                    dictionaryContainer.appendChild(div);
+                });
+                
+                // Update heartbeat animation speed based on current BPM
+                updateHeartbeatAnimationSpeed();
+                
+                // Update heartbeat graphic in the settings panel
+                updateHeartbeatDisplay();
+            }
+            
+            // Handle click on dictionary entry
+            function handleEntryClick(entryElement, index) {
+                const isPaused = HeartbeatModule.togglePause();
+                
+                // Update active entry
+                if (isPaused) {
+                    DictionaryModule.setActiveEntry(index);
+                    const allEntries = document.querySelectorAll('.dictionary-entry');
+                    allEntries.forEach(entry => entry.classList.remove('active'));
+                    entryElement.classList.add('active');
+                } else {
+                    DictionaryModule.setActiveEntry(null);
+                    entryElement.classList.remove('active');
+                }
+                
+                // Update heartbeat display in the settings panel
+                updateHeartbeatDisplay();
+            }
+            
+            // Update heartbeat animation speed based on current BPM
+            function updateHeartbeatAnimationSpeed() {
+                const currentBPM = HeartbeatModule.getCurrentBPM();
+                // Convert BPM to animation duration in seconds
+                // We want faster BPM to result in faster animation
+                // For 60 BPM, we want a 1 second animation (standard)
+                const animationDuration = 60 / currentBPM;
+                
+                // Create a style element if it doesn't exist
+                let styleElement = document.getElementById('heartbeat-animation-style');
+                if (!styleElement) {
+                    styleElement = document.createElement('style');
+                    styleElement.id = 'heartbeat-animation-style';
+                    document.head.appendChild(styleElement);
+                }
+                
+                // Update the animation duration
+                styleElement.textContent = `
+                    .heartbeat-line {
+                        animation: heartbeat-pulse ${animationDuration}s ease-in-out infinite;
+                    }
+                    
+                    @keyframes heartbeat-pulse {
+                        0% { stroke-dashoffset: 100; }
+                        100% { stroke-dashoffset: 0; }
+                    }
+                `;
+            }
+            
+            // Update the heartbeat display in the settings panel
+            function updateHeartbeatDisplay() {
+                const heartbeatDisplay = document.getElementById('heartbeatGraphicDisplay');
+                if (!heartbeatDisplay) return;
+                
+                // Clear previous content
+                heartbeatDisplay.innerHTML = '';
+                
+                // Add heartbeat graphic
+                const heartbeatGraphic = HeartbeatModule.createHeartbeatGraphic();
+                heartbeatDisplay.appendChild(heartbeatGraphic);
+                
+                // Update paused state
+                const isPaused = HeartbeatModule.isPaused();
+                heartbeatDisplay.classList.toggle('paused', isPaused);
+            }
+            
+            // Public API
+            return {
+                displayEntries: displayEntries,
+                updateHeartbeatAnimationSpeed: updateHeartbeatAnimationSpeed,
+                updateHeartbeatDisplay: updateHeartbeatDisplay
+            };
+        })();
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize heartbeat controls
+            HeartbeatModule.initControls();
+            
+            // Display initial entries
+            UIModule.displayEntries();
+            
+            // Start heartbeat
+            HeartbeatModule.start();
         });
 
-        // Heart monitor functionality
-        const cardiograph = document.createElement('div');
-        cardiograph.id = 'cardiograph';
-        document.body.appendChild(cardiograph);
-
-        function updateCardiograph() {
-            const beat = document.createElement('div');
-            beat.className = 'beat';
-            cardiograph.appendChild(beat);
-            setTimeout(() => {
-                beat.remove();
-            }, 1000); // Remove beat after 1 second
-        }
-
-        // Update cardiograph on each heartbeat
-        function simulateHeartbeat() {
-            if (isPaused) return;
-            
-            // First beat "lub"
-            shiftIndex();
-            updateCardiograph();
-            
-            // Second beat "dub" after 100ms
-            setTimeout(() => {
-                if (!isPaused) {
-                    shiftIndex();
-                    updateCardiograph();
-                }
-            }, 100);
-        }
-
-        // Add styles for cardiograph
+        // Add styles for enhanced layout and visualization
         const style = document.createElement('style');
         style.innerHTML = `
-            #cardiograph {
-            position: fixed;
-            bottom: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 2px;
-            height: 50px;
-            width: 100%;
-            overflow: hidden;
+            /* 2-column layout */
+            .index-loop-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-unit);
+                margin-bottom: var(--spacing-unit);
+                align-items: stretch;
             }
-            .beat {
-            width: 2px;
-            height: 100%;
-            background-color: lime;
-            animation: beat 1s linear;
+            
+            .introduction {
+                height: 100%;
+                padding: 1rem;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                display: flex;
+                flex-direction: column;
             }
-            @keyframes beat {
-            0% { transform: scaleY(0); }
-            25% { transform: scaleY(1); }
-            50% { transform: scaleY(0); }
-            75% { transform: scaleY(1); }
-            100% { transform: scaleY(0); }
+            
+            .introduction h2 {
+                margin-top: 0;
+                font-size: 1.2rem;
+                margin-bottom: 0.8rem;
+                color: var(--color-accent);
+            }
+            
+            .introduction p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                margin-bottom: 0.8rem;
+            }
+            
+            .controls {
+                height: 100%;
+            }
+            
+            .settings {
+                padding: 1rem;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .settings h3 {
+                margin-top: 0;
+                margin-bottom: 1rem;
+                font-size: 1.1rem;
+                text-align: center;
+                color: var(--color-primary);
+            }
+            
+            .settings h4 {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+                color: var(--color-accent);
+                text-align: center;
+                border-left: none;
+                padding-left: 0;
+            }
+            
+            /* Heartbeat controls styling */
+            .heartbeat-controls {
+                margin: 0.5rem 0 1rem;
+                padding: 0.5rem;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 6px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .control-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-rows: auto auto;
+                gap: 0.5rem;
+                align-items: center;
+            }
+            
+            .heartbeat-status-container {
+                grid-column: 1 / -1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .heartbeat-display {
+                margin-top: 0.5rem;
+                width: 90%;
+                max-width: 150px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .heartbeat-display.paused .heartbeat-line {
+                animation-play-state: paused;
+                opacity: 0.3;
+            }
+            
+            .control-grid #debug-info {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .heartbeat-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: var(--color-text);
+                padding: 0.5rem 0.75rem;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                font-size: 0.9rem;
+                width: 100%;
+            }
+            
+            .heartbeat-button:hover {
+                background: rgba(74, 144, 226, 0.2);
+                border-color: var(--color-accent);
+            }
+            
+            .heartbeat-button.active {
+                background: rgba(74, 144, 226, 0.3);
+                border-color: var(--color-accent);
+                box-shadow: 0 0 8px rgba(74, 144, 226, 0.4);
+            }
+            
+            .heartbeat-icon {
+                color: #ff5555;
+                font-size: 1.2rem;
+                animation: pulse 1s infinite;
+            }
+            
+            .speed-button {
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: var(--color-text);
+                padding: 0.4rem 0.8rem;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                font-size: 0.8rem;
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+            }
+            
+            .speed-button:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateY(-2px);
+            }
+            
+            @keyframes pulse {
+                0% { transform: scale(1); opacity: 0.8; }
+                50% { transform: scale(1.2); opacity: 1; }
+                100% { transform: scale(1); opacity: 0.8; }
+            }
+            
+            /* Removed cardiograph styles */
+            
+            /* Heartbeat graphic styles */
+            .heartbeat-graphic {
+                width: 100%;
+                max-width: 150px;
+                transition: opacity 0.3s ease;
+            }
+            
+            .heartbeat-line {
+                fill: none;
+                stroke: #ff5555;
+                stroke-width: 2;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-dasharray: 100;
+                stroke-dashoffset: 0;
+                animation: heartbeat-pulse 1s ease-in-out infinite;
+            }
+            
+            .subtle-prompt {
+                font-style: italic;
+                opacity: 0.8;
+                margin-top: auto;
+            }
+            
+            .user-tip {
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 1rem;
+                margin-top: 1rem;
+            }
+            
+            .user-tip p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .status-badge {
+                font-size: 0.9rem;
+                opacity: 0.8;
+                margin: 0.5rem 0 1rem;
+                background-color: rgba(0, 0, 0, 0.3);
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                align-self: center;
+            }
+            
+            .heartbeat-status {
+                font-size: 0.9rem;
+                color: var(--color-muted);
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+            
+            .subtitle {
+                text-align: center;
+                font-size: 1.1rem;
+                margin-top: 0.5rem;
+                color: var(--color-muted);
+            }
+            
+            .dictionary-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+                padding: 1rem;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 2rem;
+            }
+            
+            .dictionary-entry {
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 6px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 1rem;
+                transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+                cursor: pointer;
+            }
+            
+            .dictionary-entry:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                background-color: rgba(0, 0, 0, 0.4);
+                border-color: var(--color-accent);
+            }
+            
+            .dictionary-entry.active {
+                border-color: var(--color-accent);
+                box-shadow: 0 0 12px rgba(74, 144, 226, 0.4);
+            }
+            
+            .word {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                color: var(--color-secondary);
+                font-size: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 0.5rem;
+            }
+            
+            .definition {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            /* For mobile screens */
+            @media (max-width: 1200px) {
+                .dictionary-container {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+            
+            @media (max-width: 992px) {
+                .dictionary-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .index-loop-layout {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+                
+                .dictionary-container {
+                    grid-template-columns: 1fr;
+                }
+                
+                .heartbeat-button, .speed-controls {
+                    width: 100%;
+                }
             }
         `;
         document.head.appendChild(style);
 
-        // Navigation menu functionality
-        const toggleButton = document.querySelector('.dropdown-toggle');
-        const navMenu = document.querySelector('.nav-links');
-
-        toggleButton.addEventListener('click', () => {
-            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-            toggleButton.setAttribute('aria-expanded', !isExpanded);
-            navMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!toggleButton.contains(event.target) && !navMenu.contains(event.target)) {
+        // Navigation module for menu functionality
+        const NavigationModule = (function() {
+            const toggleButton = document.querySelector('.dropdown-toggle');
+            const navMenu = document.querySelector('.nav-links');
+            
+            // Toggle navigation menu
+            function toggleMenu() {
+                const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+                toggleButton.setAttribute('aria-expanded', !isExpanded);
+                navMenu.classList.toggle('show');
+            }
+            
+            // Close navigation menu
+            function closeMenu() {
                 toggleButton.setAttribute('aria-expanded', 'false');
                 navMenu.classList.remove('show');
             }
-        });
-
-        navMenu.addEventListener('keydown', (event) => {
-            const links = [...navMenu.querySelectorAll('.nav-link')];
-            const currentIndex = links.indexOf(document.activeElement);
-
-            switch (event.key) {
-                case 'ArrowDown':
-                case 'ArrowRight':
-                    event.preventDefault();
-                    const nextIndex = (currentIndex + 1) % links.length;
-                    links[nextIndex].focus();
-                    break;
-                case 'ArrowUp':
-                case 'ArrowLeft':
-                    event.preventDefault();
-                    const prevIndex = currentIndex <= 0 ? links.length - 1 : currentIndex - 1;
-                    links[prevIndex].focus();
-                    break;
-                case 'Escape':
-                    toggleButton.setAttribute('aria-expanded', 'false');
-                    navMenu.classList.remove('show');
-                    toggleButton.focus();
-                    break;
+            
+            // Initialize navigation
+            function init() {
+                // Toggle menu on button click
+                toggleButton.addEventListener('click', toggleMenu);
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', (event) => {
+                    if (!toggleButton.contains(event.target) && !navMenu.contains(event.target)) {
+                        closeMenu();
+                    }
+                });
+                
+                // Keyboard navigation within menu
+                navMenu.addEventListener('keydown', (event) => {
+                    const links = [...navMenu.querySelectorAll('.nav-link')];
+                    const currentIndex = links.indexOf(document.activeElement);
+                    
+                    switch (event.key) {
+                        case 'ArrowDown':
+                        case 'ArrowRight':
+                            event.preventDefault();
+                            const nextIndex = (currentIndex + 1) % links.length;
+                            links[nextIndex].focus();
+                            break;
+                        case 'ArrowUp':
+                        case 'ArrowLeft':
+                            event.preventDefault();
+                            const prevIndex = currentIndex <= 0 ? links.length - 1 : currentIndex - 1;
+                            links[prevIndex].focus();
+                            break;
+                        case 'Escape':
+                            closeMenu();
+                            toggleButton.focus();
+                            break;
+                    }
+                });
             }
+            
+            // Public API
+            return {
+                init: init
+            };
+        })();
+        
+        // Initialize modules when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize navigation
+            NavigationModule.init();
+            
+            // Initialize UI
+            UIModule.displayEntries();
+            
+            // Start heartbeat
+            HeartbeatModule.start();
         });
-
-        // Initialize on page load
-        window.onload = () => {
-            displayEntries();
-            startHeartbeat();
-        };
     </script>
 </body>
 </html>

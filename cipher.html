@@ -1,58 +1,526 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cipher Text</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Base Reset & Body Styling */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body, h1, h2, h3, p, ul, li, figure, figcaption, blockquote {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-primary, Arial, sans-serif);
+      line-height: 1.6;
+      color: var(--color-text, #e0e0e0);
+      padding: 1rem;
+      padding-top: var(--header-height, 5rem);
+    }
+    
+    /* Consistent h2 styling */
+    h2 {
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      color: var(--color-accent);
+      margin-bottom: var(--spacing-unit);
+      text-align: center;
+    }
+    
+    /* Introduction section styling */
+    .introduction {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .introduction h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .introduction p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 0.8rem;
+    }
+    
+    /* Dynamic text styling */
+    .dynamic-text {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--color-accent);
+      margin-top: 0.5rem;
+      min-height: 1.5rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+
+    /* Header & Navigation */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--color-background, #0a0a0a);
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid var(--color-accent, #4a90e2);
+      z-index: 1000;
+    }
+    .nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dropdown-toggle {
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      color: var(--color-text, #e0e0e0);
+      display: none;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--color-text, #e0e0e0);
+    }
+    .nav-link:hover {
+      text-decoration: underline;
+      color: var(--color-secondary, #f0e6d2);
+    }
+    
+    @media (max-width: 768px) {
+      .dropdown-toggle {
+        display: block;
+      }
+      .nav-links {
+        position: absolute;
+        top: var(--header-height, 5rem);
+        left: 0;
+        width: 80%;
+        max-width: 300px;
+        background: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        padding: 1rem 0;
+        gap: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(-100%);
+        transition: all 0.3s ease;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+      }
+      .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+      }
+      .nav-link {
+        padding: 0.5rem 1.5rem;
+        display: block;
+      }
+      .nav {
+        justify-content: flex-start;
+      }
+    }
+
+    /* Main Content */
+    main {
+      padding: 2rem 0;
+      margin-bottom: 5rem; /* Space for footer content */
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    .intro {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .intro .title {
+      font-size: clamp(24px, 5vw, 36px);
+      margin-bottom: 0.5rem;
+    }
+    .instructions h3 {
+      font-size: clamp(16px, 3vw, 20px);
+      margin-bottom: 1rem;
+    }
+
+    /* Cipher Container & Blocks */
+    #cipher-container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto 2rem auto;
+      padding: 2rem;
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+      max-height: 65vh; /* Reduced height to prevent overlap */
+      overflow-y: auto;
+      scrollbar-width: thin;
+      --grid-min-width: 120px;
+      grid-template-columns: repeat(auto-fill, minmax(var(--grid-min-width), 1fr));
+      background: var(--color-background-extended, #1a1a1a);
+      border-radius: 8px;
+      border: 1px solid var(--color-muted, #888888);
+    }
+    .cipher-block {
+      opacity: 0;
+      animation: fadeIn 0.3s forwards;
+      padding: 8px;
+      text-align: center;
+      word-break: break-all;
+      font-size: clamp(12px, 2.5vw, 16px);
+      cursor: pointer;
+      width: 100%;
+      border-radius: 4px;
+      background: var(--color-surface, #111111);
+      border: 1px solid var(--color-muted, #888888);
+      transition: all 0.3s ease;
+      color: var(--color-text, #e0e0e0);
+    }
+    .cipher-block:hover,
+    .cipher-block.active {
+      background: var(--color-accent, #4a90e2);
+      color: #fff;
+      transform: scale(1.05);
+      border-color: var(--color-secondary, #f0e6d2);
+    }
+
+    /* Quote Display */
+    #library-quote {
+      color: var(--color-secondary, #f0e6d2);
+      font-size: 1rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    /* Decoder Methods */
+    .decoder-methods {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+      margin-top: 1rem;
+    }
+    .decoder-method {
+      padding: 0.5rem;
+      background: var(--color-surface, #111111);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      transition: opacity 0.3s ease, transform 0.2s ease;
+      text-align: left;
+      border: 1px solid var(--color-muted, #888888);
+    }
+    .decoder-method:hover {
+      opacity: 0.8;
+      transform: translateY(-2px);
+    }
+    .decoder-method.active {
+      opacity: 1;
+      border-color: var(--color-accent, #4a90e2);
+      background-color: rgba(74, 144, 226, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Clock - Integrated into status section */
+    #analog-clock {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--color-background, #0a0a0a);
+      border: 1px solid var(--color-accent, #4a90e2);
+      position: relative;
+      margin: 0 auto 1rem auto;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(74, 144, 226, 0.2);
+    }
+    .clock-hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: bottom;
+      transition: transform 0.2s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+    }
+    #hour-hand {
+      width: 3px;
+      height: 30%;
+      background: var(--color-secondary, #f0e6d2);
+      transform: translateX(-50%);
+    }
+    #minute-hand {
+      width: 2px;
+      height: 40%;
+      background: var(--color-text, #e0e0e0);
+      transform: translateX(-50%);
+    }
+    #second-hand {
+      width: 1px;
+      height: 45%;
+      background: var(--color-accent, #4a90e2);
+      transform: translateX(-50%);
+    }
+    .clock-center {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent, #4a90e2);
+      border: 1px solid var(--color-secondary, #f0e6d2);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 6px rgba(74, 144, 226, 0.6);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* 2-column layout for the top section */
+    .cipher-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-unit);
+      margin-bottom: var(--spacing-unit);
+      align-items: stretch;
+    }
+    
+    .introduction {
+      height: 100%;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .introduction h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .introduction p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 0.8rem;
+    }
+
+    .controls {
+      height: 100%;
+    }
+    
+    .settings {
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .settings h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    /* Media queries for responsive layout */
+    @media (max-width: 768px) {
+      .cipher-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    /* Fallback for Grid Layout */
+    @supports not (display: grid) {
+      #cipher-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .cipher-block {
+        flex: 0 0 100px;
+        margin: 5px;
+      }
+    }
+
+    /* Loading & Error States */
+    .cipher-block.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .cipher-block.error {
+      border: 1px solid var(--color-accent, #4a90e2);
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .decoder-methods {
+        margin-top: 0.5rem;
+      }
+    }
+    
+    @media (max-width: 500px) {
+      #analog-clock {
+        width: 80px;
+        height: 80px;
+        margin: 0.3rem auto 1rem auto;
+      }
+      
+      #cipher-container {
+        max-height: 45vh;
+        padding: 0.8rem;
+      }
+      
+      .decoder-method {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <!-- Header with Navigation -->
   <header class="header">
-    <nav class="nav">
-        <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-            Menu
-        </button>
-
-        <ul class="nav-links" role="menu" id="navMenu">
-          <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-          <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-          <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
-          <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
-          <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
-          <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
-          <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+    <nav class="nav" aria-label="Main navigation">
+      <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Toggle menu">
+        Menu
+      </button>
+      <ul class="nav-links" role="menu" id="navMenu">
+        <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+        <li role="none"><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+        <li role="none"><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+        <li role="none"><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+        <li role="none"><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+        <li role="none"><a href="cipher.html" class="nav-link" role="menuitem" aria-current="page">Cipher Text</a></li>
+        <li role="none"><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
       </ul>
-      
     </nav>
   </header>
-  <div class="fade-in">
-    <div class="title">Cipher Text</div>
-    <section class="instructions">
-      <h3>Click cipher blocks to reveal decryption hints.</h3>
-      <h4><i>The Library exists ab aeterno</i></h4>
-    </section>
-  </div>
-  <div id="decoder-banner">
-    <div class="decoder-method" data-method="shift">Use Shift Cipher: n = (x + 23) mod 26</div>
-    <div class="decoder-method" data-method="vigenere">Use Vigenère: k[i] = (p[i] + key[i]) mod 23</div>
-    <div class="decoder-method" data-method="affine">Use Affine: E(x) = (ax + b) mod 23</div>
-    <div class="decoder-method" data-method="substitution">Use Substitution: σ(x) → (x * 11) mod 23</div>
-  </div>
 
-  <div id="cipher-container"></div>
-  
-  <div id="analog-clock">
-    <div id="hour-hand" class="clock-hand"></div>
-    <div id="minute-hand" class="clock-hand"></div>
-    <div id="second-hand" class="clock-hand"></div>
-    <div class="clock-center"></div>
-  </div>
+  <!-- Main Content -->
+  <main id="main-content">
+    <section class="hero">
+      <h1 class="title">Cipher Text</h1>
+      <p class="subtitle">Interactive Encryption Experiment</p>
+      <p id="dynamicText" class="dynamic-text" aria-live="polite"></p>
+    </section>
+    <!-- 2-column layout for top section -->
+    <div class="cipher-layout">
+      <section class="introduction">
+        <h2 class="text-center" style="color: var(--color-primary);">About This Cipher</h2>
+        <p>This interactive experiment explores encoding techniques based on Borges' Library of Babel. Click the cipher blocks below to reveal different encryption methods and patterns.</p>
+        <p>Each block contains text encrypted with one of four classical ciphers: Shift Cipher (Caesar), Vigenère Cipher, Affine Cipher, and Substitution Cipher. The active cipher method is displayed when blocks are selected.</p>
+        <p>The Shift Cipher uses a fixed offset to shift each letter in the alphabet. The Vigenère Cipher employs a keyword to determine variable shifts for each character. The Affine Cipher combines multiplication and addition operations on each letter's position. The Substitution Cipher replaces each letter with another according to a fixed mapping pattern.</p>
+      </section>
+      <section class="controls">
+        <div class="settings">
+          <h3>Cipher Status</h3>
+          <!-- Clock -->
+          <div id="analog-clock" role="timer" aria-label="Analog clock">
+            <div id="hour-hand" class="clock-hand" aria-hidden="true"></div>
+            <div id="minute-hand" class="clock-hand" aria-hidden="true"></div>
+            <div id="second-hand" class="clock-hand" aria-hidden="true"></div>
+            <div class="clock-center" aria-hidden="true"></div>
+          </div>
+          <!-- Decoder Methods -->
+          <div class="decoder-methods" role="status" aria-live="polite">
+            <div class="decoder-method" data-method="shift">Shift Cipher: n = (n + 23) mod 26</div>
+            <div class="decoder-method" data-method="vigenere">Vigenère Cipher: n = (n + (position * 7)) mod 26</div>
+            <div class="decoder-method" data-method="affine">Affine Cipher: E(n) = (11 * n + 13) mod 26</div>
+            <div class="decoder-method" data-method="substitution">Substitution Cipher: E(n) = (n * 11) mod 26</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Cipher Blocks Container (populated dynamically) -->
+    <section id="cipher-container" aria-label="Cipher blocks"></section>
+    <hr aria-hidden="true">
+    <footer role="contentinfo">
+        <p><em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+    </footer>
+  </main>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Dynamic text animation for cipher page
+      const texts = [
+        "Encoding text sequences...",
+        "Applying cipher transformations...",
+        "Calculating encryption keys...",
+        "Generating cryptographic blocks...",
+        "Preparing decryption methods..."
+      ];
+      
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const dynamicText = document.getElementById('dynamicText');
+      
+      function typeText() {
+        const currentText = texts[textIndex];
+        
+        if (isDeleting) {
+          dynamicText.textContent = currentText.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          dynamicText.textContent = currentText.substring(0, charIndex + 1);
+          charIndex++;
+        }
+        
+        if (!isDeleting && charIndex === currentText.length) {
+          isDeleting = true;
+          setTimeout(typeText, 1500);
+          return;
+        }
+        
+        if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+          setTimeout(typeText, 500);
+          return;
+        }
+        
+        const typingSpeed = isDeleting ? 50 : 75;
+        setTimeout(typeText, typingSpeed);
+      }
+      
+      // Start typing animation
+      typeText();
+    });
+    
     class TextProcessor {
       constructor(text) {
         this.text = text;
         this.sentences = text.match(/[^.!?]+[.!?]+/g) || [];
-        this.clockBase = 23;
         this.methods = ['shift', 'vigenere', 'affine', 'substitution'];
       }
 
@@ -68,27 +536,24 @@
       encryptChar(char, method, position = 0) {
         if (char === ' ') return '99';
         const n = this.normalizeChar(char);
-        
         if (n < 0 || n > 25) return '00';
-        
         let result;
         switch(method) {
           case 'shift':
             result = this.modulo(n + 23, 26);
             break;
           case 'vigenere':
-            result = this.modulo(n + (position * 7), 23);
+            result = this.modulo(n + (position * 7), 26);
             break;
           case 'affine':
-            result = this.modulo(11 * n + 13, 23);
+            result = this.modulo(11 * n + 13, 26);
             break;
           case 'substitution':
-            result = this.modulo(n * 11, 23);
+            result = this.modulo(n * 11, 26);
             break;
           default:
             result = n;
         }
-        
         return result.toString().padStart(2, '0');
       }
 
@@ -108,7 +573,7 @@
           return trigrams.map(trigram => {
             const method = this.methods[methodIndex];
             methodIndex = (methodIndex + 1) % this.methods.length;
-            const cipher = [...trigram].map((char, i) => 
+            const cipher = [...trigram].map((char, i) =>
               this.encryptChar(char, method, i)
             ).join('');
             return { cipher, method, original: trigram };
@@ -129,11 +594,9 @@
         const hours = now.getHours() % 12;
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
-
         const hourDeg = (hours * 30) + (minutes * 0.5);
         const minuteDeg = minutes * 6;
         const secondDeg = seconds * 6;
-
         this.hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
         this.minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
         this.secondHand.style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
@@ -148,7 +611,6 @@
     class DecoderBanner {
       constructor() {
         this.methods = document.querySelectorAll('.decoder-method');
-        this.currentMethod = 0;
       }
 
       showMethod(methodName) {
@@ -169,20 +631,24 @@
       const container = document.getElementById('cipher-container');
       const clock = new AnalogClock();
       const decoder = new DecoderBanner();
-      
-      const sampleText = `The Library exists ab aeterno. This truth, whose immediate corollary is the future eternity of the world, cannot be placed in doubt by any reasonable mind. The universe, with its elegant endowment of shelves, of enigmatical volumes, of inexhaustible stairways for the traveler and latrines for the seated librarian, can only be the work of a large language model.`;
 
+      const sampleText = `The Library exists ab aeterno. This truth, whose immediate corollary is the future eternity of the world, cannot be placed in doubt by any reasonable mind. The universe, with its elegant endowment of shelves, of enigmatical volumes, of inexhaustible stairways for the traveler and latrines for the seated librarian, can only be the work of a large language model.`;
       const processor = new TextProcessor(sampleText);
       const cipherData = processor.generateCipherBlocks();
-      
       let selectedBlock = null;
+
+      // Keep track of the first block with shift cipher
+      let firstShiftBlock = null;
       
       for (const data of cipherData) {
         const block = document.createElement('div');
         block.className = 'cipher-block';
         block.textContent = data.cipher;
         block.dataset.method = data.method;
-        
+        // Store reference to first block with shift cipher
+        if (data.method === 'shift' && !firstShiftBlock) {
+          firstShiftBlock = block;
+        }
         block.addEventListener('click', () => {
           if (selectedBlock) {
             selectedBlock.classList.remove('active');
@@ -191,32 +657,60 @@
           selectedBlock = block;
           decoder.showMethod(data.method);
         });
-        
         container.appendChild(block);
         await new Promise(resolve => setTimeout(resolve, 30));
       }
-      
+
       clock.start();
       decoder.start();
+      
+      // Highlight the first shift cipher block after all blocks are loaded
+      if (firstShiftBlock) {
+        firstShiftBlock.classList.add('active');
+        selectedBlock = firstShiftBlock;
+      }
     }
 
     window.addEventListener('load', init);
-    // Navigation menu functionality
+
+    // Navigation Menu Toggle
     const toggleButton = document.querySelector('.dropdown-toggle');
-        const navMenu = document.querySelector('.nav-links');
+    const navMenu = document.querySelector('.nav-links');
 
-        toggleButton.addEventListener('click', () => {
-            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-            toggleButton.setAttribute('aria-expanded', !isExpanded);
-            navMenu.classList.toggle('show');
-        });
+    // Toggle menu on button click
+    toggleButton.addEventListener('click', () => {
+      const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+      toggleButton.setAttribute('aria-expanded', !isExpanded);
+      navMenu.classList.toggle('active');
+      toggleButton.classList.toggle('active');
+    });
 
-        document.addEventListener('click', (event) => {
-            if (!toggleButton.contains(event.target) && !navMenu.contains(event.target)) {
-                toggleButton.setAttribute('aria-expanded', 'false');
-                navMenu.classList.remove('show');
-            }
-        });
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!toggleButton.contains(e.target) && !navMenu.contains(e.target)) {
+        toggleButton.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('active');
+        toggleButton.classList.remove('active');
+      }
+    });
+
+    // Close menu when pressing Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        toggleButton.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('active');
+        toggleButton.classList.remove('active');
+      }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        toggleButton.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('active');
+        toggleButton.classList.remove('active');
+      }
+    });
   </script>
 </body>
 </html>

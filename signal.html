@@ -3,72 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Signal</title>
+    <title>Star Signal | Babylon Redux</title>
+    <meta name="description" content="Blinking Morse code signals that encode and decode messages from The Library of Babel arranged in a recursive Fibonacci spiral.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Main layout containers */
+        .signal-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .main-content-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+        }
+        
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .stars-area {
+            position: relative;
+            width: 100%;
+        }
+
+        /* Introduction section */
+        .introduction {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .introduction h2 {
+            margin-bottom: 0.5rem;
+            color: var(--color-secondary);
+        }
+
+        .introduction p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* No details/summary styles needed */
+
+        /* Integrated morse reference container */
+        .morse-panel {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+            margin: 0.5rem 0;
+            width: 100%;
+        }
+        
+        .morse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .morse-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.2rem 0.4rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            transition: background 0.2s ease;
+        }
+
+        .morse-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .morse-code {
+            color: var(--color-accent);
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .morse-footer {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        #stars-container {
+            min-height: 500px;
+            height: 80vh;
+            width: 100%;
+            position: sticky;
+            top: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .decoder-banner {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Improved star styling */
+        .star, .star.small {
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+            transition: transform 0.2s ease, opacity 0.15s ease-in-out;
+        }
+
+        .star:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 18px rgba(255, 255, 255, 1);
+            cursor: pointer;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 768px) {
+            .signal-layout {
+                gap: 1rem;
+            }
+            
+            .main-content-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .morse-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            #stars-container {
+                min-height: 350px;
+                height: 50vh;
+            }
+            
+            .introduction,
+            .morse-panel,
+            .decoder-banner {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .morse-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            #stars-container {
+                min-height: 300px;
+                height: 40vh;
+            }
+        }
+    </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="header">
-        <nav class="nav">
-            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <nav class="nav" aria-label="Main navigation">
+            <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Toggle menu">
                 Menu
             </button>
             <ul class="nav-links" role="menu" id="navMenu">
-                <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-                <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-                <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
-                <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
-                <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
-                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
-                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+                <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                <li role="none"><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+                <li role="none"><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+                <li role="none"><a href="signal.html" class="nav-link" role="menuitem" aria-current="page">Star Signal</a></li>
+                <li role="none"><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li role="none"><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li role="none"><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
-        <section class="hero fade-in">
-            <div class="title">Star Signal</div>
-            <h3>Click the blinking stars to reveal messages below.</h3>
-        </h4>Use the Morse code reference to decode the signals.</h4>
-    </section>
-    <button class="toggle-button" id="toggle-reference">Toggle</button>
-    <div class="morse-reference" id="morse-reference">
-        <div class="morse-title">
-            Morse Reference
-            <a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" class="morse-link"></br>Learn More ↗</a>
-        </div>
-        <div class="fade-in">
-            <div class="morse-grid">
-                    <div class="morse-item"><span>A</span><span class="morse-code">.-</span></div>
-                    <div class="morse-item"><span>B</span><span class="morse-code">-...</span></div>
-                    <div class="morse-item"><span>C</span><span class="morse-code">-.-.</span></div>
-                    <div class="morse-item"><span>D</span><span class="morse-code">-..</span></div>
-                    <div class="morse-item"><span>E</span><span class="morse-code">.</span></div>
-                    <div class="morse-item"><span>F</span><span class="morse-code">..-.</span></div>
-                    <div class="morse-item"><span>G</span><span class="morse-code">--.</span></div>
-                    <div class="morse-item"><span>H</span><span class="morse-code">....</span></div>
-                    <div class="morse-item"><span>I</span><span class="morse-code">..</span></div>
-                    <div class="morse-item"><span>J</span><span class="morse-code">.---</span></div>
-                    <div class="morse-item"><span>K</span><span class="morse-code">-.-</span></div>
-                    <div class="morse-item"><span>L</span><span class="morse-code">.-..</span></div>
-                    <div class="morse-item"><span>M</span><span class="morse-code">--</span></div>
-                    <div class="morse-item"><span>N</span><span class="morse-code">-.</span></div>
-                    <div class="morse-item"><span>O</span><span class="morse-code">---</span></div>
-                    <div class="morse-item"><span>P</span><span class="morse-code">.--.</span></div>
-                    <div class="morse-item"><span>Q</span><span class="morse-code">--.-</span></div>
-                    <div class="morse-item"><span>R</span><span class="morse-code">.-.</span></div>
-                    <div class="morse-item"><span>S</span><span class="morse-code">...</span></div>
-                    <div class="morse-item"><span>T</span><span class="morse-code">-</span></div>
-                    <div class="morse-item"><span>U</span><span class="morse-code">..-</span></div>
-                    <div class="morse-item"><span>V</span><span class="morse-code">...-</span></div>
-                    <div class="morse-item"><span>W</span><span class="morse-code">.--</span></div>
-                    <div class="morse-item"><span>X</span><span class="morse-code">-..-</span></div>
-                    <div class="morse-item"><span>Y</span><span class="morse-code">-.--</span></div>
-                    <div class="morse-item"><span>Z</span><span class="morse-code">--..</span></div>
+    <main id="main-content" class="container">
+        <section class="hero">
+            <h1 class="title">Star Signal</h1>
+            <p class="subtitle">Click the blinking stars to reveal messages below.</p>
+            <p class="dynamic-text">Hover over stars to see their signal pattern.</p>
+        </section>
+        <div class="signal-layout">
+            <section class="introduction">
+                <h2 class="text-center" style="color: var(--color-primary);">About these Messages</h2>
+                <p>The stars below encode messages from Jorge Luis Borges' "The Library of Babel" in Morse code. Each star blinks a different message, creating a celestial communication system that reflects the universe's cryptic nature. Click on any star to activate its signal.</p>
+            </section>
+            
+            <div class="main-content-layout">
+                <div class="stars-area">
+                    <section id="stars-container" aria-label="Interactive star field"></section>
+                </div>
+                
+                <div class="content-area">
+                    <div id="decoder-banner" class="decoder-banner">
+                        <h3 class="text-center">Message Reference</h3>
+                        <p id="current-morse" aria-live="polite">Click a star to view the signal and message.</p>
+                    </div>
+                    <div class="morse-panel">
+                        <h3 class="text-center">Morse Code Reference</h3>
+                        <div class="morse-grid">
+                            <div class="morse-item"><span>A</span><span class="morse-code">.-</span></div>
+                            <div class="morse-item"><span>B</span><span class="morse-code">-...</span></div>
+                            <div class="morse-item"><span>C</span><span class="morse-code">-.-.</span></div>
+                            <div class="morse-item"><span>D</span><span class="morse-code">-..</span></div>
+                            <div class="morse-item"><span>E</span><span class="morse-code">.</span></div>
+                            <div class="morse-item"><span>F</span><span class="morse-code">..-.</span></div>
+                            <div class="morse-item"><span>G</span><span class="morse-code">--.</span></div>
+                            <div class="morse-item"><span>H</span><span class="morse-code">....</span></div>
+                            <div class="morse-item"><span>I</span><span class="morse-code">..</span></div>
+                            <div class="morse-item"><span>J</span><span class="morse-code">.---</span></div>
+                            <div class="morse-item"><span>K</span><span class="morse-code">-.-</span></div>
+                            <div class="morse-item"><span>L</span><span class="morse-code">.-..</span></div>
+                            <div class="morse-item"><span>M</span><span class="morse-code">--</span></div>
+                            <div class="morse-item"><span>N</span><span class="morse-code">-.</span></div>
+                            <div class="morse-item"><span>O</span><span class="morse-code">---</span></div>
+                            <div class="morse-item"><span>P</span><span class="morse-code">.--.</span></div>
+                            <div class="morse-item"><span>Q</span><span class="morse-code">--.-</span></div>
+                            <div class="morse-item"><span>R</span><span class="morse-code">.-.</span></div>
+                            <div class="morse-item"><span>S</span><span class="morse-code">...</span></div>
+                            <div class="morse-item"><span>T</span><span class="morse-code">-</span></div>
+                            <div class="morse-item"><span>U</span><span class="morse-code">..-</span></div>
+                            <div class="morse-item"><span>V</span><span class="morse-code">...-</span></div>
+                            <div class="morse-item"><span>W</span><span class="morse-code">.--</span></div>
+                            <div class="morse-item"><span>X</span><span class="morse-code">-..-</span></div>
+                            <div class="morse-item"><span>Y</span><span class="morse-code">-.--</span></div>
+                            <div class="morse-item"><span>Z</span><span class="morse-code">--..</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="stars-container"></div>
-    <div id="decoder-banner" class="decoder-banner">
-        <p id="current-morse">Click a star to view the signal and message.</p>
-    </div>
+        <hr aria-hidden="true">
+        <footer role="contentinfo">
+            <p><em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+        </footer>
+    </main>
     <script>
         const MORSE_TIMING = {
     DOT: 200,
@@ -115,13 +299,13 @@ const messages = [
 ];
 
 function textToMorse(text) {
-    return text.toUpperCase().split('').map(char => 
+    return text.toUpperCase().split('').map(char =>
         MORSE_CODE[char] || char
     ).join(' ');
 }
 
 function createMorseStars(starPositions, messages) {
-    const body = document.body;
+    const starsContainer = document.getElementById("stars-container");
     const stars = [];
     const smallStarIndices = new Set();
 
@@ -136,9 +320,9 @@ function createMorseStars(starPositions, messages) {
             star.classList.add("small");
         }
         star.id = `star${index + 1}`;
-        star.style.left = `${pos[0]}vw`;
-        star.style.top = `${pos[1]}vh`;
-        body.appendChild(star);
+        star.style.left = `${pos[0]}%`;
+        star.style.top = `${pos[1]}%`;
+        starsContainer.appendChild(star);
         stars.push(star);
 
         star.addEventListener("click", () => {
@@ -170,7 +354,7 @@ async function startMorseAnimation(star, morseCode) {
     star.morseInterval = true;
     const starIndex = parseInt(star.id.replace('star', '')) - 1;
     const message = messages[starIndex];
-    document.getElementById('current-morse').innerHTML = `Message: ${message}<br>Morse: ${morseCode}`;
+    document.getElementById('current-morse').innerHTML = `<strong>Text:</strong> ${message}<br><strong>Signal:</strong> ${morseCode}`;
 
     while (star.morseInterval) {
         for (const symbol of morseCode) {
@@ -210,35 +394,90 @@ function sleep(ms) {
 function generateFibonacciSpiral(numPoints, scale) {
     const positions = [];
     let angle = 0;
-    for (let i = 0; i < numPoints; i++) {
-        const radius = scale * Math.sqrt(i);
-        const x = 30 + radius * Math.cos(angle);
-        const y = 50 + radius * Math.sin(angle);
-        positions.push([x, y]);
-        angle += Math.PI * (3 - Math.sqrt(5));
+    
+    // Create edge stars first (distributed along the perimeter)
+    const numEdgeStars = Math.floor(numPoints * 0.25); // 25% of stars on edges
+    for (let i = 0; i < numEdgeStars; i++) {
+        const edgeAngle = (i / numEdgeStars) * Math.PI * 2;
+        // Place stars close to edges (85-95% from center)
+        const edgeDistance = 85 + (Math.random() * 10);
+        const x = 50 + edgeDistance * Math.cos(edgeAngle) / 2;
+        const y = 50 + edgeDistance * Math.sin(edgeAngle) / 2;
+        
+        // Ensure points stay within container boundaries
+        const safeX = Math.max(5, Math.min(95, x));
+        const safeY = Math.max(5, Math.min(95, y));
+        
+        positions.push([safeX, safeY]);
     }
+    
+    // Then create the Fibonacci spiral for remaining points
+    for (let i = 0; i < numPoints - numEdgeStars; i++) {
+        // Use golden ratio for spiral
+        const radius = scale * Math.sqrt(i);
+        const x = 50 + radius * Math.cos(angle);
+        const y = 50 + radius * Math.sin(angle);
+        
+        // Ensure points stay within container boundaries
+        const safeX = Math.max(5, Math.min(95, x));
+        const safeY = Math.max(5, Math.min(95, y));
+        
+        positions.push([safeX, safeY]);
+        angle += Math.PI * (3 - Math.sqrt(5)); // Golden ratio angle (approx. 137.5 degrees)
+    }
+    
     return positions;
 }
 
-// Initialize with adjusted scale for closer stars
-const starPositions = generateFibonacciSpiral(23, 6);
+// Initialize with expanded scale for a wider spiral pattern reaching toward edges
+const starPositions = generateFibonacciSpiral(23, 6.0);
 createMorseStars(starPositions, messages);
 
 // Mobile menu toggle functionality
 const dropdownToggle = document.querySelector('.dropdown-toggle');
 const navLinks = document.querySelector('.nav-links');
+let isDropdownOpen = false;
 
-document.querySelector('.toggle-button').addEventListener('click', () => {
-    const reference = document.getElementById('morse-reference');
-    reference.classList.toggle('hidden');
+// Morse reference displayed inline with the content
+
+// Function to close dropdown
+function closeDropdown() {
+    navLinks.classList.remove('active');
+    dropdownToggle.classList.remove('active');
+    dropdownToggle.setAttribute('aria-expanded', 'false');
+    isDropdownOpen = false;
+}
+
+// Function to open dropdown
+function openDropdown() {
+    navLinks.classList.add('active');
+    dropdownToggle.classList.add('active');
+    dropdownToggle.setAttribute('aria-expanded', 'true');
+    isDropdownOpen = true;
+}
+
+// Toggle dropdown on button click
+dropdownToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (isDropdownOpen) {
+        closeDropdown();
+    } else {
+        openDropdown();
+    }
 });
 
-dropdownToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('show');
-    dropdownToggle.setAttribute(
-        'aria-expanded',
-        dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-    );
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (isDropdownOpen && !e.target.closest('.nav')) {
+        closeDropdown();
+    }
+});
+
+// Close dropdown when pressing Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isDropdownOpen) {
+        closeDropdown();
+    }
 });
     </script>
 </body>

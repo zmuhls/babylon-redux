@@ -3,297 +3,1015 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mood Ring</title>
+    <title>Mood Ring | Babylon Redux</title>
+    <meta name="description" content="Mood ring that selects and restyles lines of verse based on cursor position, looping over random nonlinear versions of a decade-old personal poem.">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="header">
-        <nav class="nav">
-            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <nav class="nav" aria-label="Main navigation">
+            <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Toggle menu">
                 Menu
             </button>
             <ul class="nav-links" role="menu" id="navMenu">
-                <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-                <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-                <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
-                <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
-                <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
-                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
-                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+                <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                <li role="none"><a href="ring.html" class="nav-link" role="menuitem" aria-current="page">Mood Ring</a></li>
+                <li role="none"><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+                <li role="none"><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+                <li role="none"><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li role="none"><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li role="none"><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
-    <div class="fade-in">
-    <div class="title">Mood Ring</div>
-    <section class="content">
-        <h3>Hover or drag the cursor to scramble lines of verse.</h3>
-        <h4><center><i>Frozen Custard in the City of Babylon | By Zach Muhlbauer</i></center></h4>
+
+    <main id="main-content" class="container">
+        <section class="hero">
+            <h1 class="title">Mood Ring</h1>
+            <p class="subtitle">Interactive Poetry Canvas</p>
+            <p id="dynamicText" class="dynamic-text" aria-live="polite"></p>
         </section>
-        <div class="container">
-            <div id="poetryDisplay"></div>
+
+        <!-- 2-column layout for top section -->
+        <div class="mood-ring-layout">
+            <section class="introduction">
+                <h2 style="color: var(--color-primary);">About This Experiment</h2>
+                <p>Move your cursor across the canvas to explore fragments of verse. The <strong>Mood Ring</strong> selects poetry based on your cursor position, creating a unique experience with each movement.</p>
+                <p>As you interact, colors shift with your movements, reflecting the changing mood of the text. Each fragment is selected from a personal poem, recombining in different configurations.</p>
+            </section>
+
+            <section class="controls">
+                <div class="settings">
+                    <h3>Interaction Settings</h3>
+                    <label for="trailToggle">
+                        <input type="checkbox" id="trailToggle" checked>
+                        Show number trail
+                    </label>
+                    <label for="poetryToggle">
+                        <input type="checkbox" id="poetryToggle" checked>
+                        Show poetry fragments
+                    </label>
+                    <label for="historySaveToggle">
+                        <input type="checkbox" id="historySaveToggle" checked>
+                        Track navigation history
+                    </label>
+                    <label for="colorToggle">
+                        <input type="checkbox" id="colorToggle" checked>
+                        Enable color shifts
+                    </label>
+                    <label for="instantToggle">
+                        <input type="checkbox" id="instantToggle" checked>
+                        Instant text following
+                    </label>
+                </div>
+            </section>
         </div>
+
+        <!-- Interaction area (middle) -->
+        <div id="interaction-area" class="interaction-area">
+            <div class="trail-container" id="trailContainer"></div>
+            <div id="poetryDisplay" aria-live="polite"></div>
+        </div>
+
+        <!-- Navigation history (bottom) -->
+        <section id="progress-tracker" class="progress-tracker">
+            <h3>Poetry Navigation History</h3>
+            <div id="tracker-container" class="tracker-container">
+                <!-- Navigation history will be dynamically populated here -->
+            </div>
         </section>
+
+        <footer role="contentinfo">
+            <p><em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+        </footer>
     </main>
+
     <script>
-        // Color array for mood ring effect
-        const colors = [
-            '#ff1493', // pink
-            '#4169e1', // royal blue
-            '#32cd32', // lime green
-            '#9370db', // medium purple
-            '#ff4500', // orange red
-            '#00ced1', // dark turquoise
-            '#ffd700', // gold
-            '#ff69b4', // hot pink
-            '#4682b4', // steel blue
-            '#98fb98'  // pale green
-        ];
+        document.addEventListener('DOMContentLoaded', () => {
+            // ===== Module Namespace Pattern =====
+            const MoodRing = {
+                UI: {},
+                Poetry: {},
+                Tracking: {},
+                Navigation: {}
+            };
 
-        class NumberTrail {
-            constructor() {
-                this.container = document.createElement('div');
-                this.container.className = 'trail-container';
-                document.body.appendChild(this.container);
+            // ===== UI Module =====
+            MoodRing.UI = (function() {
+                // Private variables
+                const dropdownToggle = document.querySelector('.dropdown-toggle');
+                const navLinks = document.querySelector('.nav-links');
+                let isDropdownOpen = false;
                 
-                this.mainNumber = document.createElement('div');
-                this.mainNumber.className = 'number-display main-number';
-                this.container.appendChild(this.mainNumber);
-                
-                this.trailElements = [];
-                this.maxTrail = 8;
-                this.lastX = 0;
-                this.lastY = 0;
-                this.number = 0;
-            }
-            
-            handleMove(x, y) {
-                this.number = (this.number + 1) % 1000;
-                this.mainNumber.textContent = this.number.toString().padStart(3, '0');
-                this.mainNumber.style.left = `${x}px`;
-                this.mainNumber.style.top = `${y}px`;
-                
-                const distance = Math.hypot(x - this.lastX, y - this.lastY);
-                if (distance > 20) {
-                    this.createTrailElement(x, y);
-                    this.lastX = x;
-                    this.lastY = y;
+                // Dynamic text animation
+                const texts = [
+                    "Mapping coordinates...",
+                    "Selecting fragments...",
+                    "Adjusting mood colors...",
+                    "Preparing canvas..."
+                ];
+                let textIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+                const dynamicText = document.getElementById('dynamicText');
+
+                // Private methods
+                function closeDropdown() {
+                    navLinks.classList.remove('active');
+                    dropdownToggle.classList.remove('active');
+                    dropdownToggle.setAttribute('aria-expanded', 'false');
+                    isDropdownOpen = false;
                 }
-            }
-            
-            createTrailElement(x, y) {
-                const trail = document.createElement('div');
-                trail.className = 'number-display trail';
-                trail.textContent = this.number.toString().padStart(3, '0');
-                trail.style.left = `${x}px`;
-                trail.style.top = `${y}px`;
-                this.container.appendChild(trail);
-                
-                this.trailElements.push(trail);
-                
-                if (this.trailElements.length > this.maxTrail) {
-                    const oldTrail = this.trailElements.shift();
-                    oldTrail.remove();
+
+                function openDropdown() {
+                    navLinks.classList.add('active');
+                    dropdownToggle.classList.add('active');
+                    dropdownToggle.setAttribute('aria-expanded', 'true');
+                    isDropdownOpen = true;
                 }
                 
-                trail.addEventListener('animationend', () => {
-                    trail.remove();
-                    this.trailElements = this.trailElements.filter(el => el !== trail);
-                });
-            }
-        }
+                function typeText() {
+                    const currentText = texts[textIndex];
 
-        // Initialize components
-        const poetryDisplay = document.getElementById('poetryDisplay');
-        const trail = new NumberTrail();
-        let currentPoem = '';
+                    if (isDeleting) {
+                        dynamicText.textContent = currentText.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        dynamicText.textContent = currentText.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
 
-        const poems = [
-    "frozen custard in the city of babylon by zach muhlbauer",
-    "heaven-spotted, sand-blown",
-    "the nightingale croons out one last tune",
-    "graffiti on the bridge leading out of town",
-    "out of your hometown before it was your hometown",
-    "go ahead, do your worst",
-    "you won't find any secrets in your name",
-    "in the untold story of that word",
-    "neither insight here nor outside there",
-    "not in the frenzy of a live wire",
-    "or upon the kaon of a birdsong",
-    "not in the snap of your finger, let alone a twig",
-    "you are what breaks you",
-    "you are what saves you",
-    "for you, like most, were born unheard",
-    "driveling sea spores in the cusp",
-    "at the mouth, foaming squeals",
-    "and the earsplitting sob of the cord that cuts",
-    "cheating you of your cosmic pause,",
-    "evacuating it of you",
-    "and you of it, freshly soiled in yourself",
-    "washed and restored",
-    "in the almighty trashcan",
-    "circles wrapped in flesh",
-    "so you could whisper home",
-    "to make your place below the solar system",
-    "dangled sounds of noise above your crib",
-    "your coffin, anodyne sweet,",
-    "and quiet as a thought",
-    "sound asleep in a blanket of bees",
-    "a straitjacket soft, white and clean",
-    "sure you knew nothing else or otherwise", 
-    "brought up by those who know your cries",
-    "as babble, cough, hiccup, cry, coo, cry, and tears",
-    "a wee-little sneeze in the mist of the jabberwocky",
-    "not long ‘til you think teenage thoughts",
-    "clip-clap, clippity-clap",
-    "of the red ace of hearts drumming at the bicycle spokes",
-    "your second spoke-card in two days",
-    "frayed, wet, and spindly hot",
-    "in the humid glaze of summer",
-    "torn-to-be ace of hearts",
-    "babbling on and on", 
-    "whittled down its plastic encasing",
-    "until only the paper remains",
-    "and rips in two as you lay on the brakes",
-    "and you turn for home",
-    "mister, mister, I’ll have, I’ll have one sour-cherry custard",
-    "…now, honey, what do we say? pleaaaaaaase!",
-    "what a windy day, you think, with a bid...",
-    "sorting stray socks into pairs",
-    "sorting outside over inside",
-    "often with a side-long glance at the windowpane",
-    "framed with smudges of a block party down the way",
-    "of a clown folding balloons, dogs, giraffes, exotic animals",
-    "even rodents with a quip or two",
-    "for the children in the summer balm",
-    "or was it mild that day?",
-    "the air so still at last?",
-    "far too cold at any rate for frozen custard that day",
-    "back again when you rode your bike",
-    "clip-clap past the school bus",
-    "evil knievel in the making, back again",
-    "another phantom in your head,",
-    "in your thoughts, in your words",
-    "baking a cake you'll forget to eat",
-    "encrusted with those oven-burnt murmurs",
-    "spore-crusted critters",
-    "that lap at your feet",
-    "that milk your webbings dry",
-    "brain matter gone soft and sticky in return",
-    "as in those dollops on the boardwalk",
-    "planks where you felt such loss",
-    "always already robbed of your ilk",
-    "an echo of an echo of your red ace of heart",
-    "tick-tocking at that wheel",
-    "long caught in its gears,",
-    "the refrain of paper coming apart",
-    "an almost endless clapping in applause",
+                    if (!isDeleting && charIndex === currentText.length) {
+                        isDeleting = true;
+                        setTimeout(typeText, 1500);
+                        return;
+                    }
 
-    "only when perched ajar in a grocery line",
-    "one decade later",
-    "do you realize what was lost that day and why",
-    "but such a shame to think of time present,",
-    "tick-tick, tock-tock, tsk-tsk",
-    "like time past, interminably past",
-    "long before your hometown rituals",
-    "pathologies of youth dropped chronic",
-    "from that waffle-cone",
-    "your one and only scoop",
-    "mopped as pigeon-feed",
-    "the vultures of the moira",
-    "snip-snipping at your synapse",
-    "a flock of birds in flight",
-    "made a circus in one sad second",
-    "you aren’t the least bit shocked",
-    "after all, nothing ever changes, nothing but the lot of it",
-    "puddling out of you like egg yolk",
-    "you are not what breaks you",
-    "you are not what saves you",
-    "a bottle-sized tear in a garbage bag",
-    "snagged in a boxwood down on the block",
-    "you emptied your shards", 
-    "rung yourself hoarse talking in your sleep",
-    "looking for the word, for the sound and its meaning",
-    "for that trickle from the bottom of the boardwalk",
-    "a knock-knock, a bark-and-growl",
-    "the marrow of your spine gone plop",
-    "now deaf to the unnamable",
-    "an adult twice as old",
-    "as your mother was",
-    "when she didn’t hear you cry that day",
-    "spilled over cavernous cheeks of fissure and flesh",
-    "foaming and frothing like frogs in an airtight box",
-    "every morning, you walk the tightrope across your throat",
-    "burbling ocean-blue bubbles",
-    "in a struggle to endure all of which you cannot say",
-    "cannot read, cannot know, as of yet unheard",
-    "waiting, waiting to be",
-    "'twas brillig and the slivy toves,",
-    "did gyre and gimble in the wabe,' reads alice",
-    "checking her watch, when this used to be her favorite part",
-    "'all mimsy were the borogoves,",
-    "and the mome raths outgabe",
-    "waiting to be heard",
-    "to be known, spattered at the drain",
-    "ferried by a faucet",
-    "left on after so many years",
-    "drip-dropping the syrup of memory",
-    "nothing but a sound", 
-    "a sound left on", 
-    "the pigeons the vultures back at it",
-    "with your frozen custard",
-    "still in a trickle", 
-    "from that plank",
-    "that boardwalk",
-    "back down in the city of babylon",
-    "where you left it all behind"
-];
+                    if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        textIndex = (textIndex + 1) % texts.length;
+                        setTimeout(typeText, 500); // Add pause between phrases
+                        return;
+                    }
 
-// Combined update function
-function updateDisplay(e) {
-    const x = e.clientX || e.touches?.[0]?.clientX || 0;
-    const y = e.clientY || e.touches?.[0]?.clientY || 0;
+                    const typingSpeed = isDeleting ? 50 : 75;
+                    setTimeout(typeText, typingSpeed);
+                }
 
-    poetryDisplay.style.left = `${x + 20}px`; // Adjust position to avoid overlap
-    poetryDisplay.style.top = `${y + 20}px`; // Adjust position to avoid overlap
-    
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    const newPoem = poems[Math.floor(Math.random() * poems.length)];
-    
-    if (newPoem !== currentPoem) {
-        currentPoem = newPoem;
-        poetryDisplay.style.color = randomColor;
-        const lines = newPoem.split(',').slice(0, 3);
-        poetryDisplay.innerHTML = lines.map(line => `<div class="poem-line">${line}</div>`).join('');
-    }
+                // Initialize UI components
+                function init() {
+                    // Toggle dropdown on button click
+                    dropdownToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        isDropdownOpen ? closeDropdown() : openDropdown();
+                    });
 
-    trail.handleMove(x, y);
-}
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (isDropdownOpen && !e.target.closest('.nav')) {
+                            closeDropdown();
+                        }
+                    });
 
-// Event listeners
-document.addEventListener('mousemove', updateDisplay);
-document.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    updateDisplay(e.touches[0]);
-});
+                    // Close dropdown when pressing Escape key
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && isDropdownOpen) {
+                            closeDropdown();
+                        }
+                    });
 
-// Mobile menu functionality
-const dropdownToggle = document.querySelector('.dropdown-toggle');
-const navLinks = document.querySelector('.nav-links');
+                    // Handle window resize
+                    window.addEventListener('resize', () => {
+                        if (window.innerWidth > 768 && isDropdownOpen) {
+                            closeDropdown();
+                        }
+                    });
 
-dropdownToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('show');
-    dropdownToggle.setAttribute('aria-expanded', 
-        dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-    );
-});
+                    // Add keyboard navigation within dropdown
+                    navLinks.addEventListener('keydown', (e) => {
+                        const items = [...navLinks.querySelectorAll('.nav-link')];
+                        const currentIndex = items.indexOf(document.activeElement);
 
-document.querySelector('.fade-in').addEventListener('click', () => {
-    const lines = document.querySelectorAll('.poem-line');
-    lines.forEach(line => {
-        line.style.order = Math.floor(Math.random() * 100);
-    });
-});
-</script>
+                        switch (e.key) {
+                            case 'ArrowDown':
+                                e.preventDefault();
+                                items[(currentIndex + 1) % items.length].focus();
+                                break;
+                            case 'ArrowUp':
+                                e.preventDefault();
+                                items[currentIndex > 0 ? currentIndex - 1 : items.length - 1].focus();
+                                break;
+                            case 'Home':
+                                e.preventDefault();
+                                items[0].focus();
+                                break;
+                            case 'End':
+                                e.preventDefault();
+                                items[items.length - 1].focus();
+                                break;
+                        }
+                    });
+                    
+                    // Start typing animation
+                    typeText();
+                }
+
+                // Public API
+                return {
+                    init: init
+                };
+            })();
+
+            // ===== Poetry Module =====
+            MoodRing.Poetry = (function() {
+                // Private variables
+                const trailContainer = document.getElementById('trailContainer');
+                const poetryDisplay = document.getElementById('poetryDisplay');
+                const interactionArea = document.getElementById('interaction-area');
+                
+                // Controls
+                const trailToggle = document.getElementById('trailToggle');
+                const poetryToggle = document.getElementById('poetryToggle');
+                const colorToggle = document.getElementById('colorToggle');
+                const instantToggle = document.getElementById('instantToggle');
+                
+                // Active poem element tracker
+                let activePoem = null;
+                let activePoemTimeout = null;
+                
+                // Poetry fragments
+                const poemLines = [
+                    "Restlessly my father's leg would shake",
+                    "Rattling our rotted floor boards",
+                    "Its sound could be felt by placing your palm softly",
+                    "At the base of the stairs",
+                    "Detroit was cold and damp",
+                    "The sidewalks and roads covered with ice",
+                    "The City of Angels awaking",
+                    "Filled with starving peasants",
+                    "I pushed a step stool up towards the window",
+                    "I saw a large crowd emerge",
+                    "People festering the streets",
+                    "Single file and uniform",
+                    "Formed an assembly line of workers",
+                    "At the breadline where Father and I are off to eat",
+                    "Never before has the long of a wait brought me joy",
+                    "Like butterflies from holding hands with someone familiar",
+                    "I held my father's hand",
+                    "Feeling his trembling stop",
+                    "The golden bread being handed out on china",
+                    "Everyone receiving their fair share",
+                    "I was on a ship rocking at sea",
+                    "The kraken looming ahead",
+                    "The crust fractured while I chewed",
+                    "A would-be sommelier proclaimed: Infidels",
+                    "They hide the truth, they have meat",
+                    "DO YOU TASTE SALT",
+                    "I was thrusted forward and I felt my head crack",
+                    "When I awoke I was blind",
+                    "I learned I had never really seen"
+                ];
+
+                // Color schemes based on moods
+                const colorSchemes = [
+                    { text: 'var(--color-primary)', shadow: '0 0 8px rgba(227, 238, 243, 0.7)' },
+                    { text: 'var(--color-secondary)', shadow: '0 0 8px rgba(240, 230, 210, 0.7)' },
+                    { text: 'var(--color-accent)', shadow: '0 0 8px rgba(74, 144, 226, 0.7)' },
+                    { text: 'var(--color-error)', shadow: '0 0 8px rgba(229, 57, 53, 0.7)' },
+                    { text: 'var(--color-success)', shadow: '0 0 8px rgba(76, 175, 80, 0.7)' },
+                    { text: '#9c27b0', shadow: '0 0 8px rgba(156, 39, 176, 0.7)' },
+                    { text: 'var(--color-warning)', shadow: '0 0 8px rgba(251, 192, 45, 0.7)' },
+                    { text: 'var(--color-muted)', shadow: '0 0 8px rgba(120, 144, 156, 0.7)' }
+                ];
+
+                let numberCounter = 1;
+                
+                // Create or update poetry display
+                function updatePoetryDisplay(x, y, poemLine, colorScheme) {
+                    // Early return if poetry toggle is unchecked
+                    if (!poetryToggle.checked) {
+                        // If there's an active poem, hide it
+                        if (activePoem) {
+                            activePoem.style.display = 'none';
+                        }
+                        return { poemLine, colorScheme, x, y };
+                    }
+                    
+                    // Clear any existing timeout
+                    if (activePoemTimeout) {
+                        clearTimeout(activePoemTimeout);
+                    }
+                    
+                    // Get the interaction area bounds
+                    const bounds = interactionArea.getBoundingClientRect();
+                    
+                    // Calculate safe position for the text within the interaction area
+                    // Increase left margin to prevent text being cut off
+                    const safeX = Math.min(Math.max(x, bounds.left + 150), bounds.right - 150);
+                    const safeY = Math.min(Math.max(y, bounds.top + 50), bounds.bottom - 50);
+                    
+                    // If we don't have an active poem, create one
+                    if (!activePoem) {
+                        activePoem = document.createElement('div');
+                        activePoem.className = 'poem-line';
+                        // Append to the interaction area to ensure containment
+                        interactionArea.appendChild(activePoem);
+                    }
+                    
+                    // Update the poem element - adjust positioning relative to the interaction area
+                    activePoem.textContent = poemLine;
+                    activePoem.style.left = `${safeX - bounds.left}px`;
+                    activePoem.style.top = `${safeY - bounds.top + 25}px`; // Offset slightly below cursor
+                    activePoem.style.position = 'absolute'; // Use absolute positioning relative to interaction area
+                    
+                    // Apply transition based on instant mode
+                    activePoem.style.transition = instantToggle.checked ? 
+                        'none' : 
+                        'left 0.1s ease-out, top 0.1s ease-out, background-color 0.3s ease';
+                    
+                    // Enhance visibility with improved styling
+                    if (colorToggle.checked) {
+                        activePoem.style.color = colorScheme.text;
+                        activePoem.style.textShadow = `0 0 10px ${colorScheme.text}, 0 0 15px rgba(255, 255, 255, 0.8)`;
+                        activePoem.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Darker, more opaque background
+                        activePoem.style.padding = '8px 12px'; // Adjusted padding
+                        activePoem.style.borderRadius = '6px'; // Smoother corners
+                        activePoem.style.border = `1px solid ${colorScheme.text}`; // Add border in the text color
+                    } else {
+                        activePoem.style.color = 'var(--color-text)';
+                        activePoem.style.textShadow = '0 0 8px rgba(255, 255, 255, 0.8)';
+                        activePoem.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                        activePoem.style.padding = '8px 12px';
+                        activePoem.style.borderRadius = '6px';
+                        activePoem.style.border = '1px solid var(--color-accent)';
+                    }
+                    
+                    // Always ensure display is set to block if poetry toggle is checked
+                    activePoem.style.display = 'block';
+                    
+                    // Set up timeout to remove after delay (not for instant mode)
+                    if (!instantToggle.checked) {
+                        activePoemTimeout = setTimeout(() => {
+                            if (activePoem) {
+                                // Fade out instead of removing
+                                activePoem.classList.add('fade-out');
+                                
+                                // Remove after fade
+                                setTimeout(() => {
+                                    if (activePoem) {
+                                        if (activePoem.parentNode) {
+                                            activePoem.parentNode.removeChild(activePoem);
+                                        }
+                                        activePoem = null;
+                                    }
+                                }, 500);
+                            }
+                        }, 1500);
+                    }
+                    
+                    return { poemLine, colorScheme, x: safeX, y: safeY };
+                }
+                
+                // Create number trail
+                function createNumberTrail(x, y, number) {
+                    if (!trailToggle.checked) return;
+                    
+                    const numberTrail = document.createElement('div');
+                    numberTrail.className = 'number-display';
+                    numberTrail.textContent = number.toString().padStart(3, '0');
+                    
+                    // Get the interaction area bounds
+                    const bounds = interactionArea.getBoundingClientRect();
+                    
+                    // Keep trail within interaction area bounds
+                    const safeX = Math.min(Math.max(x, bounds.left + 20), bounds.right - 20);
+                    const safeY = Math.min(Math.max(y, bounds.top + 20), bounds.bottom - 20);
+                    
+                    numberTrail.style.left = `${safeX - bounds.left}px`;
+                    numberTrail.style.top = `${safeY - bounds.top}px`;
+                    numberTrail.style.position = 'absolute'; // Use absolute positioning relative to interaction area
+                    interactionArea.appendChild(numberTrail); // Append to interaction area to ensure containment
+                    
+                    // Add trail class for animation
+                    numberTrail.classList.add('trail');
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        if (numberTrail.parentNode) {
+                            numberTrail.parentNode.removeChild(numberTrail);
+                        }
+                    }, 800); // Faster fade
+                }
+                
+                // Get poem line and color based on position
+                function getPoemAndColor(x, y) {
+                    const windowWidth = window.innerWidth;
+                    const windowHeight = window.innerHeight;
+                    const xPercent = x / windowWidth;
+                    const yPercent = y / windowHeight;
+                    
+                    const lineIndex = Math.floor(xPercent * poemLines.length);
+                    const poemLine = poemLines[lineIndex % poemLines.length];
+                    
+                    const colorIndex = Math.floor(yPercent * colorSchemes.length);
+                    const colorScheme = colorSchemes[colorIndex % colorSchemes.length];
+                    
+                    return { poemLine, colorScheme };
+                }
+                
+                // Public API
+                return {
+                    getPoemAndColor: getPoemAndColor,
+                    updatePoetryDisplay: updatePoetryDisplay,
+                    createNumberTrail: createNumberTrail,
+                    get numberCounter() { return numberCounter; },
+                    incrementCounter: function() { numberCounter++; },
+                    controls: {
+                        get trailToggle() { return trailToggle; },
+                        get poetryToggle() { return poetryToggle; },
+                        get colorToggle() { return colorToggle; },
+                        get instantToggle() { return instantToggle; }
+                    }
+                };
+            })();
+
+            // ===== Tracking Module =====
+            MoodRing.Tracking = (function() {
+                // Private variables
+                const trackerContainer = document.getElementById('tracker-container');
+                const historySaveToggle = document.getElementById('historySaveToggle');
+                let movementHistory = [];
+                
+                // Record to history
+                function recordToHistory(x, y, poemLine, colorScheme, number) {
+                    if (!historySaveToggle.checked) return;
+                    
+                    // Only record significant movements
+                    if (movementHistory.length > 0) {
+                        const lastRecord = movementHistory[movementHistory.length - 1];
+                        const distance = Math.sqrt(Math.pow(x - lastRecord.x, 2) + Math.pow(y - lastRecord.y, 2));
+                        if (distance < 30) return; // Lower threshold for more entries
+                    }
+                    
+                    // Add to history
+                    movementHistory.push({
+                        x, 
+                        y, 
+                        poemLine, 
+                        colorScheme,
+                        timestamp: new Date().toLocaleTimeString(),
+                        number: number
+                    });
+                    
+                    // Limit history size
+                    if (movementHistory.length > 20) { // More history entries
+                        movementHistory.shift();
+                    }
+                    
+                    // Update history display
+                    updateHistoryDisplay();
+                    
+                    // When adding a new history entry, scroll the current poem line into view in the history
+                    if (activePoem) {
+                        const currentEntries = trackerContainer.querySelectorAll('.tracker-entry');
+                        if (currentEntries.length > 0) {
+                            currentEntries[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    }
+                }
+                
+                // Update history display
+                function updateHistoryDisplay() {
+                    trackerContainer.innerHTML = '';
+                    
+                    // Show most recent entries first
+                    const reversedHistory = [...movementHistory].reverse();
+                    
+                    reversedHistory.forEach((record) => {
+                        const entry = document.createElement('div');
+                        entry.className = 'tracker-entry';
+                        entry.style.borderLeft = `3px solid ${record.colorScheme.text}`;
+                        
+                        entry.innerHTML = `
+                            <div class="tracker-position">
+                                <span>#${record.number.toString().padStart(3, '0')}</span>
+                                <span>${record.timestamp}</span>
+                            </div>
+                            <div class="tracker-fragment" style="color: ${record.colorScheme.text}">
+                                "${record.poemLine}"
+                            </div>
+                        `;
+                        
+                        trackerContainer.appendChild(entry);
+                    });
+                }
+                
+                // Clear history
+                function clearHistory() {
+                    movementHistory = [];
+                    updateHistoryDisplay();
+                }
+                
+                // Public API
+                return {
+                    recordToHistory: recordToHistory,
+                    clearHistory: clearHistory,
+                    get historySaveToggle() { return historySaveToggle; }
+                };
+            })();
+
+            // ===== Navigation Module =====
+            MoodRing.Navigation = (function() {
+                // Private variables
+                const interactionArea = document.getElementById('interaction-area');
+                let lastX = 0;
+                let lastY = 0;
+                let lastUpdate = 0;
+                
+                // For throttling mouse movements but not clicks
+                const THROTTLE_RATE = 20; // ms between updates
+                
+                // Handle mouse movement
+                function handleInteraction(event, forceUpdate = false) {
+                    // Get coordinates, accounting for touch events
+                    const x = event.clientX || (event.touches && event.touches[0].clientX);
+                    const y = event.clientY || (event.touches && event.touches[0].clientY);
+                    
+                    if (!x || !y) return; // Skip if coordinates are not available
+                    
+                    // Check if inside interaction area
+                    const bounds = interactionArea.getBoundingClientRect();
+                    const isInBounds = 
+                        x >= bounds.left && 
+                        x <= bounds.right && 
+                        y >= bounds.top && 
+                        y <= bounds.bottom;
+                    
+                    // Always allow updates for forced updates (clicks)
+                    // Also allow updates if the user has already interacted with the area
+                    if (!forceUpdate && !isInBounds && MoodRing.Poetry.numberCounter <= 1) return;
+                    
+                    // Throttle updates unless forced (click events force update)
+                    const now = Date.now();
+                    if (!forceUpdate && now - lastUpdate < THROTTLE_RATE) {
+                        return;
+                    }
+                    lastUpdate = now;
+                    
+                    // Get poem and color for current position
+                    const { poemLine, colorScheme } = MoodRing.Poetry.getPoemAndColor(x, y);
+                    
+                    // Update poetry display
+                    const displayedPoem = MoodRing.Poetry.updatePoetryDisplay(x, y, poemLine, colorScheme);
+                    
+                    // Display number trail
+                    MoodRing.Poetry.createNumberTrail(x, y, MoodRing.Poetry.numberCounter);
+                    MoodRing.Poetry.incrementCounter();
+                    
+                    // Record to history
+                    MoodRing.Tracking.recordToHistory(
+                        displayedPoem.x, 
+                        displayedPoem.y, 
+                        displayedPoem.poemLine, 
+                        displayedPoem.colorScheme,
+                        MoodRing.Poetry.numberCounter - 1
+                    );
+                    
+                    // Save last position
+                    lastX = x;
+                    lastY = y;
+                }
+                
+                // Handle click events
+                function handleClick(event) {
+                    // Force update on click
+                    handleInteraction(event, true);
+                }
+                
+                // Initialize event listeners
+                function init() {
+                    // Add interaction area styles and layout styles
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        /* 2-column layout */
+                        .mood-ring-layout {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: var(--spacing-unit);
+                            margin-bottom: var(--spacing-unit);
+                            align-items: stretch;
+                        }
+                        
+                        /* Make controls fit within column */
+                        .settings {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            width: 100%;
+                            height: 100%;
+                            padding: 1rem;
+                            background: rgba(0, 0, 0, 0.2);
+                            border-radius: 8px;
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                        }
+                        
+                        .settings h3 {
+                            margin-top: 0;
+                            margin-bottom: 1rem;
+                            font-size: 1.1rem;
+                            text-align: center;
+                        }
+                        
+                        .settings label {
+                            margin-bottom: 0.8rem;
+                            font-size: 0.95rem;
+                            display: flex;
+                            align-items: center;
+                        }
+                        
+                        .settings input[type="checkbox"] {
+                            margin-right: 0.5rem;
+                        }
+                        
+                        .introduction {
+                            height: 100%;
+                            padding: 1rem;
+                            background: rgba(0, 0, 0, 0.2);
+                            border-radius: 8px;
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                            display: flex;
+                            flex-direction: column;
+                        }
+                        
+                        .introduction h2 {
+                            margin-top: 0;
+                            font-size: 1.2rem;
+                            margin-bottom: 0.8rem;
+                        }
+                        
+                        .introduction p {
+                            font-size: 0.95rem;
+                            line-height: 1.6;
+                            margin-bottom: 0.8rem;
+                        }
+                        
+                        .interaction-area {
+                            position: relative;
+                            width: 100%;
+                            height: 300px;
+                            background: rgba(0, 0, 0, 0.3);
+                            border-radius: 8px;
+                            margin: 1.5rem 0;
+                            border: 1px solid rgba(255, 255, 255, 0.2);
+                            cursor: crosshair;
+                            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+                            overflow: hidden;
+                        }
+                        
+                        .poem-line {
+                            position: absolute;
+                            font-size: clamp(0.9rem, 2vw, 1.1rem);
+                            line-height: 1.5;
+                            font-weight: 500;
+                            max-width: 80%;
+                            text-align: center;
+                            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+                            z-index: 1000;
+                            pointer-events: none;
+                            user-select: none;
+                            transform: translate(-50%, -50%);
+                            transition: left 0.1s ease-out, top 0.1s ease-out, background-color 0.3s ease;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+                            backdrop-filter: blur(4px);
+                            overflow-wrap: break-word;
+                            word-wrap: break-word;
+                            hyphens: auto;
+                            padding: 10px 16px;
+                            letter-spacing: 0.01em;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            min-width: 250px;
+                        }
+                        
+                        .number-display {
+                            position: absolute;
+                            font-family: var(--font-primary);
+                            transform: translate(-50%, -50%);
+                            text-align: center;
+                            color: var(--color-text);
+                            font-variant-numeric: tabular-nums;
+                            white-space: nowrap;
+                            will-change: transform;
+                            mix-blend-mode: difference;
+                            z-index: 90;
+                            pointer-events: none;
+                            font-size: 0.75rem;
+                            text-shadow: 0 0 2px rgba(0, 0, 0, 0.9);
+                            letter-spacing: 0.05em;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            opacity: 0.85;
+                        }
+                        
+                        .trail {
+                            opacity: 0;
+                            animation: fadeTrail 0.8s forwards;
+                        }
+                        
+                        .fade-out {
+                            animation: fadeOut 0.8s forwards;
+                        }
+                        
+                        @keyframes fadeTrail {
+                            0% {
+                                opacity: 0.8;
+                                transform: scale(1) translate(-50%, -50%);
+                            }
+                            100% {
+                                opacity: 0;
+                                transform: scale(0.5) translate(-100%, -100%);
+                            }
+                        }
+                        
+                        @keyframes fadeOut {
+                            0% { 
+                                opacity: 1;
+                                transform: translate(-50%, -50%) scale(1);
+                            }
+                            100% { 
+                                opacity: 0;
+                                transform: translate(-50%, -50%) scale(0.8);
+                                background-color: rgba(0, 0, 0, 0);
+                            }
+                        }
+                        
+                        /* Styling for instant mode */
+                        .instant-mode .poem-line {
+                            transition: none !important;
+                        }
+                        
+                        .progress-tracker {
+                            margin-top: 2rem;
+                            background: rgba(0, 0, 0, 0.2);
+                            padding: var(--spacing-unit);
+                            border-radius: 8px;
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                        }
+                        
+                        .progress-tracker h3 {
+                            margin-top: 0;
+                            font-size: 1.1rem;
+                            margin-bottom: 1rem;
+                            text-align: center;
+                        }
+                        
+                        .tracker-container {
+                            max-height: 200px;
+                            overflow-y: auto;
+                            padding-right: 10px;
+                            scrollbar-width: thin;
+                            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.2);
+                        }
+                        
+                        .tracker-container::-webkit-scrollbar {
+                            width: 6px;
+                        }
+                        
+                        .tracker-container::-webkit-scrollbar-track {
+                            background: rgba(0, 0, 0, 0.2);
+                        }
+                        
+                        .tracker-container::-webkit-scrollbar-thumb {
+                            background-color: rgba(255, 255, 255, 0.3);
+                            border-radius: 6px;
+                        }
+                        
+                        .tracker-entry {
+                            padding: 0.5rem;
+                            margin-bottom: 0.5rem;
+                            background: rgba(0, 0, 0, 0.2);
+                            border-radius: 6px;
+                            padding-left: 1rem;
+                            transition: background-color 0.2s ease;
+                        }
+                        
+                        .tracker-entry:hover {
+                            background: rgba(0, 0, 0, 0.3);
+                        }
+                        
+                        .tracker-position {
+                            font-size: 0.75rem;
+                            opacity: 0.7;
+                            margin-bottom: 0.25rem;
+                            display: flex;
+                            justify-content: space-between;
+                            letter-spacing: 0.02em;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                        }
+                        
+                        .tracker-fragment {
+                            font-style: italic;
+                            margin-top: 0.25rem;
+                            font-size: 0.85rem;
+                            line-height: 1.5;
+                            letter-spacing: 0.01em;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                        }
+                        
+                        /* For mobile screens */
+                        @media (max-width: 768px) {
+                            .mood-ring-layout {
+                                grid-template-columns: 1fr;
+                                gap: 1.5rem;
+                            }
+                            
+                            .settings {
+                                width: 100%;
+                                height: auto;
+                                max-width: 100%;
+                                align-items: flex-start;
+                                padding: 1.5rem;
+                            }
+                            
+                            .settings h3 {
+                                align-self: center;
+                            }
+                            
+                            .settings label {
+                                margin-bottom: 0.7rem;
+                                width: 100%;
+                            }
+                            
+                            .interaction-area {
+                                height: 200px;
+                            }
+                            
+                            .introduction {
+                                width: 100%;
+                                height: auto;
+                                padding: 1.5rem;
+                            }
+                            
+                            .poem-line {
+                                font-size: 0.85rem;
+                                max-width: 90%;
+                                min-width: 200px;
+                                padding: 8px 14px;
+                            }
+                            
+                            .tracker-container {
+                                max-height: 180px;
+                            }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                
+                    // Make sure the trail container has fixed positioning
+                    const trailContainer = document.getElementById('trailContainer');
+                    trailContainer.style.position = 'fixed';
+                    trailContainer.style.top = '0';
+                    trailContainer.style.left = '0';
+                    trailContainer.style.width = '100vw';
+                    trailContainer.style.height = '100vh';
+                    trailContainer.style.pointerEvents = 'none';
+                    trailContainer.style.zIndex = '80';
+                
+                    // Attach event listeners to both interaction area and document
+                    interactionArea.addEventListener('mousemove', handleInteraction);
+                    interactionArea.addEventListener('click', handleClick);
+                    interactionArea.addEventListener('touchmove', (e) => {
+                        e.preventDefault();
+                        handleInteraction(e);
+                    }, { passive: false });
+                    interactionArea.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        handleInteraction(e, true); // Force update on touch
+                    }, { passive: false });
+                    
+                    // Add document-level listeners to continue tracking after initial interaction
+                    document.addEventListener('mousemove', (e) => {
+                        // Only process if we've already started interacting AND cursor is inside the interaction area
+                        if (MoodRing.Poetry.numberCounter > 1) {
+                            const bounds = interactionArea.getBoundingClientRect();
+                            const isInBounds = 
+                                e.clientX >= bounds.left && 
+                                e.clientX <= bounds.right && 
+                                e.clientY >= bounds.top && 
+                                e.clientY <= bounds.bottom;
+                            
+                            if (isInBounds) {
+                                handleInteraction(e);
+                            }
+                        }
+                    });
+                    document.addEventListener('click', (e) => {
+                        // Only process if we've already started interacting AND click is inside the interaction area
+                        if (MoodRing.Poetry.numberCounter > 1) {
+                            const bounds = interactionArea.getBoundingClientRect();
+                            const isInBounds = 
+                                e.clientX >= bounds.left && 
+                                e.clientX <= bounds.right && 
+                                e.clientY >= bounds.top && 
+                                e.clientY <= bounds.bottom;
+                            
+                            if (isInBounds) {
+                                handleClick(e);
+                            }
+                        }
+                    });
+                    
+                    // Add initial instructions
+                    const instructions = document.createElement('div');
+                    instructions.className = 'instructions';
+                    instructions.textContent = 'Click or move cursor within this area to activate the mood ring. Text will follow your cursor inside this container.';
+                    instructions.style.cssText = `
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        color: var(--color-accent);
+                        font-style: italic;
+                        pointer-events: none;
+                        text-align: center;
+                        max-width: 80%;
+                        padding: 15px;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        border-radius: 8px;
+                        border: 1px solid var(--color-accent);
+                    `;
+                    interactionArea.appendChild(instructions);
+                    
+                    // Hook up toggle events for instant mode
+                    const instantToggle = document.getElementById('instantToggle');
+                    instantToggle.addEventListener('change', function() {
+                        // Find all existing poem-line elements
+                        const poemLines = document.querySelectorAll('.poem-line');
+                        
+                        if (this.checked) {
+                            // If instant mode is activated, remove transition
+                            poemLines.forEach(poem => {
+                                poem.style.transition = 'none';
+                            });
+                            // Also set a class to affect future elements
+                            document.body.classList.add('instant-mode');
+                        } else {
+                            // If disabled, add smooth transition
+                            poemLines.forEach(poem => {
+                                poem.style.transition = 'left 0.1s ease-out, top 0.1s ease-out, background-color 0.3s ease';
+                            });
+                            document.body.classList.remove('instant-mode');
+                        }
+                    });
+                    
+                    // Remove instructions after first interaction
+                    interactionArea.addEventListener('mousemove', function removeInstructions() {
+                        if (instructions.parentNode) {
+                            instructions.parentNode.removeChild(instructions);
+                        }
+                        interactionArea.removeEventListener('mousemove', removeInstructions);
+                    }, { once: true });
+                    
+                    // Add event listeners for all toggle controls
+                    // Poetry toggle (show/hide poetry)
+                    poetryToggle.addEventListener('change', function() {
+                        if (activePoem) {
+                            activePoem.style.display = this.checked ? 'block' : 'none';
+                        }
+                    });
+                    
+                    // Color toggle (change color scheme)
+                    colorToggle.addEventListener('change', function() {
+                        if (activePoem) {
+                            const currentX = parseFloat(activePoem.style.left);
+                            const currentY = parseFloat(activePoem.style.top);
+                            const { poemLine, colorScheme } = MoodRing.Poetry.getPoemAndColor(currentX, currentY);
+                            
+                            if (this.checked) {
+                                activePoem.style.color = colorScheme.text;
+                                activePoem.style.textShadow = `0 0 10px ${colorScheme.text}, 0 0 15px rgba(255, 255, 255, 0.8)`;
+                                activePoem.style.border = `1px solid ${colorScheme.text}`;
+                            } else {
+                                activePoem.style.color = 'var(--color-text)';
+                                activePoem.style.textShadow = '0 0 8px rgba(255, 255, 255, 0.8)';
+                                activePoem.style.border = '1px solid var(--color-accent)';
+                            }
+                        }
+                    });
+                }
+                
+                // Public API
+                return {
+                    init: init
+                };
+            })();
+
+            // Initialize all modules
+            MoodRing.UI.init();
+            MoodRing.Navigation.init();
+        });
+    </script>
 </body>
 </html>
-

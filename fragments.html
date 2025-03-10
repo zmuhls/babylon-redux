@@ -1,91 +1,206 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tower Fragments</title>
+    <title>Tower Fragments | Babylon Redux</title>
+    <meta name="description" content="Translate and transform passages from Borges' Library of Babel classified as philosophical, descriptive, or narrative.">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            overflow-x: hidden;
+        /* Grid layout for fragments page */
+        .fragments-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: var(--spacing-unit);
+            margin-bottom: var(--spacing-unit);
+            width: 100%;
         }
-
-        .container {
-            padding: 20px;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        .nav-links {
+        
+        .introduction {
+            grid-column: 1 / -1;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
         }
-
-        .nav-links.show {
+        
+        .text-module {
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
+        }
+        
+        .controls-module {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+        }
+        
+        .controls h2 {
+            font-size: 1.25rem;
+            margin: var(--spacing-unit) 0;
+            text-align: left;
+            color: var(--color-secondary);
+            background: none;
             display: block;
+            padding: 0.3em 0;
+        }
+        
+        .introduction h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .introduction p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+    
+        /* Style buttons within the controls container */
+        .controls button {
+            font-size: 1.05rem;
+            padding: 0.65em 1em;
+            margin: 0.5em;
+            border-radius: 4px;
+            transition: var(--transition-base);
+            text-align: left;
         }
 
-        @media (min-width: 768px) {
-            .nav-links {
-                flex-direction: row;
+        .text-display {
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            padding: 1.5em;
+            min-height: 300px;
+            border-radius: 6px;
+            margin-bottom: 1em;
+            height: 100%;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin-bottom: 1.5em;
+        }
+        
+        .classification-controls,
+        .transformation-controls,
+        .translate-controls {
+            margin-bottom: 1.5em;
+            padding: 1em;
+            border-radius: 8px;
+            background: rgba(17, 17, 17, 0.5);
+        }
+        
+        /* Responsive design for grid layout */
+        @media (max-width: 768px) {
+            .fragments-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 1rem;
+            }
+            
+            .introduction {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            
+            .text-module {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            
+            .controls-module {
+                grid-column: 1;
+                grid-row: 3;
+            }
+            
+            .text-display {
+                min-height: 200px;
             }
         }
     </style>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="header">
-        <nav class="nav">
-            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <nav class="nav" aria-label="Main navigation">
+            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Toggle menu">
                 Menu
             </button>
             <ul class="nav-links" role="menu" id="navMenu">
-                <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-                <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-                <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
-                <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
-                <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
-                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
-                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+                <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                <li role="none"><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+                <li role="none"><a href="fragments.html" class="nav-link" role="menuitem" aria-current="page">Tower Fragments</a></li>
+                <li role="none"><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+                <li role="none"><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li role="none"><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li role="none"><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
-    <div class="fade-in">
-        <div class="title">Tower Fragments</div>
-        <h3>Use buttons to classify, transform, and translate fragments</h3>
-        <h4><i>By this art you may contemplate the variation of the 23 letters</i></h4>
-    </h4>
-    </div>
-    <main class="container">
-        <div id="textDisplay" class="text-display"></div>
-        <div class="controls">
-            <div class="classification-controls">
-                <p class="section-title"><b>Classify</b></p>
-                <button onclick="generateText('narrative')">Narrate</button>
-
-                <button onclick="generateText('descriptive')">Describe</button>
-                
-                <button onclick="generateText('philosophical')">Theorize</button>
-            </div>
-        </br>
-            <div class="transformation-controls">
-                <p class="section-title"><b>Transform</b></p>
-                <button onclick="transformCurrentText('lipogram')">Lipogram</button>
-                <button onclick="transformCurrentText('shiftogram')">Shiftogram</button>
-                <button onclick="transformCurrentText('randomize')">Scramble</button>
-                <button onclick="restoreOriginal()" id="restoreButton" disabled>Reset</button>
-            </div>
-        </br>
-            <div class="translate-controls">
-                <p class="section-title"><b>Translate</b></p>
-                <button onclick="toggleLanguage('spanish')">Spanish</button>
-                <button onclick="toggleLanguage('english')">English</button>
-            </div>
+    
+    <main id="main-content" class="container">
+        <section class="hero">
+            <h1 class="title">Tower Fragments</h1>
+            <p class="subtitle">Use buttons to classify, transform, and translate fragments</p>
+            <p class="dynamic-text"><i>By this art you may contemplate the variation of the 23 letters</i></p>
+        </section>
+        
+        <!-- Grid layout for all sections -->
+        <div class="fragments-grid">
+            <section class="introduction">
+                <h2 style="color: var(--color-primary);">About This Tool</h2>
+                <p>The <strong>Tower Fragments</strong> experiment allows you to explore excerpts from Borges' Library of Babel through various textual transformations and translations.</p>
+                <p>You can classify fragments by their textual nature (philosophical, descriptive, or narrative), transform their structures through methods like lipograms and character shifts, and toggle between English and Spanish versions of the text.</p>
+            </section>
+            
+            <section class="text-module">
+                <div id="textDisplay" class="text-display" aria-live="polite" tabindex="0"></div>
+            </section>
+            
+            <section class="controls-module">
+                <div class="controls">
+                    <section class="classification-controls">
+                        <h2>Classify</h2>
+                        <div class="btn-group">
+                            <button onclick="generateText('philosophical')" aria-label="Show philosophical fragment">Philosophical</button>
+                            <button onclick="generateText('descriptive')" aria-label="Show descriptive fragment">Descriptive</button>
+                            <button onclick="generateText('narrative')" aria-label="Show narrative fragment">Narrative</button>
+                            <button onclick="generateText()" aria-label="Show random fragment">Random</button>
+                        </div>
+                    </section>
+                    
+                    <section class="transformation-controls">
+                        <h2>Transform</h2>
+                        <div class="btn-group">
+                            <button onclick="transformCurrentText('lipogram')" aria-label="Transform text into lipogram (remove vowels)">Lipogram</button>
+                            <button onclick="transformCurrentText('shiftogram')" aria-label="Transform text by shifting first letters">Shiftogram</button>
+                            <button onclick="transformCurrentText('randomize')" aria-label="Scramble text characters">Scramble</button>
+                            <button onclick="restoreOriginal()" id="restoreButton" disabled aria-label="Reset text to original">Reset</button>
+                        </div>
+                    </section>
+                    
+                    <section class="translate-controls">
+                        <h2>Translate</h2>
+                        <div class="btn-group">
+                            <button onclick="toggleLanguage('spanish')" aria-label="Translate to Spanish">Spanish</button>
+                            <button onclick="toggleLanguage('english')" aria-label="Translate to English">English</button>
+                        </div>
+                    </section>
+                </div>
+            </section>
         </div>
+        
+        <hr aria-hidden="true">
+        
+        <footer role="contentinfo">
+            <p><em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+        </footer>
     </main>
+    
     <script>
         const textFragments = {
             philosophical: [
@@ -93,7 +208,8 @@
                 { text: "To speak is to fall into tautology.", spanish: "Hablar es caer en tautología." },
                 { text: "The Library is a sphere whose center is every hexagon.", spanish: "La Biblioteca es una esfera cuyo centro es cada hexágono." },
                 { text: "No one can articulate a syllable that is not the name of a god.", spanish: "Nadie puede articular una sílaba que no sea el nombre de un dios." },
-                { text: "This cyclical book is God.", spanish: "Este libro cíclico es Dios." }
+                { text: "This cyclical book is God.", spanish: "Este libro cíclico es Dios." },
+                { text: "Once I am dead, my body will sink endlessly.", spanish: "Cuando esté muerto, mi cuerpo se hundirá interminablemente." }
             ],
             descriptive: [
                 { text: "The universe is composed of hexagonal galleries.", spanish: "El universo se compone de galerías hexagonales." },
@@ -105,99 +221,210 @@
             narrative: [
                 { text: "I have traveled in my youth in search of a book.", spanish: "He viajado en mi juventud en busca de un libro." },
                 { text: "Pilgrims dispute in narrow corridors.", spanish: "Los peregrinos disputan en los estrechos corredores." },
-                { text: "Once I am dead, my body will sink endlessly.", spanish: "Cuando esté muerto, mi cuerpo se hundirá interminablemente." },
-                { text: "Many wandered in search of Him.", spanish: "Muchos peregrinaron en busca de Él." },
-                { text: "My solitude is gladdened by this elegant hope.", spanish: "Mi soledad se alegra con esta elegante esperanza." }
+                { text: "I have seen the walls of the Library.", spanish: "He visto las paredes de la Biblioteca." },
+                { text: "I have seen a monument of the West that is not less strange.", spanish: "He visto un monumento del Oeste que no es menos extraño." }
             ]
         };
 
         let currentLanguage = 'english';
         let currentOriginalText = '';
+        let currentType = '';
 
         function toggleLanguage(language) {
             currentLanguage = language;
             const textDisplay = document.getElementById('textDisplay');
-            textDisplay.textContent = currentLanguage === 'english' ? currentOriginalText : textFragments[Object.keys(textFragments).find(type => textFragments[type].some(fragment => fragment.text === currentOriginalText))].find(fragment => fragment.text === currentOriginalText).spanish;
+            
+            if (currentType && currentOriginalText) {
+                const fragment = textFragments[currentType].find(fragment => fragment.text === currentOriginalText);
+                if (fragment) {
+                    textDisplay.textContent = currentLanguage === 'english' ? fragment.text : fragment.spanish;
+                }
+            }
+            
+            // Announce language change to screen readers
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('class', 'sr-only');
+            announcement.textContent = `Language changed to ${language}`;
+            document.body.appendChild(announcement);
+            setTimeout(() => document.body.removeChild(announcement), 1000);
         }
 
         function generateText(type = null) {
             const textDisplay = document.getElementById('textDisplay');
             textDisplay.classList.add('fade');
+            
             setTimeout(() => {
                 const types = type ? [type] : Object.keys(textFragments);
                 const selectedType = types[Math.floor(Math.random() * types.length)];
-                const fragment = textFragments[selectedType][Math.floor(Math.random() * textFragments[selectedType].length)];
+                const fragmentIndex = Math.floor(Math.random() * textFragments[selectedType].length);
+                const fragment = textFragments[selectedType][fragmentIndex];
+                
                 currentOriginalText = fragment.text;
+                currentType = selectedType;
+                
                 textDisplay.textContent = currentLanguage === 'english' ? fragment.text : fragment.spanish;
                 textDisplay.classList.remove('fade');
                 document.getElementById('restoreButton').disabled = true;
-            }, 500);
+                
+                // For screen readers
+                textDisplay.setAttribute('aria-label', `${selectedType} fragment: ${textDisplay.textContent}`);
+            }, 300);
         }
 
         function transformCurrentText(transformationType) {
             const textDisplay = document.getElementById('textDisplay');
             let transformedText;
+            let currentText = textDisplay.textContent;
 
-            if (transformationType === 'lipogram') {
-                if (textDisplay.textContent.includes('█')) {
-                    transformedText = currentOriginalText;
-                } else {
-                    transformedText = textDisplay.textContent.replace(/[aeiou]/gi, '█');
-                }
-            } else if (transformationType === 'randomize') {
-                transformedText = textDisplay.textContent.split('').sort(() => Math.random() - 0.5).join('');
+            switch (transformationType) {
+                case 'lipogram':
+                    if (currentText.includes('█')) {
+                        transformedText = currentLanguage === 'english' ? 
+                            currentOriginalText : 
+                            textFragments[currentType].find(f => f.text === currentOriginalText).spanish;
+                    } else {
+                        transformedText = currentText.replace(/[aeiou]/gi, '█');
+                    }
+                    break;
+                    
+                case 'randomize':
+                    transformedText = currentText.split('').sort(() => Math.random() - 0.5).join('');
+                    break;
+                    
+                case 'shiftogram':
+                    const words = currentText.split(' ');
+                    for (let i = 0; i < words.length - 1; i++) {
+                        if (words[i].length > 0 && words[i+1].length > 0) {
+                            const temp = words[i][0];
+                            words[i] = words[i].replace(words[i][0], words[i + 1][0]);
+                            words[i + 1] = words[i + 1].replace(words[i + 1][0], temp);
+                        }
+                    }
+                    transformedText = words.join(' ');
+                    break;
             }
 
             textDisplay.textContent = transformedText;
             document.getElementById('restoreButton').disabled = false;
-        }
-
-        function transformCurrentText(transformationType) {
-            const textDisplay = document.getElementById('textDisplay');
-            let transformedText;
-
-            if (transformationType === 'lipogram') {
-                if (textDisplay.textContent.includes('█')) {
-                    transformedText = currentOriginalText;
-                } else {
-                    transformedText = textDisplay.textContent.replace(/[aeiou]/gi, '█');
-                }
-            } else if (transformationType === 'randomize') {
-                transformedText = textDisplay.textContent.split('').sort(() => Math.random() - 0.5).join('');
-            } else if (transformationType === 'shiftogram') {
-                const words = textDisplay.textContent.split(' ');
-                for (let i = 0; i < words.length - 1; i++) {
-                    const temp = words[i][0];
-                    words[i] = words[i].replace(words[i][0], words[i + 1][0]);
-                    words[i + 1] = words[i + 1].replace(words[i + 1][0], temp);
-                }
-                transformedText = words.join(' ');
-            }
-
-            textDisplay.textContent = transformedText;
-            document.getElementById('restoreButton').disabled = false;
+            
+            // Announce transformation for screen readers
+            textDisplay.setAttribute('aria-label', `Text transformed with ${transformationType}: ${transformedText}`);
         }
 
         function restoreOriginal() {
             const textDisplay = document.getElementById('textDisplay');
-            textDisplay.textContent = currentOriginalText;
+            textDisplay.textContent = currentLanguage === 'english' ? 
+                currentOriginalText : 
+                textFragments[currentType].find(f => f.text === currentOriginalText).spanish;
+                
             document.getElementById('restoreButton').disabled = true;
+            
+            // For screen readers
+            textDisplay.setAttribute('aria-label', `Text restored: ${textDisplay.textContent}`);
         }
 
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const navLinks = document.querySelector('.nav-links');
+        // Dropdown menu functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            let isDropdownOpen = false;
 
-        dropdownToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-            dropdownToggle.setAttribute('aria-expanded', 
-                dropdownToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
-            );
+            // Function to close dropdown
+            function closeDropdown() {
+                navLinks.classList.remove('active');
+                dropdownToggle.classList.remove('active');
+                dropdownToggle.setAttribute('aria-expanded', 'false');
+                isDropdownOpen = false;
+            }
+
+            // Function to open dropdown
+            function openDropdown() {
+                navLinks.classList.add('active');
+                dropdownToggle.classList.add('active');
+                dropdownToggle.setAttribute('aria-expanded', 'true');
+                isDropdownOpen = true;
+            }
+
+            // Toggle dropdown on button click
+            dropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isDropdownOpen) {
+                    closeDropdown();
+                } else {
+                    openDropdown();
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (isDropdownOpen && !e.target.closest('.nav')) {
+                    closeDropdown();
+                }
+            });
+
+            // Close dropdown when pressing Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isDropdownOpen) {
+                    closeDropdown();
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && isDropdownOpen) {
+                    closeDropdown();
+                }
+            });
+
+            // Add keyboard navigation within dropdown
+            navLinks.addEventListener('keydown', (e) => {
+                const items = [...navLinks.querySelectorAll('.nav-link')];
+                const currentIndex = items.indexOf(document.activeElement);
+                
+                switch (e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        items[(currentIndex + 1) % items.length].focus();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        items[currentIndex > 0 ? currentIndex - 1 : items.length - 1].focus();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        items[0].focus();
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        items[items.length - 1].focus();
+                        break;
+                }
+            });
         });
 
-            // Automatically load a fragment when the page loads
-            window.onload = function() {
-                generateText();
-            };
-        </script>
-    </body>
+        // Automatically load a fragment when the page loads
+        window.onload = function() {
+            generateText();
+            
+            // Add screen reader only style if it doesn't exist
+            if (!document.getElementById('sr-only-style')) {
+                const style = document.createElement('style');
+                style.id = 'sr-only-style';
+                style.textContent = `.sr-only { 
+                    position: absolute; 
+                    width: 1px; 
+                    height: 1px; 
+                    padding: 0; 
+                    margin: -1px; 
+                    overflow: hidden; 
+                    clip: rect(0, 0, 0, 0); 
+                    white-space: nowrap; 
+                    border: 0; 
+                }`;
+                document.head.appendChild(style);
+            }
+        };
+    </script>
+</body>
 </html>

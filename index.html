@@ -4,254 +4,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Babylon Redux | Workshop of Potential Webtexts</title>
+    <meta name="description" content="Babylon Redux transforms Jorge Luis Borges' Library of Babel into interactive webtexts, combinatorial tools, and algorithmic compositions.">
     <link rel="stylesheet" href="styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="height=device-heighth, initial-scale=1.0">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="header">
-        <nav class="nav">
-            <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+        <nav class="nav" aria-label="Main navigation">
+            <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Toggle menu">
                 Menu
             </button>
             <ul class="nav-links" role="menu" id="navMenu">
-                <li><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-                <li><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
-                <li><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
-                <li><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
-                <li><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
-                <li><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
-                <li><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
+                <li role="none"><a href="index.html" class="nav-link" role="menuitem" aria-current="page">Home</a></li>
+                <li role="none"><a href="ring.html" class="nav-link" role="menuitem">Mood Ring</a></li>
+                <li role="none"><a href="fragments.html" class="nav-link" role="menuitem">Tower Fragments</a></li>
+                <li role="none"><a href="signal.html" class="nav-link" role="menuitem">Star Signal</a></li>
+                <li role="none"><a href="loop.html" class="nav-link" role="menuitem">Index Loop</a></li>
+                <li role="none"><a href="cipher.html" class="nav-link" role="menuitem">Cipher Text</a></li>
+                <li role="none"><a href="library.html" class="nav-link" role="menuitem">Resources</a></li>
             </ul>
         </nav>
     </header>
-    <main class="container">
-        <div class="fade-in">
-            <div class="title">| Babylon Redux |</div>
+
+    <main id="main-content" class="container">
+        <section class="hero">
+            <h1 class="title">| Babylon Redux |</h1>
             <p class="subtitle">Workshop of Potential Webtexts</p>
-            <p id="dynamicText" class="dynamic-text"></p>
-        </div>
-    </main>
-    <main class="container">
-            <p><strong>Babylon Redux</strong> transforms Jorge Luis Borges’ <em>Library of Babel</em> into a collection of interactive webtexts, combinatorial tools, and algorithmic compositions. Each project combines literary and computational constraints to remix and reconfigure Borges' passages into new digital forms, bridging creative expression with algorithmic play.</p>
-              <p>Inspired by the playful rigor of OULIPO and Johanna Drucker’s work on stochastic poetics, Babylon Redux showcases how computational methods and literary frameworks intersect to make creative writing more interactive, engaging, and adaptable to digital environments.</p>        
-    </main>
-    <main class="container">
-        <div class="grid">
-            <article class="card fade-in">
-                <h3 class="card-title"><a href="ring.html">Mood Ring</a></h3>
-                <p>Mood ring that selects and restyles lines of verse based on cursor position looping over random nonlinear versions of a decade-old personal poem.</p>
-            </article>
+            <p id="dynamicText" class="dynamic-text" aria-live="polite"></p>
+        </section>
 
-            <article class="card fade-in">
-                <h3 class="card-title"><a href="fragments.html">Tower Fragments</a></h3>
-                <p>Translate and transform passages from Borges' "Library of Babel" classified as either philosophical, descriptive, and narrative.</p>
-            </article>
+        <section class="introduction">
+            <h2 class="text-center" style="color: var(--color-primary);">About This Project</h2>
+            <p><strong>Babylon Redux</strong> transforms Jorge Luis Borges' <em>Library of Babel</em> into a collection of interactive webtexts, combinatorial tools, and algorithmic compositions. Each project combines literary and computational constraints to remix and reconfigure Borges' passages into new digital forms, bridging creative expression with algorithmic play.</p>
+            <p>Inspired by the playful rigor of OULIPO and Johanna Drucker's work on stochastic poetics, Babylon Redux showcases how computational methods and literary frameworks intersect to make creative writing more interactive, engaging, and adaptable to digital environments.</p>
+        </section>
 
-            <article class="card fade-in">
-                <h3 class="card-title"><a href="signal.html">Star Signal</a></h3>
-                <p>Blinking Morse code signals that encode and decode messages from *The Library of Babel* arranged in a recursive Fibonacci spiral.</p>
-            </article>
+        <section class="projects">
+            <h2 class="text-center" style="color: var(--color-primary);">Project Experiments</h2>
+            <div class="grid">
+                <article class="card fade-in">
+                    <h3 class="card-title"><a href="ring.html">Mood Ring</a></h3>
+                    <p>Interactive text display that transforms verse based on cursor movement, creating dynamic color shifts and textual reconfigurations from a personal poem archive.</p>
+                </article>
 
-            <article class="card fade-in">
-                <h3 class="card-title"><a href="loop.html">Index Loop</a></h3>
-                <p>26-word dictionary of Borgesian terms interspersed with AI-generated neologisms that shift alphabetically with the rate and range of a beating human heart.</p>
-            </article>
-            
-            <article class="card fade-in">
-                <h3 class="card-title"><a href="cipher.html">Cipher Text</a></h3>
-                <p>Trigram encryption of Library of Babel using classical ciphers displayed as interactive blocks with a coded message from the future.</p>
-            </article>
+                <article class="card fade-in">
+                    <h3 class="card-title"><a href="fragments.html">Tower Fragments</a></h3>
+                    <p>Deconstructed passages from Borges' "Library of Babel" that users can recombine and transform through interactive category filters revealing philosophical, descriptive, and narrative elements.</p>
+                </article>
 
-            <article class="card fade-in special-card-alt">
-                <h3 class="card-title"><a href="resources.html">Resources</a></h3>
-                <p>Learn more about the prompting methods and experimental literary movement that made this project possible.</p>
+                <article class="card fade-in">
+                    <h3 class="card-title"><a href="signal.html">Star Signal</a></h3>
+                    <p>Interactive Morse code constellation that encodes fragments of <em>The Library of Babel</em>, arranged in a Fibonacci spiral pattern that reveals hidden messages through user interaction.</p>
+                </article>
+
+                <article id="index-loop" class="card fade-in">
+                    <h3 class="card-title"><a href="loop.html">Index Loop</a></h3>
+                    <p>Rhythmic dictionary that pulses with 26 Borgesian terms and AI-generated neologisms, cycling through the alphabet at variable speeds mimicking human heartbeat patterns.</p>
+                </article>
+
+                <article class="card fade-in">
+                    <h3 class="card-title"><a href="cipher.html">Cipher Text</a></h3>
+                    <p>Multi-layered encryption experience featuring Library of Babel text fragments transformed through classical ciphers, with interactive decoding tools and hidden temporal messages.</p>
+                </article>
+
+                <article class="card fade-in special-card-alt">
+                    <h3 class="card-title"><a href="library.html">Resources</a></h3>
+                    <p>Learn more about the prompting methods and experimental literary movement that made this project possible.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="related-projects">
+            <h2 class="text-center" style="color: var(--color-primary);">Related Projects</h2>
+            <article class="card fade-in">
+                <h3 class="card-title"><a href="https://zmuhls.github.io/scrolling-for-godot">Scrolling for Godot</a></h3>
+                <p>Check out related webtext experiments like <a href="https://zmuhls.github.io/scrolling-for-godot" aria-label="Scrolling for Godot (opens in new window)" target="_blank" rel="noopener">Scrolling for Godot</a>, an absurdist scrollplay dialogue between human queries, chatbot outputs, and system messages inspired by Samuel Beckett's <i>Waiting for Godot</i>. You can read the original play <a href="https://resources.saylor.org/wwwresources/archived/site/wp-content/uploads/2011/01/Waiting-for-Godot.pdf" aria-label="Waiting for Godot PDF (opens in new window)" target="_blank" rel="noopener">here</a>.</p>
             </article>
-        </div>
-        <br>
-        <br>
-        <article class="card fade-in alt-card";">
-            <h3 class="card-title"><a href="https://zmuhls.github.io/scrolling-for-godot">Scrolling for Godot</a></h3>
-            <p>Check out related webtext experiments like <a href="https://zmuhls.github.io/scrolling-for-godot">Scrolling for Godot</a>, an absurdist scrollplay dialogue between human queries, chatbot outputs, and system messages inspired by Samuel Beckett's <i>Waiting for Godot</i>. You can read the original play <a href="https://resources.saylor.org/wwwresources/archived/site/wp-content/uploads/2011/01/Waiting-for-Godot.pdf">here</a>.</p>
-        </article>
-        <br>
-        <br>
-        <hr>
-        <footer>
-            <em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the GNU General Public License v3.0.
+        </section>
+
+        <hr aria-hidden="true">
+
+        <footer role="contentinfo">
+            <p><em>Webtexts by <a href="https://commons.gc.cuny.edu/members/zachmuhlbauer/">Zach Muhlbauer</a> || Babylon Redux</em> is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
         </footer>
-        </main>
+    </main>
+
     <script>
         // Dropdown menu functionality
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        let isDropdownOpen = false;
-
-        // Function to close dropdown
-        function closeDropdown() {
-            navLinks.classList.remove('active');
-            dropdownToggle.classList.remove('active');
-            dropdownToggle.setAttribute('aria-expanded', 'false');
-            isDropdownOpen = false;
-        }
-
-        // Function to open dropdown
-        function openDropdown() {
-            navLinks.classList.add('active');
-            dropdownToggle.classList.add('active');
-            dropdownToggle.setAttribute('aria-expanded', 'true');
-            isDropdownOpen = true;
-        }
-
-        // Toggle dropdown on button click
-        dropdownToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (isDropdownOpen) {
-                closeDropdown();
-            } else {
-                openDropdown();
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (isDropdownOpen && !e.target.closest('.nav')) {
-                closeDropdown();
-            }
-        });
-
-        // Close dropdown when pressing Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && isDropdownOpen) {
-                closeDropdown();
-            }
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768 && isDropdownOpen) {
-                closeDropdown();
-            }
-        });
-
-        // Add keyboard navigation within dropdown
-        navLinks.addEventListener('keydown', (e) => {
-            const items = [...navLinks.querySelectorAll('.nav-link')];
-            const currentIndex = items.indexOf(document.activeElement);
-            
-            switch (e.key) {
-                case 'ArrowDown':
-                    e.preventDefault();
-                    items[(currentIndex + 1) % items.length].focus();
-                    break;
-                case 'ArrowUp':
-                    e.preventDefault();
-                    items[currentIndex > 0 ? currentIndex - 1 : items.length - 1].focus();
-                    break;
-                case 'Home':
-                    e.preventDefault();
-                    items[0].focus();
-                    break;
-                case 'End':
-                    e.preventDefault();
-                    items[items.length - 1].focus();
-                    break;
-            }
-        });
-
-        // Dynamic text animation
-        const texts = [
-            "Exploring potential literature...",
-            "Computing literary constraints...",
-            "Generating stochastic verse...",
-            "Remixing library of babel...",
-            "Workshopping potential texts...",
-            "Indexing files ab aeterno...",
-            "Enumerating mirrors in improbable volumes...",
-            "Culling algorithmic schemes...",
-            "Remediating form and function...",
-            "Loading metaphors, please wait...",
-            "Calling texts from encrypted archives..."
-        ];
-
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const dynamicText = document.getElementById('dynamicText');
-
-        function typeText() {
-            const currentText = texts[textIndex];
-            
-            if (isDeleting) {
-                dynamicText.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                dynamicText.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            if (!isDeleting && charIndex === currentText.length) {
-                isDeleting = true;
-                setTimeout(typeText, 2000);
-                return;
-            }
-
-            if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-            }
-
-            const typingSpeed = isDeleting ? 50 : 100;
-            setTimeout(typeText, typingSpeed);
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            typeText();
-            
-            // Add fade-in animation to elements when they enter viewport
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in');
-                    }
-                });
-            }, { threshold: 0.1 });
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            let isDropdownOpen = false;
 
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-        });
-    
-        document.addEventListener('DOMContentLoaded', () => {
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const dropdowns = document.querySelectorAll('.dropdown');
+            // Function to close dropdown
+            function closeDropdown() {
+                navLinks.classList.remove('active');
+                dropdownToggle.classList.remove('active');
+                dropdownToggle.setAttribute('aria-expanded', 'false');
+                isDropdownOpen = false;
+            }
 
-    // Toggle mobile menu
-    dropdownToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('show');
-        dropdownToggle.setAttribute('aria-expanded', navLinks.classList.contains('show'));
-    });
+            // Function to open dropdown
+            function openDropdown() {
+                navLinks.classList.add('active');
+                dropdownToggle.classList.add('active');
+                dropdownToggle.setAttribute('aria-expanded', 'true');
+                isDropdownOpen = true;
+            }
 
-    // Enable dropdown menus
-    dropdowns.forEach(dropdown => {
-        const toggle = dropdown.querySelector('.dropdown-toggle');
-        const menu = dropdown.querySelector('.dropdown-menu');
-
-        toggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            menu.classList.toggle('show');
-        });
-    });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.dropdown')) {
-            dropdowns.forEach(dropdown => {
-                const menu = dropdown.querySelector('.dropdown-menu');
-                if (menu) menu.classList.remove('show');
+            // Toggle dropdown on button click
+            dropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isDropdownOpen) {
+                    closeDropdown();
+                } else {
+                    openDropdown();
+                }
             });
-        }
-    });
-});
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (isDropdownOpen && !e.target.closest('.nav')) {
+                    closeDropdown();
+                }
+            });
+
+            // Close dropdown when pressing Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isDropdownOpen) {
+                    closeDropdown();
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && isDropdownOpen) {
+                    closeDropdown();
+                }
+            });
+
+            // Add keyboard navigation within dropdown
+            navLinks.addEventListener('keydown', (e) => {
+                const items = [...navLinks.querySelectorAll('.nav-link')];
+                const currentIndex = items.indexOf(document.activeElement);
+
+                switch (e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        items[(currentIndex + 1) % items.length].focus();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        items[currentIndex > 0 ? currentIndex - 1 : items.length - 1].focus();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        items[0].focus();
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        items[items.length - 1].focus();
+                        break;
+                }
+            });
+
+            // Dynamic text animation
+            const texts = [
+                "Exploring potential literature...",
+                "Computing literary constraints...",
+                "Generating stochastic verse...",
+                "Remixing library of babel...",
+                "Workshopping potential texts...",
+                "Indexing files ab aeterno...",
+                "Enumerating mirrors in improbable volumes...",
+                "Culling algorithmic schemes...",
+                "Remediating form and function...",
+                "Loading metaphors, please wait...",
+                "Calling texts from encrypted archives...",
+                "Heartbeat active (75 bpm)",
+                "Hover over stars to see their signal pattern",
+                "By this art you may contemplate the variation of the 23 letters"
+            ];
+
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const dynamicText = document.getElementById('dynamicText');
+
+            function typeText() {
+                const currentText = texts[textIndex];
+
+                if (isDeleting) {
+                    dynamicText.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    dynamicText.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                if (!isDeleting && charIndex === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(typeText, 1500);
+                    return;
+                }
+
+                if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    setTimeout(typeText, 500); // Add pause between phrases
+                    return;
+                }
+
+                const typingSpeed = isDeleting ? 50 : 75; // Make typing slightly faster
+                setTimeout(typeText, typingSpeed);
+            }
+
+            // Initialize typing and intersection observer
+            typeText();
+
+            // Add fade-in animation to elements when they enter viewpor
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('fade-in');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.classList.add('fade-in');
+                });
+            }
+        });
     </script>
 </body>
 </html>
